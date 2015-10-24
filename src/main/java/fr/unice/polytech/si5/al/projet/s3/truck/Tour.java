@@ -9,4 +9,15 @@ public class Tour {
 
 	private Collection<Delivery> deliveries;
 
+	public Tour() {
+		this.deliveries = new ArrayList<Delivery>();
+	}
+
+	public Tour(List<Delivery> deliveries) {
+		this.deliveries = deliveries;
+	}
+
+	public void addDelivery(Delivery delivery) {
+		this.deliveries.add(delivery);
+	}
 }

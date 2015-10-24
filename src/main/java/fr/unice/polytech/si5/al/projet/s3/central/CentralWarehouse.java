@@ -9,6 +9,11 @@ public class CentralWarehouse {
 	private Collection<Warehouse> warehouses;
 	private OrderBalancer orderBalancer;
 
+
+	public CentralWarehouse() {
+		this.orders = this.buildFakeOrders();
+	}
+
 	public void dispatchOrders() {
 		// TODO - implement CentralWarehouse.dispatchOrders
 		throw new UnsupportedOperationException();
@@ -19,4 +24,19 @@ public class CentralWarehouse {
 		throw new UnsupportedOperationException();
 	}
 
+	private List<Order> buildFakeOrders() {
+		List<Order> fakeOrders = new ArrayList<Order>();
+
+		Item fakeItem = new Item();
+		Location fakeLocation = new Location();
+
+		List<Item> fakeListOfItems = new ArrayList<Item>();
+		fakeListOfItems.add(fakeItem);
+
+		Order fakeOrder = new Order(fakeListOfItems, fakeLocation);
+
+		fakeOrders.add(fakeOrder);
+
+		return fakeOrders;
+	}
 }

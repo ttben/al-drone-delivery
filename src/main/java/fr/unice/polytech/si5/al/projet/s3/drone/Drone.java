@@ -4,4 +4,5 @@ public interface Drone {
 
 	void checkStatus();
 
+	String getName();
 }
