@@ -4,4 +4,8 @@ public class ParrotDrone implements Drone {
 	public void checkStatus() {
 
 	}
+
+	public String getName() {
+		return null;
+	}
 }
