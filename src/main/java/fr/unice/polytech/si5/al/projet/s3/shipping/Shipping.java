@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Shipping {
 
-	private Collection<Package> packages;
-	private String applicationRequestID;
+	private Package aPackage;
+	private ShippingStatus shippingStatus;
 
 }

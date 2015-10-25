@@ -13,7 +13,7 @@ public class OrderBalancer {
 	 * 
 	 * @param orders
 	 */
-	public ApplicationRequest[] dispatch(List<Order> orders) {
+	public ShippingRequest[] dispatch(List<Order> orders) {
 		// TODO - implement OrderBalancer.dispatch
 		throw new UnsupportedOperationException();
 	}

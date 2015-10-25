@@ -8,6 +8,7 @@ public class CentralWarehouse {
 	private Collection<Order> orders;
 	private Collection<Warehouse> warehouses;
 	private OrderBalancer orderBalancer;
+	private Map<String,String> mapOrderIDToShippingRequestID = new HashMap<String,String>();
 
 
 	public CentralWarehouse() {
