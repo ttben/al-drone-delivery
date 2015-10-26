@@ -1,5 +1,18 @@
 # Optimisation de la livraison
 
+Une livraison consiste en un ensemble d'information indiquant son déroulement complet.
+Les données à optimiser sont les suivantes:
+
+* Assignation d'un ensemble d'adresses dans une tournée 
+* Placement optimal du camion pour effectuer cette tournée
+* Envoi des colis une fois le drop-point atteint
+	* Ordre
+	* Type de drone utilisé
+	
+Afin de simplifier les problèmes, les cas d'erreurs ne seront pas considérés pour l'optimisation et il est accepté que
+tout évènement non planifié donnera lieux à des performances sub-optimales par rapport à la solution initiale (à moins
+ d'un coup de chance!).
+
 ## Problèmes à résoudre
 
 ### Drop-point et adresses
