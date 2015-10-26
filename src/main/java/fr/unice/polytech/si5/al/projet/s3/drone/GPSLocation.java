@@ -10,7 +10,7 @@ public class GPSLocation {
 		this.longitude = longitude;
 	}
 
-	public double getLattitude() {
+	public double getLatitude() {
 		return lattitude;
 	}
 

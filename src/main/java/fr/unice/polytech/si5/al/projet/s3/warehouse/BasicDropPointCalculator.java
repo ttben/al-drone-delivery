@@ -14,15 +14,15 @@ public class BasicDropPointCalculator implements DropPointCalculator {
 			locations.add(s.getLocation());
 		}
 
-		double lattitudeSum = 0;
-		double longtitudeSum = 0;
+		double latitudeSum = 0;
+		double longitudeSum = 0;
 
 		for (GPSLocation loc : locations) {
-			lattitudeSum += loc.getLattitude();
-			longtitudeSum += loc.getLongitude();
+			latitudeSum += loc.getLatitude();
+			longitudeSum += loc.getLongitude();
 		}
 
-		return new GPSLocation(lattitudeSum / locations.size(), longtitudeSum / locations.size());
+		return new GPSLocation(latitudeSum / locations.size(), longitudeSum / locations.size());
 	}
 
 }
