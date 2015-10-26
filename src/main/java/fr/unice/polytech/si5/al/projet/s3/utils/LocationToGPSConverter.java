@@ -10,7 +10,7 @@ public class LocationToGPSConverter {
 	 * @param location
 	 */
 	public GPSLocation convert(Location location) {
-		// TODO - implement LocationToGPSConverter.convert
+		// TODO - call to Google Maps API
 		throw new UnsupportedOperationException();
 	}
 
