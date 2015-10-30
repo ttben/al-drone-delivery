@@ -48,7 +48,7 @@ public class Main {
 		List<Order> orders = createOrders();
 		central.setCurrentDayOrders(orders);
 
-		central.dispatchOrders();
+		central.dispatchCurrentDayOrders();
 	}
 
 	public Truck initializeTruck(Warehouse w) {

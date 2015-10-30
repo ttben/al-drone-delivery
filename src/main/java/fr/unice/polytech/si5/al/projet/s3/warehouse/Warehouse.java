@@ -38,7 +38,7 @@ public abstract class Warehouse {
 		return location;
 	}
 
-	public void assignOrder(Order o) {
+	public void assignCurrentDayOrder(Order o) {
 		this.currentDayOrders.add(o);
 	}
 }

@@ -20,15 +20,14 @@ public class CentralWarehouse {
 		this.orders = new LinkedList<Order>();
 	}
 
-	public void dispatchOrders() {
-
+	public void dispatchCurrentDayOrders() {
 		AddressToGPSConverter addressConverter = new AddressToGPSConverter();
 
 		for (Order o: this.orders) {
 			GPSLocation	location = addressConverter.convert(o.getAddress());
 			Warehouse closestWarehouse = this.getClosestWarehouse(location);
 
-			closestWarehouse.assignOrder(o);
+			closestWarehouse.assignCurrentDayOrder(o);
 		}
 	}
 
