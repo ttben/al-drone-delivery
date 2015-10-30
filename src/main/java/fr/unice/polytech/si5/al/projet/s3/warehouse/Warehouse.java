@@ -3,6 +3,7 @@ package fr.unice.polytech.si5.al.projet.s3.warehouse;
 import fr.unice.polytech.si5.al.projet.s3.central.*;
 import java.util.*;
 import fr.unice.polytech.si5.al.projet.s3.drone.*;
+import fr.unice.polytech.si5.al.projet.s3.shipping.PackageToShip;
 import fr.unice.polytech.si5.al.projet.s3.truck.Truck;
 import fr.unice.polytech.si5.al.projet.s3.truck.TruckDriver;
 
@@ -16,7 +17,7 @@ public abstract class Warehouse {
 	private Collection<Drone> drones;
 	private ShippingBalancer shppingBalancer;
 	private Map<String,String> mapShippingRequestIDToShippingID = new HashMap<String,String>();
-	private List<Order> currentDayOrders;
+	private List<PackageToShip> currentDayPackagesToShip;
 
 	public Warehouse(CentralWarehouse central, GPSLocation location) {
 		this.central = central;
@@ -38,8 +39,8 @@ public abstract class Warehouse {
 		return location;
 	}
 
-	public void assignCurrentDayOrder(Order o) {
-		this.currentDayOrders.add(o);
+	public void assignCurrentDayOrder(PackageToShip p) {
+		this.currentDayPackagesToShip.add(p);
 	}
 
 	public void addShippingRequest(ShippingRequest request) {

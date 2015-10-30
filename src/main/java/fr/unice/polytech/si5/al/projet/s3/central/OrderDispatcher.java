@@ -2,7 +2,7 @@ package fr.unice.polytech.si5.al.projet.s3.central;
 
 import fr.unice.polytech.si5.al.projet.s3.warehouse.Warehouse;
 
-import java.util.List;
+import fr.unice.polytech.si5.al.projet.s3.shipping.PackageToShip;
 
 /**
  * This class must be a stub.
@@ -12,6 +12,6 @@ import java.util.List;
 public interface OrderDispatcher {
 
 	//public ShippingRequest[] dispatch(List<Order> orders);
-	public Warehouse dispatch(Order order);
+	public Warehouse dispatch(PackageToShip p);
 
 }

@@ -4,7 +4,7 @@ import fr.unice.polytech.si5.al.projet.s3.drone.GPSLocation;
 
 public class Shipping {
 
-	private Package aPackage;
+	private PackageToShip aPackageToShip;
 	private GPSLocation target;
 	private ShippingStatus shippingStatus;
 
