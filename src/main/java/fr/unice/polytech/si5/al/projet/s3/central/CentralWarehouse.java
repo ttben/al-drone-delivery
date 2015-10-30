@@ -9,6 +9,7 @@ public class CentralWarehouse {
 	private Collection<Warehouse> warehouses;
 	private OrderBalancer orderBalancer;
 	private Map<String,String> mapOrderIDToShippingRequestID = new HashMap<String,String>();
+	private List<Order> currentDayOrders;
 
 
 	public CentralWarehouse() {
@@ -25,11 +26,12 @@ public class CentralWarehouse {
 		throw new UnsupportedOperationException();
 	}
 
+	@Deprecated
 	private List<Order> buildFakeOrders() {
 		List<Order> fakeOrders = new ArrayList<Order>();
 
 		Item fakeItem = new Item();
-		Location fakeLocation = new Location();
+		Location fakeLocation = new Location("fakeLocation");
 
 		List<Item> fakeListOfItems = new ArrayList<Item>();
 		fakeListOfItems.add(fakeItem);
@@ -39,5 +41,9 @@ public class CentralWarehouse {
 		fakeOrders.add(fakeOrder);
 
 		return fakeOrders;
+	}
+
+	public void setCurrentDayOrders(List<Order> currentDayOrders) {
+		this.currentDayOrders = currentDayOrders;
 	}
 }

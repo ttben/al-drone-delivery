@@ -31,8 +31,8 @@ public class Main {
 	private void setup() {
 		CentralWarehouse central = new CentralWarehouse();
 
-		Warehouse w1 = new SimpleWarehouse();
-		Warehouse w2 = new SimpleWarehouse();
+		Warehouse w1 = new SimpleWarehouse(central);
+		Warehouse w2 = new SimpleWarehouse(central);
 
 		Truck t1 = initializeTruck(w1);
 		Truck t2 = initializeTruck(w1);
@@ -41,6 +41,7 @@ public class Main {
 		TruckDriver t1d = t1.getDriver();
 
 		List<Order> orders = createOrders();
+		central.setCurrentDayOrders(orders);
 	}
 
 	public Truck initializeTruck(Warehouse w) {
