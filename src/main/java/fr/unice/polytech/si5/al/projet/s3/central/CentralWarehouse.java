@@ -1,6 +1,9 @@
 package fr.unice.polytech.si5.al.projet.s3.central;
 
 import java.util.*;
+
+import fr.unice.polytech.si5.al.projet.s3.drone.GPSLocation;
+import fr.unice.polytech.si5.al.projet.s3.utils.AddressToGPSConverter;
 import fr.unice.polytech.si5.al.projet.s3.warehouse.*;
 
 public class CentralWarehouse {
@@ -13,12 +16,33 @@ public class CentralWarehouse {
 
 
 	public CentralWarehouse() {
-		this.orders = this.buildFakeOrders();
+		//this.orders = this.buildFakeOrders();
+		this.orders = new LinkedList<Order>();
 	}
 
 	public void dispatchOrders() {
-		// TODO - implement CentralWarehouse.dispatchOrders
-		throw new UnsupportedOperationException();
+
+		AddressToGPSConverter addressConverter = new AddressToGPSConverter();
+
+		for (Order o: this.orders) {
+			GPSLocation	location = addressConverter.convert(o.getAddress());
+			Warehouse closestWarehouse = this.getClosestWarehouse(location);
+
+			closestWarehouse.assignOrder(o);
+		}
+	}
+
+	private Warehouse getClosestWarehouse(GPSLocation location) {
+		Warehouse closest = null;
+		double distance = Double.POSITIVE_INFINITY;
+		for (Warehouse w: this.warehouses) {
+			double warehouseDistance = w.getLocation().distanceTo(location);
+			if (warehouseDistance < distance) {
+				closest = w;
+				distance = warehouseDistance;
+			}
+		}
+		return closest;
 	}
 
 	public void sendApplicationRequests() {
@@ -31,12 +55,12 @@ public class CentralWarehouse {
 		List<Order> fakeOrders = new ArrayList<Order>();
 
 		Item fakeItem = new Item();
-		Location fakeLocation = new Location("fakeLocation");
+		Address fakeAddress = new Address("fakeLocation");
 
 		List<Item> fakeListOfItems = new ArrayList<Item>();
 		fakeListOfItems.add(fakeItem);
 
-		Order fakeOrder = new Order(fakeListOfItems, fakeLocation);
+		Order fakeOrder = new Order(fakeListOfItems, fakeAddress);
 
 		fakeOrders.add(fakeOrder);
 

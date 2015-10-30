@@ -5,11 +5,14 @@ import java.util.*;
 public class Order {
 
 	Collection<Item> items;
-	Location location;
+	Address address;
 
-	public Order(List<Item> items, Location location) {
+	public Order(List<Item> items, Address address) {
 		this.items = items;
-		this.location = location;
+		this.address = address;
 	}
 
+	public Address getAddress() {
+		return address;
+	}
 }

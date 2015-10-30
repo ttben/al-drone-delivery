@@ -1,6 +1,6 @@
 package fr.unice.polytech.si5.al.projet.s3.central;
 
-public class Location {
+public class Address {
 
 	private String name;
 	private String number;
@@ -9,7 +9,7 @@ public class Location {
 	private String zipOrPostalCode;
 	private String country;
 
-	public Location(String name) {
+	public Address(String name) {
 		this.name = name;
 	}
 

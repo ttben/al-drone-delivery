@@ -16,6 +16,7 @@ public abstract class Warehouse {
 	private Collection<Drone> drones;
 	private ShippingBalancer shppingBalancer;
 	private Map<String,String> mapShippingRequestIDToShippingID = new HashMap<String,String>();
+	private List<Order> currentDayOrders;
 
 	public Warehouse(CentralWarehouse central, GPSLocation location) {
 		this.central = central;
@@ -33,4 +34,11 @@ public abstract class Warehouse {
 		this.drivers.add(td);
 	}
 
+	public GPSLocation getLocation() {
+		return location;
+	}
+
+	public void assignOrder(Order o) {
+		this.currentDayOrders.add(o);
+	}
 }

@@ -2,7 +2,7 @@ package fr.unice.polytech.si5.al.projet.s3.simulation;
 
 import fr.unice.polytech.si5.al.projet.s3.central.CentralWarehouse;
 import fr.unice.polytech.si5.al.projet.s3.central.Item;
-import fr.unice.polytech.si5.al.projet.s3.central.Location;
+import fr.unice.polytech.si5.al.projet.s3.central.Address;
 import fr.unice.polytech.si5.al.projet.s3.central.Order;
 import fr.unice.polytech.si5.al.projet.s3.drone.GPSLocation;
 import fr.unice.polytech.si5.al.projet.s3.truck.DroneDeliveryApp;
@@ -76,11 +76,11 @@ public class Main {
 		Item i3 = new Item("item3");
 		Item i4 = new Item("item4");
 		Item i5 = new Item("item5");
-		Location location1 = new Location("derpboy");
-		Order o1 = new Order(new LinkedList<Item>(Arrays.asList(i1, i2, i3)), location1);
+		Address address1 = new Address("derpboy");
+		Order o1 = new Order(new LinkedList<Item>(Arrays.asList(i1, i2, i3)), address1);
 
-		Location location2 = new Location("derpina");
-		Order o2 = new Order(new LinkedList<Item>(Arrays.asList(i4, i5)), location2);
+		Address address2 = new Address("derpina");
+		Order o2 = new Order(new LinkedList<Item>(Arrays.asList(i4, i5)), address2);
 
 		orders.add(o1);
 		orders.add(o2);
