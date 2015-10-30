@@ -28,10 +28,10 @@ public class CentralWarehouse {
 
 		for (PackageToShip p: this.packageToShips) {
 			Warehouse warehouse = orderDispatcher.dispatch(p);
-			ShippingRequest request = new ShippingRequest();
+			warehouse.addPackageToShip(p);
 
 			//warehouse.assignCurrentDayOrder(o);
-			warehouse.addShippingRequest(request);
+			//warehouse.addShippingRequest(request);
 		}
 	}
 

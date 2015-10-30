@@ -13,11 +13,10 @@ public abstract class Warehouse {
 	private List<Truck> trucks;
 	private List<TruckDriver> drivers;
 	private CentralWarehouse central;
-	private Collection<ShippingRequest> shippingRequests;
 	private Collection<Drone> drones;
 	private ShippingBalancer shppingBalancer;
 	private Map<String,String> mapShippingRequestIDToShippingID = new HashMap<String,String>();
-	private List<PackageToShip> currentDayPackagesToShip;
+	private List<PackageToShip> packagesToShip;
 
 	public Warehouse(CentralWarehouse central, GPSLocation location) {
 		this.central = central;
@@ -39,11 +38,7 @@ public abstract class Warehouse {
 		return location;
 	}
 
-	public void assignCurrentDayOrder(PackageToShip p) {
-		this.currentDayPackagesToShip.add(p);
-	}
-
-	public void addShippingRequest(ShippingRequest request) {
-		this.shippingRequests.add(request);
+	public void addPackageToShip(PackageToShip p) {
+		this.packagesToShip.add(p);
 	}
 }
