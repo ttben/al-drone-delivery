@@ -10,7 +10,7 @@ public class CentralWarehouse {
 
 	private Collection<Order> orders;
 	private Collection<Warehouse> warehouses;
-	private OrderBalancer orderBalancer;
+	private OrderDispatcher orderDispatcher;
 	private Map<String,String> mapOrderIDToShippingRequestID = new HashMap<String,String>();
 	private List<Order> currentDayOrders;
 
@@ -20,28 +20,20 @@ public class CentralWarehouse {
 		this.orders = new LinkedList<Order>();
 	}
 
+	/**
+	 * Dispatches all the orders of the current day.
+	 */
 	public void dispatchCurrentDayOrders() {
-		AddressToGPSConverter addressConverter = new AddressToGPSConverter();
+		WarehousesNetwork warehousesNetwork = new WarehousesNetwork(this.warehouses);
+		OrderDispatcher orderDispatcher = new NaiveOrderDispatcher(warehousesNetwork);
 
 		for (Order o: this.orders) {
-			GPSLocation	location = addressConverter.convert(o.getAddress());
-			Warehouse closestWarehouse = this.getClosestWarehouse(location);
+			Warehouse warehouse = orderDispatcher.dispatch(o);
+			ShippingRequest request = new ShippingRequest();
 
-			closestWarehouse.assignCurrentDayOrder(o);
+			//warehouse.assignCurrentDayOrder(o);
+			warehouse.addShippingRequest(request);
 		}
-	}
-
-	private Warehouse getClosestWarehouse(GPSLocation location) {
-		Warehouse closest = null;
-		double distance = Double.POSITIVE_INFINITY;
-		for (Warehouse w: this.warehouses) {
-			double warehouseDistance = w.getLocation().distanceTo(location);
-			if (warehouseDistance < distance) {
-				closest = w;
-				distance = warehouseDistance;
-			}
-		}
-		return closest;
 	}
 
 	public void sendApplicationRequests() {

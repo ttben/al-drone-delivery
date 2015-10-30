@@ -12,7 +12,7 @@ public abstract class Warehouse {
 	private List<Truck> trucks;
 	private List<TruckDriver> drivers;
 	private CentralWarehouse central;
-	private Collection<ShippingRequest> shippingRequest;
+	private Collection<ShippingRequest> shippingRequests;
 	private Collection<Drone> drones;
 	private ShippingBalancer shppingBalancer;
 	private Map<String,String> mapShippingRequestIDToShippingID = new HashMap<String,String>();
@@ -40,5 +40,9 @@ public abstract class Warehouse {
 
 	public void assignCurrentDayOrder(Order o) {
 		this.currentDayOrders.add(o);
+	}
+
+	public void addShippingRequest(ShippingRequest request) {
+		this.shippingRequests.add(request);
 	}
 }
