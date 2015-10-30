@@ -33,6 +33,8 @@ public class Main {
 
 		Warehouse w1 = new SimpleWarehouse(central);
 		Warehouse w2 = new SimpleWarehouse(central);
+		central.addWarehouse(w1);
+		central.addWarehouse(w2);
 
 		Truck t1 = initializeTruck(w1);
 		Truck t2 = initializeTruck(w1);
@@ -42,6 +44,8 @@ public class Main {
 
 		List<Order> orders = createOrders();
 		central.setCurrentDayOrders(orders);
+
+		central.dispatchOrders();
 	}
 
 	public Truck initializeTruck(Warehouse w) {

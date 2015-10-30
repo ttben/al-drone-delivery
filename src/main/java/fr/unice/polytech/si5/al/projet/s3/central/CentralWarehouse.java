@@ -46,4 +46,8 @@ public class CentralWarehouse {
 	public void setCurrentDayOrders(List<Order> currentDayOrders) {
 		this.currentDayOrders = currentDayOrders;
 	}
+
+	public void addWarehouse(Warehouse w) {
+		this.warehouses.add(w);
+	}
 }
