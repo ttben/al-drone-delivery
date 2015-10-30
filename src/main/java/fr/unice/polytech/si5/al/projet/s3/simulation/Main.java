@@ -4,6 +4,7 @@ import fr.unice.polytech.si5.al.projet.s3.central.CentralWarehouse;
 import fr.unice.polytech.si5.al.projet.s3.central.Item;
 import fr.unice.polytech.si5.al.projet.s3.central.Location;
 import fr.unice.polytech.si5.al.projet.s3.central.Order;
+import fr.unice.polytech.si5.al.projet.s3.drone.GPSLocation;
 import fr.unice.polytech.si5.al.projet.s3.truck.DroneDeliveryApp;
 import fr.unice.polytech.si5.al.projet.s3.truck.Truck;
 import fr.unice.polytech.si5.al.projet.s3.truck.TruckDevice;
@@ -31,8 +32,10 @@ public class Main {
 	private void setup() {
 		CentralWarehouse central = new CentralWarehouse();
 
-		Warehouse w1 = new SimpleWarehouse(central);
-		Warehouse w2 = new SimpleWarehouse(central);
+		GPSLocation w1Location = new GPSLocation(43, 3);
+		GPSLocation w2Location = new GPSLocation(42, 4);
+		Warehouse w1 = new SimpleWarehouse(central, w1Location);
+		Warehouse w2 = new SimpleWarehouse(central, w2Location);
 		central.addWarehouse(w1);
 		central.addWarehouse(w2);
 

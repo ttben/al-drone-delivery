@@ -8,6 +8,7 @@ import fr.unice.polytech.si5.al.projet.s3.truck.TruckDriver;
 
 public abstract class Warehouse {
 
+	private final GPSLocation location;
 	private List<Truck> trucks;
 	private List<TruckDriver> drivers;
 	private CentralWarehouse central;
@@ -16,8 +17,10 @@ public abstract class Warehouse {
 	private ShippingBalancer shppingBalancer;
 	private Map<String,String> mapShippingRequestIDToShippingID = new HashMap<String,String>();
 
-	public Warehouse(CentralWarehouse central) {
+	public Warehouse(CentralWarehouse central, GPSLocation location) {
 		this.central = central;
+		this.location = location;
+
 		this.trucks = new LinkedList<Truck>();
 		this.drivers = new LinkedList<TruckDriver>();
 	}
