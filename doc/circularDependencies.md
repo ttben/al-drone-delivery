@@ -79,3 +79,6 @@ On choisira, en approche naive, pour résoudre la boucle de dépendance secondai
 	
 La détermination des clusters doit être réalisée en fonction des différentes portées offertes par les drones, pondérée
  par le nombre dont dispose l'entreprise.
+ 
+## Développement
+ On considère qu'il existe historiquement un système permettant de déterminer les adresses à livrer.
