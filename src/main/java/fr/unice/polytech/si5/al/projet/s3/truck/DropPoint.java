@@ -4,30 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public class DropPoint implements Task {
+public class DropPoint extends Task {
 
-	private boolean isDone = false;
-	private List<Task> deliveries = new ArrayList<Task>();
-
-	public DropPoint(List<Task> deliveries) {
-		this.deliveries = deliveries;
-	}
-	public boolean isDone() {
-		return isDone;
+	public DropPoint(String name, List<Task> tasks) {
+		super(name, tasks);
 	}
 
 	public void execute() {
-		if(isDone) {
-			return;
-		}
-		isDone = true;
-	}
+		super.execute();
 
-	@Override
-	public void develop(Stack<Task> taskStack) {
-		if(isDone) {
-			return;
-		}
-
+		System.out.println("Go to " + this.name);
 	}
 }

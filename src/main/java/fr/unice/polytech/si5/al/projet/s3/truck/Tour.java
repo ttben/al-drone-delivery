@@ -5,31 +5,27 @@ import java.util.*;
 /**
  * A tour is a set of assignment, and an assignment is a location (drop point location) and a list of tasks
  */
-public class Tour implements Task {
+public class Tour extends Task {
 
-	private Stack<Task> taskStack = new Stack<Task>();
+	private Stack<Task> taskStack = new Stack<>();
 
-	public Tour(List<Task> dropPoints) {
-
-		List<Task> stackedList = dropPoints;
-		Collections.reverse(stackedList);
-
-		for(int i = 0 ; i < stackedList.size() ; i ++) {
-			this.taskStack.add(stackedList.get(i));
-		}
+	public Tour(String name, List<Task> tasks) {
+		super(name, tasks);
+		this.develop(this.taskStack);
 	}
 
-	public List<Task> getTaskStack() {
+	public Stack<Task> getTaskStack() {
 		return taskStack;
 	}
 
-	@Override
-	public boolean isDone() {
-		return this.taskStack.empty();
+	public int getNumberOfTaskOnStack() {
+		return this.taskStack.size();
 	}
 
 	@Override
 	public void execute() {
+		super.execute();
+
 		try {
 			//	Retrieve the top of the stack
 			Task taskToDevelop = this.taskStack.peek();
@@ -48,10 +44,5 @@ public class Tour implements Task {
 		catch (EmptyStackException e) {
 			System.out.println("There is no more things to do on this tour !.. Is it ok ?");
 		}
-	}
-
-	@Override
-	public void develop(Stack<Task> taskStack) {
-
 	}
 }

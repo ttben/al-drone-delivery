@@ -5,31 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public class Delivery implements Task{
-
-	private boolean isDone = false;
-	private List<Task> tasks = new ArrayList<Task>();
-
-	public Delivery(List<Task> tasks) {
-		this.tasks = tasks;
-	}
-
-	public void isDone(boolean isDone) {
-		this.isDone = isDone;
-	}
-
-	public boolean isDone() {
-		return false;
+public class Delivery extends Task{
+	public Delivery(String name, List<Task> tasks) {
+		super(name, tasks);
 	}
 
 	public void execute() {
-		if(isDone) {
-			return;
-		}
-	}
+		super.execute();
 
-	@Override
-	public void develop(Stack<Task> taskStack) {
-		return;
+		System.out.println("Go to " + this.name);
 	}
 }

@@ -2,109 +2,93 @@ package fr.unice.polytech.si5.al.projet.s3.truck;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
 public class TourTest {
 
-	@Mock
-	private Task aDropPoint;
-	private List<Task> dropPointList = new ArrayList<>();
+	private Task firstDropPoint;
+	private Task secondDropPoint;
+	private List<Task> tourTasks = new ArrayList<>();
 
-	@Mock
-	private Task aDelivery;
-	private List<Task> deliveries = new ArrayList<>();
+	private Task firstDelivery;
+	private Task secondDelivery;
+	private List<Task> firstDropPointSubTasks = new ArrayList<>();
+	private List<Task> secondDropPointSubTasks = new ArrayList<>();
 
-	private Tour tour;
+	private Tour aTour;
+	private String aTourName = "A Tour";
 
 	@Before
 	public void setUp() {
-		buildDropPoints();
 		buildDeliveries();
+		buildDropPoints();
 	}
 
 	@Test
 	public void aTour_WhenBuiltWithNoTasks_ShouldNotThrow() {
-		dropPointList = new ArrayList<>();
-		this.tour = new Tour(dropPointList);
+		tourTasks = new ArrayList<>();
+		this.aTour = new Tour(aTourName, tourTasks);
+	}
+
+
+	@Test
+	public void aTour_WhenBuiltWithTasks_ShouldNotThrow() {
+		this.aTour = new Tour(aTourName, tourTasks);
+	}
+
+
+	@Test
+	public void aTour_WhenBuiltWithTasks_ShouldHaveDeployedIt() {
+		this.aTour = new Tour(aTourName, tourTasks);
+		assertEquals(tourTasks.size() + firstDropPointSubTasks.size(), this.aTour.getNumberOfTaskOnStack());
 	}
 
 	@Test
-	public void aTour_WhenBuiltWithTasks_ShouldHaveDropPoint() {
-		this.tour = new Tour(dropPointList);
-		assertEquals(dropPointList.size(),this.tour.getTaskStack().size());
-	}
-
-	@Test
-	public void aTour_WhenExecuteIsCalled_ShouldCallDevelopOnTopOfTheStack() {
-		this.tour = new Tour(dropPointList);
-		this.tour.execute();
-		verify(aDropPoint).develop();
-	}
-
-	@Test
-	public void aTour_WhenExecuteIsCalled_ShouldPushTasksOnTopOfTheStack() {
-		this.tour = new Tour(dropPointList);
-		this.tour.execute();
-		assertEquals(deliveries.size() + 1, this.tour.getTaskStack().size());
-	}
-
-	@Test
-	public void aTour_WhenExecuteIsCalled_ShouldCallExecuteOnTopOfTheStack() {
-		this.tour = new Tour(dropPointList);
-		this.tour.execute();
-		verify(aDelivery).execute();
+	public void aTour_WhenBuiltWithTasks_ShouldHaveDeployedItProperly() {
+		this.aTour = new Tour(aTourName, tourTasks);
+		assertEquals(this.aTour.getTaskStack().peek(), firstDelivery);
 	}
 
 	@Test
 	public void aTour_WhenExecuteIsCalledAndStackIsEmpty_ShouldNotThrow() {
-		dropPointList = new ArrayList<>();
-		this.tour = new Tour(dropPointList);
-		this.tour.execute();
+		tourTasks = new ArrayList<>();
+		this.aTour = new Tour(aTourName, tourTasks);
+		this.aTour.execute();
 	}
 
 	@Test
 	public void aTour_WhenExecuteIsCalledAndTopOfStackIsDone_ShouldDeleteIt() {
-		this.tour = new Tour(dropPointList);
+		this.aTour = new Tour(aTourName, tourTasks);
 
-		willReturn(true).given(aDropPoint).isDone();
-		willReturn(new ArrayList()).given(aDropPoint).develop();
-		this.tour.execute();
+		firstDelivery.isDone(true);
+		this.aTour.execute();
 
-		assertEquals(0, this.tour.getTaskStack().size());
+		assertEquals(tourTasks.size() + firstDropPointSubTasks.size() - 1, this.aTour.getNumberOfTaskOnStack());
 	}
 
-	@Test
-	public void aTour_WhenExecuteIsCalledAndTopOfStackIsNotDone_ShouldDeployIt() {
-		this.tour = new Tour(dropPointList);
 
-		willReturn(false).given(aDropPoint).isDone();
-		this.tour.execute();
-
-		assertEquals(deliveries.size() + dropPointList.size(), this.tour.getTaskStack().size());
-	}
 
 	//	To test that an exception is raised:
 	// @Test(expected = Exception)
 
 	private void buildDropPoints() {
-		dropPointList.add(aDropPoint);
+		firstDropPoint = new DropPoint("DropPoint 1 masséna", this.firstDropPointSubTasks);
+		secondDropPoint = new DropPoint("DropPoint 2 biot", this.secondDropPointSubTasks);
+		tourTasks.add(firstDropPoint);
+		tourTasks.add(secondDropPoint);
 	}
 
 	private void buildDeliveries() {
-		//	Add mock to list of mocks
-		this.deliveries.add(aDelivery);
+		List<Task> tasks = new ArrayList<>();
 
-		//	DropPoint#develop will return the list of mocks
-		willReturn(deliveries).given(aDropPoint).develop();
+		firstDelivery = new Delivery("Delivery 1", tasks);
+		this.firstDropPointSubTasks.add(firstDelivery);
+
+		secondDelivery = new Delivery("Delivery 2", tasks);
+		this.firstDropPointSubTasks.add(secondDelivery);
 	}
 }
