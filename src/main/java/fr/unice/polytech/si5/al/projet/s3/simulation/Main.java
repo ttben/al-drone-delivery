@@ -1,10 +1,11 @@
 package fr.unice.polytech.si5.al.projet.s3.simulation;
 
-import fr.unice.polytech.si5.al.projet.s3.central.CentralWarehouse;
-import fr.unice.polytech.si5.al.projet.s3.central.Item;
 import fr.unice.polytech.si5.al.projet.s3.central.Address;
-import fr.unice.polytech.si5.al.projet.s3.central.Order;
+import fr.unice.polytech.si5.al.projet.s3.central.CentralWarehouse;
 import fr.unice.polytech.si5.al.projet.s3.drone.GPSLocation;
+import fr.unice.polytech.si5.al.projet.s3.shipping.Dimensions;
+import fr.unice.polytech.si5.al.projet.s3.shipping.PackageToShip;
+import fr.unice.polytech.si5.al.projet.s3.shipping.Weight;
 import fr.unice.polytech.si5.al.projet.s3.truck.DroneDeliveryApp;
 import fr.unice.polytech.si5.al.projet.s3.truck.Truck;
 import fr.unice.polytech.si5.al.projet.s3.truck.TruckDevice;
@@ -45,8 +46,8 @@ public class Main {
 
 		TruckDriver t1d = t1.getDriver();
 
-		List<Order> orders = createOrders();
-		central.setCurrentDayOrders(orders);
+		List<PackageToShip> packageToShips = createPackages();
+		central.setCurrentDayPackageToShips(packageToShips);
 
 		central.dispatchCurrentDayOrders();
 	}
@@ -68,23 +69,10 @@ public class Main {
 		return truck;
 	}
 
-	public List<Order> createOrders() {
-		List<Order> orders = new LinkedList<Order>();
-
-		Item i1 = new Item("item1");
-		Item i2 = new Item("item2");
-		Item i3 = new Item("item3");
-		Item i4 = new Item("item4");
-		Item i5 = new Item("item5");
-		Address address1 = new Address("derpboy");
-		Order o1 = new Order(new LinkedList<Item>(Arrays.asList(i1, i2, i3)), address1);
-
-		Address address2 = new Address("derpina");
-		Order o2 = new Order(new LinkedList<Item>(Arrays.asList(i4, i5)), address2);
-
-		orders.add(o1);
-		orders.add(o2);
-
-		return orders;
+	public List<PackageToShip> createPackages() {
+		return new LinkedList<PackageToShip>(Arrays.asList(
+				new PackageToShip(new Address("derpboy"), new Weight(8.75), new Dimensions(.50, .100, .15)),
+				new PackageToShip(new Address("derpina"), new Weight(.5), new Dimensions(.25, .25, .25))
+		));
 	}
 }
