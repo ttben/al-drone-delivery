@@ -35,8 +35,7 @@ public class Tour implements Task {
 			Task taskToDevelop = this.taskStack.peek();
 
 			//	Develop its internal tasks
-			List<Task> tasksToAddOnTheTopOfTheStack = taskToDevelop.develop();
-			tasksToAddOnTheTopOfTheStack.forEach(t -> this.taskStack.add(t));
+			taskToDevelop.develop(this.taskStack);
 
 			//	Retrieve the new top of the stack and execute it
 			Task taskToDo = this.taskStack.peek();
@@ -52,7 +51,7 @@ public class Tour implements Task {
 	}
 
 	@Override
-	public List<Task> develop() {
-		return null;
+	public void develop(Stack<Task> taskStack) {
+
 	}
 }
