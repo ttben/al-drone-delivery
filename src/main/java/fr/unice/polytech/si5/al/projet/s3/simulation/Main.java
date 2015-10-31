@@ -57,7 +57,7 @@ public class Main {
 		TruckDriver truckDriver = new TruckDriver();
 		TruckDevice truckDevice = new TruckDevice();
 
-		DroneDeliveryApp t1App = new DroneDeliveryApp();
+		DroneDeliveryApp t1App = new DroneDeliveryApp(null);
 		truckDevice.setApp(t1App);
 
 		truck.setDevice(truckDevice);
