@@ -7,17 +7,29 @@ import java.util.*;
  */
 public class Tour {
 
-	private Collection<Delivery> deliveries;
+	private Stack<Task> taskStack = new Stack<Task>();
 
-	public Tour() {
-		this.deliveries = new ArrayList<Delivery>();
+	public Tour(List<DropPoint> dropPoints) {
+
+		List<DropPoint> stackedList = dropPoints;
+		Collections.reverse(stackedList);
+
+		for(int i = 0 ; i < stackedList.size() ; i ++) {
+			this.taskStack.add(stackedList.get(i));
+		}
 	}
 
-	public Tour(List<Delivery> deliveries) {
-		this.deliveries = deliveries;
+	public List<Task> getTaskStack() {
+		return taskStack;
 	}
 
-	public void addDelivery(Delivery delivery) {
-		this.deliveries.add(delivery);
+	public void execute() {
+		Task taskToDevelop = this.taskStack.peek();
+
+		List<Task> tasksToAddOnTheTopOfTheStack = taskToDevelop.develop();
+		tasksToAddOnTheTopOfTheStack.forEach(t -> this.taskStack.add(t));
+
+		Task taskToDo = this.taskStack.peek();
+		taskToDo.execute();
 	}
 }
