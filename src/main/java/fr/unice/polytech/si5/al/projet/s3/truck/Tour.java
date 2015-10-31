@@ -42,7 +42,7 @@ public class Tour extends Task {
 			}
 		}
 		catch (EmptyStackException e) {
-			System.out.println("There is no more things to do on this tour !.. Is it ok ?");
+			System.out.println("There is no more things to do on this tour !.. Is it ok ?...");
 		}
 	}
 }
