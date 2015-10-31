@@ -73,13 +73,14 @@ public class TourTest {
 	}
 
 	@Test
-	public void aTour_WhenExecuteIsCalledAndTopOfStackIsDone_ShouldNotDeployIt() {
+	public void aTour_WhenExecuteIsCalledAndTopOfStackIsDone_ShouldDeleteIt() {
 		this.tour = new Tour(dropPointList);
 
 		willReturn(true).given(aDropPoint).isDone();
+		willReturn(new ArrayList()).given(aDropPoint).develop();
 		this.tour.execute();
 
-		assertEquals(dropPointList.size(), this.tour.getTaskStack().size());
+		assertEquals(0, this.tour.getTaskStack().size());
 	}
 
 	@Test

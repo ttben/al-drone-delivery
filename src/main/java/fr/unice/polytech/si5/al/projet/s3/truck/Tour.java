@@ -31,19 +31,20 @@ public class Tour implements Task {
 	@Override
 	public void execute() {
 		try {
-			// System.out.println("STACK \t" + this.taskStack.toString());
+			//	Retrieve the top of the stack
 			Task taskToDevelop = this.taskStack.peek();
 
-			if(!taskToDevelop.isDone()) {
-				// System.out.println("TASK " + taskToDevelop + " is not done");
-				List<Task> tasksToAddOnTheTopOfTheStack = taskToDevelop.develop();
-				tasksToAddOnTheTopOfTheStack.forEach(t -> this.taskStack.add(t));
-			}
+			//	Develop its internal tasks
+			List<Task> tasksToAddOnTheTopOfTheStack = taskToDevelop.develop();
+			tasksToAddOnTheTopOfTheStack.forEach(t -> this.taskStack.add(t));
 
-			// System.out.println("STACK \t" + this.taskStack.toString());
-
+			//	Retrieve the new top of the stack and execute it
 			Task taskToDo = this.taskStack.peek();
 			taskToDo.execute();
+
+			if(taskToDo.isDone()) {
+				this.taskStack.pop();
+			}
 		}
 		catch (EmptyStackException e) {
 			System.out.println("There is no more things to do on this tour !.. Is it ok ?");

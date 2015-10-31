@@ -24,6 +24,9 @@ public class DropPoint implements Task {
 
 	@Override
 	public List<Task> develop() {
+		if(isDone) {
+			return new ArrayList<>();
+		}
 		return this.deliveries;
 	}
 }
