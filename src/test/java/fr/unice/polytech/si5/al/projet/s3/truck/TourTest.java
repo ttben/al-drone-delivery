@@ -33,6 +33,12 @@ public class TourTest {
 	}
 
 	@Test
+	public void aTour_WhenBuiltWithNoTasks_ShouldNotThrow() {
+		dropPointList = new ArrayList<>();
+		this.tour = new Tour(dropPointList);
+	}
+
+	@Test
 	public void aTour_WhenBuiltWithTasks_ShouldHaveDropPoint() {
 		this.tour = new Tour(dropPointList);
 		assertEquals(1,this.tour.getTaskStack().size());
@@ -58,6 +64,16 @@ public class TourTest {
 		this.tour.execute();
 		verify(aDelivery).execute();
 	}
+
+	@Test
+	public void aTour_WhenExecuteIsCalledAndStackIsEmpty_ShouldNotThrow() {
+		dropPointList = new ArrayList<>();
+		this.tour = new Tour(dropPointList);
+		this.tour.execute();
+	}
+
+	//	To test that an exception is raised:
+	// @Test(expected = Exception)
 
 	private void buildDropPoints() {
 		dropPointList.add(aDropPoint);

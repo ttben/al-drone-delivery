@@ -24,12 +24,17 @@ public class Tour {
 	}
 
 	public void execute() {
-		Task taskToDevelop = this.taskStack.peek();
+		try {
+			Task taskToDevelop = this.taskStack.peek();
 
-		List<Task> tasksToAddOnTheTopOfTheStack = taskToDevelop.develop();
-		tasksToAddOnTheTopOfTheStack.forEach(t -> this.taskStack.add(t));
+			List<Task> tasksToAddOnTheTopOfTheStack = taskToDevelop.develop();
+			tasksToAddOnTheTopOfTheStack.forEach(t -> this.taskStack.add(t));
 
-		Task taskToDo = this.taskStack.peek();
-		taskToDo.execute();
+			Task taskToDo = this.taskStack.peek();
+			taskToDo.execute();
+		}
+		catch (EmptyStackException e) {
+			System.out.println("There is no more things to do on this tour !.. Is it ok ?");
+		}
 	}
 }
