@@ -31,10 +31,16 @@ public class Tour implements Task {
 	@Override
 	public void execute() {
 		try {
+			// System.out.println("STACK \t" + this.taskStack.toString());
 			Task taskToDevelop = this.taskStack.peek();
 
-			List<Task> tasksToAddOnTheTopOfTheStack = taskToDevelop.develop();
-			tasksToAddOnTheTopOfTheStack.forEach(t -> this.taskStack.add(t));
+			if(!taskToDevelop.isDone()) {
+				// System.out.println("TASK " + taskToDevelop + " is not done");
+				List<Task> tasksToAddOnTheTopOfTheStack = taskToDevelop.develop();
+				tasksToAddOnTheTopOfTheStack.forEach(t -> this.taskStack.add(t));
+			}
+
+			// System.out.println("STACK \t" + this.taskStack.toString());
 
 			Task taskToDo = this.taskStack.peek();
 			taskToDo.execute();
