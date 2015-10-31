@@ -17,8 +17,8 @@ import static org.mockito.Mockito.verify;
 public class TourTest {
 
 	@Mock
-	private DropPoint aDropPoint;
-	private List<DropPoint> dropPointList = new ArrayList<>();
+	private Task aDropPoint;
+	private List<Task> dropPointList = new ArrayList<>();
 
 	@Mock
 	private Task aDelivery;

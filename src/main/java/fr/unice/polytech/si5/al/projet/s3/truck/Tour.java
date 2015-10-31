@@ -9,9 +9,9 @@ public class Tour {
 
 	private Stack<Task> taskStack = new Stack<Task>();
 
-	public Tour(List<DropPoint> dropPoints) {
+	public Tour(List<Task> dropPoints) {
 
-		List<DropPoint> stackedList = dropPoints;
+		List<Task> stackedList = dropPoints;
 		Collections.reverse(stackedList);
 
 		for(int i = 0 ; i < stackedList.size() ; i ++) {
