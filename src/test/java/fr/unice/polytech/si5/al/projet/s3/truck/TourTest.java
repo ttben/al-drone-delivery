@@ -41,7 +41,7 @@ public class TourTest {
 	@Test
 	public void aTour_WhenBuiltWithTasks_ShouldHaveDropPoint() {
 		this.tour = new Tour(dropPointList);
-		assertEquals(1,this.tour.getTaskStack().size());
+		assertEquals(dropPointList.size(),this.tour.getTaskStack().size());
 	}
 
 	@Test
@@ -55,7 +55,7 @@ public class TourTest {
 	public void aTour_WhenExecuteIsCalled_ShouldPushTasksOnTopOfTheStack() {
 		this.tour = new Tour(dropPointList);
 		this.tour.execute();
-		assertEquals(2, this.tour.getTaskStack().size());
+		assertEquals(deliveries.size() + 1, this.tour.getTaskStack().size());
 	}
 
 	@Test
@@ -70,6 +70,26 @@ public class TourTest {
 		dropPointList = new ArrayList<>();
 		this.tour = new Tour(dropPointList);
 		this.tour.execute();
+	}
+
+	@Test
+	public void aTour_WhenExecuteIsCalledAndTopOfStackIsDone_ShouldNotDeployIt() {
+		this.tour = new Tour(dropPointList);
+
+		willReturn(true).given(aDropPoint).isDone();
+		this.tour.execute();
+
+		assertEquals(dropPointList.size(), this.tour.getTaskStack().size());
+	}
+
+	@Test
+	public void aTour_WhenExecuteIsCalledAndTopOfStackIsNotDone_ShouldDeployIt() {
+		this.tour = new Tour(dropPointList);
+
+		willReturn(false).given(aDropPoint).isDone();
+		this.tour.execute();
+
+		assertEquals(deliveries.size() + dropPointList.size(), this.tour.getTaskStack().size());
 	}
 
 	//	To test that an exception is raised:
