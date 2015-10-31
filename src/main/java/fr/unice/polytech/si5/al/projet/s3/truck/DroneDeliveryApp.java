@@ -9,7 +9,7 @@ public class DroneDeliveryApp {
 
 	public void start() {
 		while(!this.tour.isDone()) {
-			tour.execute();
+			tour.doNext();
 		}
 	}
 }
