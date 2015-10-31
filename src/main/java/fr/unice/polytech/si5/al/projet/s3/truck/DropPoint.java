@@ -16,6 +16,9 @@ public class DropPoint implements Task {
 	}
 
 	public void execute() {
+		if(isDone) {
+			return;
+		}
 		isDone = true;
 	}
 

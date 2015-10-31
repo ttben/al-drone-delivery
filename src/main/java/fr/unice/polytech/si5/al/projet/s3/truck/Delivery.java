@@ -22,7 +22,9 @@ public class Delivery implements Task{
 	}
 
 	public void execute() {
-
+		if(isDone) {
+			return;
+		}
 	}
 
 	@Override
