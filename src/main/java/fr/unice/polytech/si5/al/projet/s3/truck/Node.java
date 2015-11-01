@@ -1,6 +1,5 @@
 package fr.unice.polytech.si5.al.projet.s3.truck;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,8 +32,39 @@ public class Node {
     }
 
     public void doNext(){
-        throw new NotImplementedException();
+        // first pass
+        if(current == null){
+            if(currentIterator.hasNext()){
+                current = currentIterator.next();
+                current.doNext();
+            }
+        }
+
+        // others passes
+        else {
+            if(!current.isDone()){
+                if(!current.currentIterator.hasNext()){
+                    current.done();
+                    System.out.println("Fin de "+current.getName());
+                }
+                else {
+                    current.doNext();
+                }
+            }
+            else {
+                if(currentIterator.hasNext()){
+                    current = currentIterator.next();
+                    current.doNext();
+                }
+                else {
+                    this.done();
+                    System.out.println("Fin de "+getName());
+                }
+            }
+        }
+
     }
+
 
     public String getName(){
         return this.name;

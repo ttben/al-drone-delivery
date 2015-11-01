@@ -1,18 +1,16 @@
 package fr.unice.polytech.si5.al.projet.s3.truck;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 
-public class TourTest {
+public class NodeTest {
 
-	private DropPoint firstDropPoint;
-	private DropPoint secondDropPoint;
+	private Node firstDropPoint;
+	private Node secondDropPoint;
 	private List<Node> tourTasks = new ArrayList<>();
 
 	private Delivery firstDelivery;
@@ -22,7 +20,7 @@ public class TourTest {
 	private List<Node> firstDropPointSubTasks = new ArrayList<>();
 	private List<Node> secondDropPointSubTasks = new ArrayList<>();
 
-	private Tour aTour;
+	private Node aTour;
 	private String aTourName = "A Tour";
 
 	@Before
@@ -34,13 +32,13 @@ public class TourTest {
 	@Test
 	public void aTour_WhenBuiltWithNoTasks_ShouldNotThrow() {
 		tourTasks = new ArrayList<>();
-		this.aTour = new Tour(aTourName, tourTasks);
+		this.aTour = new Node(aTourName, tourTasks);
 	}
 
 
 	@Test
 	public void aTour_WhenBuiltWithTasks_ShouldNotThrow() {
-		this.aTour = new Tour(aTourName, tourTasks);
+		this.aTour = new Node(aTourName, tourTasks);
 	}
 
 
@@ -62,16 +60,14 @@ public class TourTest {
 	@Test
 	public void aTour_WhenNextIsCalledAndStackIsEmpty_ShouldNotThrow() {
 		tourTasks = new ArrayList<>();
-		this.aTour = new Tour(aTourName, tourTasks);
+		this.aTour = new Node(aTourName, tourTasks);
 		this.aTour.doNext();
 	}
 
 	@Test
 	public void aTour_WhenDoNextIsCalledAndNotEmptyTree_ShouldDoFirstDelivery(){
-		this.aTour = new Tour(aTourName,tourTasks);
-		while (!aTour.isDone()){
-			aTour.doNext();
-		}
+		this.aTour = new Node(aTourName,tourTasks);
+		aTour.doNext();
 	}
 
 
@@ -80,8 +76,8 @@ public class TourTest {
 	// @Test(expected = Exception)
 
 	private void buildDropPoints() {
-		firstDropPoint = new DropPoint("DropPoint 1 masséna", this.firstDropPointSubTasks);
-		secondDropPoint = new DropPoint("DropPoint 2 biot", this.secondDropPointSubTasks);
+		firstDropPoint = new Node("DropPoint 1 masséna", this.firstDropPointSubTasks);
+		secondDropPoint = new Node("DropPoint 2 biot", this.secondDropPointSubTasks);
 		tourTasks.add(firstDropPoint);
 		tourTasks.add(secondDropPoint);
 	}
@@ -100,5 +96,8 @@ public class TourTest {
 
 		fourthDelivery = new Delivery("Delivery 4", packages);
 		this.secondDropPointSubTasks.add(fourthDelivery);
+
+		Node other = new Delivery("Delivery 5", packages);
+		this.secondDropPointSubTasks.add(other);
 	}
 }

@@ -1,8 +1,6 @@
 package fr.unice.polytech.si5.al.projet.s3.truck;
 
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.util.LinkedList;
 import java.util.List;
 
