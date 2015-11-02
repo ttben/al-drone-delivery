@@ -16,9 +16,12 @@ public class Node {
     protected Node current;
     private boolean done;
 
-    public Node(String name, List<Node> packages) {
+    public Node(String name){
         this.name = name;
-        this.children = new LinkedList<>(packages);
+    }
+    public Node(String name, List<Node> children) {
+        this(name);
+        this.children = new LinkedList<>(children);
         done = false;
         currentIterator = this.children.listIterator();
     }

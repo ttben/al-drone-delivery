@@ -83,21 +83,21 @@ public class NodeTest {
 	}
 
 	private void buildDeliveries() {
-		List<Node> packages = new ArrayList<>();
+		Package aPackage = new Package();
 
-		firstDelivery = new Delivery("Delivery 1", packages);
+		firstDelivery = new Delivery("Delivery 1", aPackage);
 		this.firstDropPointSubTasks.add(firstDelivery);
 
-		secondDelivery = new Delivery("Delivery 2", packages);
+		secondDelivery = new Delivery("Delivery 2", aPackage);
 		this.firstDropPointSubTasks.add(secondDelivery);
 
-		thirdDelivery = new Delivery("Delivery 3", packages);
+		thirdDelivery = new Delivery("Delivery 3", aPackage);
 		this.secondDropPointSubTasks.add(thirdDelivery);
 
-		fourthDelivery = new Delivery("Delivery 4", packages);
+		fourthDelivery = new Delivery("Delivery 4", aPackage);
 		this.secondDropPointSubTasks.add(fourthDelivery);
 
-		Node other = new Delivery("Delivery 5", packages);
+		Node other = new Delivery("Delivery 5", aPackage);
 		this.secondDropPointSubTasks.add(other);
 	}
 }

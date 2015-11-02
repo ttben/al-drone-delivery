@@ -1,0 +1,15 @@
+[
+  {
+    "location": "location info",
+    "deliveries": [
+      {
+        "drone": "droneID1",
+        "box": "packageID",
+        "droneAlt": [
+          "droneID2",
+          "droneID3"
+        ]
+      }
+    ]
+  }
+]

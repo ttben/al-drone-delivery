@@ -1,16 +1,29 @@
 package fr.unice.polytech.si5.al.projet.s3.truck;
 
 
-import java.util.LinkedList;
+import fr.unice.polytech.si5.al.projet.s3.drone.Drone;
+
 import java.util.List;
 
 public class Delivery extends Node{
 
-	private LinkedList<Package> children;
+	private Package aPackage;
 	private String name;
+	private Drone drone;
+	private List<Drone> droneAlt;
 
-	public Delivery(String name, List<Node> packages) {
-		super(name,packages);
+
+	public Delivery(String name, Package aPackage){
+		super(name);
+		this.aPackage = aPackage;
+	}
+
+	public Delivery(String name, Package aPackage, Drone drone, List<Drone> droneAlt) {
+		this(name,aPackage);
+		this.aPackage = aPackage;
+		this.drone = drone;
+		this.droneAlt = droneAlt;
+
 	}
 
 	@Override
