@@ -1,5 +1,6 @@
 package fr.unice.polytech.si5.al.projet.s3.truck;
 
+import fr.unice.polytech.si5.al.projet.s3.drone.ParrotDrone;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,14 +11,15 @@ import static org.junit.Assert.assertEquals;
 
 public class TourTest {
 
-	private Task firstDropPoint;
-	private Task secondDropPoint;
-	private List<Task> tourTasks = new ArrayList<>();
+	private DropPoint firstDropPoint;
+	private DropPoint secondDropPoint;
+	private List<DropPoint> dropPointList = new ArrayList<>();
 
-	private Task firstDelivery;
-	private Task secondDelivery;
-	private List<Task> firstDropPointSubTasks = new ArrayList<>();
-	private List<Task> secondDropPointSubTasks = new ArrayList<>();
+
+	private Delivery firstDelivery;
+	private Delivery secondDelivery;
+	private List<Delivery> firstDropPointDeliveries = new ArrayList<>();
+	private List<Delivery> secondDropPointDeliveries = new ArrayList<>();
 
 	private Tour aTour;
 	private String aTourName = "A Tour";
@@ -30,65 +32,61 @@ public class TourTest {
 
 	@Test
 	public void aTour_WhenBuiltWithNoTasks_ShouldNotThrow() {
-		tourTasks = new ArrayList<>();
-		this.aTour = new Tour(aTourName, tourTasks);
+		dropPointList = new ArrayList<>();
+		this.aTour = new Tour(aTourName, dropPointList);
 	}
 
 
 	@Test
 	public void aTour_WhenBuiltWithTasks_ShouldNotThrow() {
-		this.aTour = new Tour(aTourName, tourTasks);
+		this.aTour = new Tour(aTourName, dropPointList);
 	}
 
-
-	@Test
-	public void aTour_WhenBuiltWithTasks_ShouldHaveDeployedIt() {
-		this.aTour = new Tour(aTourName, tourTasks);
-		assertEquals(tourTasks.size() + firstDropPointSubTasks.size(), this.aTour.getNumberOfTaskOnStack());
-	}
-
-	@Test
-	public void aTour_WhenBuiltWithTasks_ShouldHaveDeployedItProperly() {
-		this.aTour = new Tour(aTourName, tourTasks);
-		assertEquals(this.aTour.getTaskStack().peek(), firstDelivery);
-	}
 
 	@Test
 	public void aTour_WhenExecuteIsCalledAndStackIsEmpty_ShouldNotThrow() {
-		tourTasks = new ArrayList<>();
-		this.aTour = new Tour(aTourName, tourTasks);
+		dropPointList = new ArrayList<>();
+		this.aTour = new Tour(aTourName, dropPointList);
 		this.aTour.execute();
 	}
 
 	@Test
 	public void aTour_WhenExecuteIsCalledAndTopOfStackIsDone_ShouldDeleteIt() {
-		this.aTour = new Tour(aTourName, tourTasks);
-
-		firstDelivery.isDone(true);
+		this.aTour = new Tour(aTourName, dropPointList);
+		firstDelivery.done();
 		this.aTour.execute();
-
-		assertEquals(tourTasks.size() + firstDropPointSubTasks.size() - 1, this.aTour.getNumberOfTaskOnStack());
+		// We expect size-2 because the first delivery is done and the second is executed (and done)
+		assertEquals(firstDropPointDeliveries.size() - 2, firstDropPoint.getDeliveryQueue().size());
 	}
 
+	@Test
+	public void aTour_WhenCompleted_AllQueueShouldBeEmpty() {
+		this.aTour = new Tour(aTourName, dropPointList);
+		while (!aTour.isDone()) {
+			aTour.execute();
+		}
+		assertEquals(0, aTour.getNumberOfDropPointOnQueue());
+		assertEquals(0, firstDropPoint.getDeliveryQueue().size());
+	}
 
 
 	//	To test that an exception is raised:
 	// @Test(expected = Exception)
 
 	private void buildDropPoints() {
-		firstDropPoint = new DropPoint("DropPoint 1 masséna", this.firstDropPointSubTasks);
-		secondDropPoint = new DropPoint("DropPoint 2 biot", this.secondDropPointSubTasks);
-		tourTasks.add(firstDropPoint);
-		tourTasks.add(secondDropPoint);
+		firstDropPoint = new DropPoint("DropPoint 1 masséna", this.firstDropPointDeliveries);
+		secondDropPoint = new DropPoint("DropPoint 2 biot", this.secondDropPointDeliveries);
+		dropPointList.add(firstDropPoint);
+		dropPointList.add(secondDropPoint);
 	}
 
 	private void buildDeliveries() {
-		List<Task> tasks = new ArrayList<>();
+		///List<Task> tasks = new ArrayList<>();
 
-		firstDelivery = new Delivery("Delivery 1", tasks);
-		this.firstDropPointSubTasks.add(firstDelivery);
+		firstDelivery = new Delivery(new Box("rue du choux pointu", 2.5), new ParrotDrone(), new ArrayList<>());
+		this.firstDropPointDeliveries.add(firstDelivery);
 
-		secondDelivery = new Delivery("Delivery 2", tasks);
-		this.firstDropPointSubTasks.add(secondDelivery);
+		secondDelivery = new Delivery(new Box("Avenue des flan moisis", 0.35), new ParrotDrone(), new ArrayList<>());
+		this.firstDropPointDeliveries.add(secondDelivery);
 	}
 }

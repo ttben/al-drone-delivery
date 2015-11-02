@@ -1,48 +1,59 @@
 package fr.unice.polytech.si5.al.projet.s3.truck;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Queue;
 
 /**
  * A tour is a set of assignment, and an assignment is a location (drop point location) and a list of tasks
  */
-public class Tour extends Task {
+public class Tour {
 
-	private Stack<Task> taskStack = new Stack<>();
+	private Queue<DropPoint> dropPointQueue;
+	private String name;
+	private TaskStatus status;
 
-	public Tour(String name, List<Task> tasks) {
-		super(name, tasks);
-		this.develop(this.taskStack);
+	public Tour(String name, List<DropPoint> dropPointsList) {
+		this.name = name;
+		this.dropPointQueue = new LinkedList<>();
+		dropPointsList.forEach(dropPointQueue::add);
+		status = TaskStatus.PENDING;
 	}
 
-	public Stack<Task> getTaskStack() {
-		return taskStack;
+	public Queue<DropPoint> getDropPointQueue() {
+		return dropPointQueue;
 	}
 
-	public int getNumberOfTaskOnStack() {
-		return this.taskStack.size();
+	public boolean isDone() {
+		return status == TaskStatus.DONE;
 	}
 
-	@Override
+	public int getNumberOfDropPointOnQueue() {
+		return this.dropPointQueue.size();
+	}
+
 	public void execute() {
-		super.execute();
-
 		try {
-			//	Retrieve the top of the stack
-			Task taskToDevelop = this.taskStack.peek();
 
-			//	Develop its internal tasks
-			taskToDevelop.develop(this.taskStack);
+			DropPoint currentDropPoint = dropPointQueue.element();
+			currentDropPoint = cleanQueueAndGetTopIfNotEmpty(currentDropPoint);
 
-			//	Retrieve the new top of the stack and execute it
-			Task taskToDo = this.taskStack.peek();
-			taskToDo.execute();
+			currentDropPoint.execute();
+			cleanQueueAndGetTopIfNotEmpty(currentDropPoint);
 
-			if(taskToDo.isDone()) {
-				this.taskStack.pop();
-			}
-		}
-		catch (EmptyStackException e) {
-			System.out.println("There is no more things to do on this tour !.. Is it ok ?...");
+		} catch (NoSuchElementException e) {
+			status = TaskStatus.DONE;
+			System.out.println("There is no more things to do on this tour !");
 		}
 	}
+
+	private DropPoint cleanQueueAndGetTopIfNotEmpty(DropPoint lastDropPointHandled) {
+		while (lastDropPointHandled.isDone() || lastDropPointHandled.failed()) {
+			dropPointQueue.poll();
+			lastDropPointHandled = dropPointQueue.element();
+		}
+		return lastDropPointHandled;
+	}
+
 }
