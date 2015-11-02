@@ -1,0 +1,57 @@
+[
+  {
+    "location": "location info",
+    "deliveries": [
+      {
+        "drone": "droneID1",
+        "box": "packageID",
+        "droneAlt": [
+          "droneID2",
+          "droneID3"
+        ]
+      }
+    ]
+  },
+  {
+    "location": "location info2",
+    "deliveries": [
+      {
+        "drone": "droneID1",
+        "box": "packageID",
+        "droneAlt": [
+          "droneID2",
+          "droneID3"
+        ]
+      }
+    ]
+  },
+  {
+    "location": "location info3",
+    "deliveries": [
+      {
+        "drone": "droneID1",
+        "box": "packageID",
+        "droneAlt": [
+          "droneID2",
+          "droneID3"
+        ]
+      },
+      {
+        "drone": "droneID1",
+        "box": "packageID",
+        "droneAlt": [
+          "droneID2",
+          "droneID3"
+        ]
+      },
+      {
+        "drone": "droneID1",
+        "box": "packageID",
+        "droneAlt": [
+          "droneID2",
+          "droneID3"
+        ]
+      }
+    ]
+  }
+]
