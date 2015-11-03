@@ -1,9 +1,11 @@
 package fr.unice.polytech.si5.al.projet.s3.truck;
 
-public class DroneDeliveryApp {
-	private Tour tour;
+import fr.unice.polytech.si5.al.projet.s3.truck.step.Sequence;
 
-	public DroneDeliveryApp(Tour tour) {
+public class DroneDeliveryApp {
+	private Sequence tour;
+
+	public DroneDeliveryApp(Sequence tour) {
 		this.tour = tour;
 	}
 
