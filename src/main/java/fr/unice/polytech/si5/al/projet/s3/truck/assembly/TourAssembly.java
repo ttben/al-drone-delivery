@@ -5,8 +5,6 @@ import fr.unice.polytech.si5.al.projet.s3.drone.Drone;
 import fr.unice.polytech.si5.al.projet.s3.drone.ParrotDrone;
 import fr.unice.polytech.si5.al.projet.s3.truck.Box;
 import fr.unice.polytech.si5.al.projet.s3.truck.Delivery;
-import fr.unice.polytech.si5.al.projet.s3.truck.DropPoint;
-import fr.unice.polytech.si5.al.projet.s3.truck.Tour;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +16,7 @@ import java.util.Scanner;
  * @author Etienne Strobbe (02/11/2015).
  */
 public class TourAssembly {
-
+/*
     private static Gson gson = new Gson();
 
     public static Tour jsonToTour(String json) {
@@ -84,4 +82,5 @@ public class TourAssembly {
         return result.toString();
 
     }
+    */
 }
