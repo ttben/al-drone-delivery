@@ -1,5 +1,7 @@
 package fr.unice.polytech.si5.al.projet.s3.truck.step;
 
+import fr.unice.polytech.si5.al.projet.s3.truck.DroneDeliveryApp;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -41,16 +43,17 @@ public class Sequence extends ExecutableStep {
 		return this.doneStepQueue.size();
 	}
 
-	public void execute() {
+	public void execute(DroneDeliveryApp app) {
 		status = TaskStatus.PROCESSING;
-
+		System.out.println("Executing Sequence : " + this.name);
 		try {
 			cleanPendingQueue();
-			ExecutableStep currentDelivery = pendingStepQueue.element();
-			currentDelivery.execute();
+			ExecutableStep currentStep = pendingStepQueue.element();
+			currentStep.execute(app);
+			cleanPendingQueue();
 		} catch (NoSuchElementException e) {
 			this.status = TaskStatus.DONE;
-			System.out.println("There is no more things to do on this dropPoint !");
+			System.out.println("There is no more things to do on this dropPoint " + this.name + "!");
 		}
 	}
 
@@ -60,6 +63,7 @@ public class Sequence extends ExecutableStep {
 		while (currentStep.isDone() || currentStep.isFailed()) {
 
 			if (currentStep.isDone()) {
+				System.out.println("\t\t+ "+currentStep.getDescription() + " is done");
 				this.doneStepQueue.add(currentStep);
 			} else {
 				this.failedStepQueue.add(currentStep);
@@ -68,5 +72,10 @@ public class Sequence extends ExecutableStep {
 			pendingStepQueue.poll();
 			currentStep = pendingStepQueue.element();
 		}
+	}
+
+	@Override
+	String getDescription() {
+		return "(" + this.name + ")";
 	}
 }

@@ -23,11 +23,10 @@ public class TourAssembly {
     private static Gson gson = new Gson();
 
     public static Sequence jsonToTour(String json) {
-        TemplateTour templateTour = gson.fromJson(json, TemplateTour.class);
+        TemplateDropPoint[] templateJSONs = gson.fromJson(json, TemplateDropPoint[].class);
         List<ExecutableStep> dropPointList = new ArrayList<>();
-
-        for (int i = 0; i < templateTour.getDropPoints().size(); i++) {
-            dropPointList.add(getDropPointFromTemplate(templateTour.getDropPoints().get(i)));
+        for (int i = 0; i < templateJSONs.length; i++) {
+            dropPointList.add(getDropPointFromTemplate(templateJSONs[i]));
         }
 
         return new Sequence("Tour bidule", dropPointList);
@@ -47,25 +46,11 @@ public class TourAssembly {
     }
 
     private static ExecutableStep getDeliveryFromTemplate(TemplateDelivery templateDeliveryJSON) {
-        List<Drone> droneAlt = new ArrayList<>();
-        templateDeliveryJSON.droneAlt.forEach(
-                droneID -> droneAlt.add(getDrone(droneID))
+          return new Delivery("Delivery",
+                templateDeliveryJSON.getBox(),
+                templateDeliveryJSON.getDrone(),
+                templateDeliveryJSON.getDroneAlt()
         );
-        return new Delivery("Delivery",
-                getBox(templateDeliveryJSON.getBox()),
-                getDrone(templateDeliveryJSON.getDrone()),
-                droneAlt
-        );
-    }
-
-    private static Drone getDrone(String droneID) {
-        //TODO implement
-        return new ParrotDrone();
-    }
-
-    private static Box getBox(String boxID) {
-        //TODO implement
-        return new Box("La bas", 1.5);
     }
 
     public static String getFile(String fileName) {

@@ -1,5 +1,7 @@
 package fr.unice.polytech.si5.al.projet.s3.truck.step;
 
+import fr.unice.polytech.si5.al.projet.s3.truck.DroneDeliveryApp;
+
 public abstract class ExecutableStep {
 	enum TaskStatus {
 		DONE,
@@ -32,5 +34,12 @@ public abstract class ExecutableStep {
 		return this.status == TaskStatus.PROCESSING;
 	}
 
-	abstract void execute();
+	public String getName() {
+		return this.name;
+	}
+
+	abstract String getDescription();
+
+	//	For data injection
+	abstract void execute(DroneDeliveryApp app);
 }

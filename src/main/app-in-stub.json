@@ -1,10 +1,10 @@
 [
   {
-    "location": "location info",
+    "location": "Pres du super U",
     "deliveries": [
       {
         "drone": "droneID1",
-        "box": "packageID",
+        "box": "packageID4",
         "droneAlt": [
           "droneID2",
           "droneID3"
@@ -13,40 +13,27 @@
     ]
   },
   {
-    "location": "location info2",
+    "location": "A garbejaire, au milieu du carrefour ...",
     "deliveries": [
       {
         "drone": "droneID1",
-        "box": "packageID",
-        "droneAlt": [
-          "droneID2",
-          "droneID3"
-        ]
-      }
-    ]
-  },
-  {
-    "location": "location info3",
-    "deliveries": [
-      {
-        "drone": "droneID1",
-        "box": "packageID",
+        "box": "packageID1",
         "droneAlt": [
           "droneID2",
           "droneID3"
         ]
       },
       {
-        "drone": "droneID1",
-        "box": "packageID",
+        "drone": "droneID3",
+        "box": "packageID2",
         "droneAlt": [
           "droneID2",
           "droneID3"
         ]
       },
       {
-        "drone": "droneID1",
-        "box": "packageID",
+        "drone": "droneID2",
+        "box": "packageID3",
         "droneAlt": [
           "droneID2",
           "droneID3"

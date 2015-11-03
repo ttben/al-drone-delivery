@@ -6,7 +6,7 @@ public class TemplateTour {
 
 	public List<TemplateDropPoint> dropPoints;
 
-	public TemplateTour(String location, List<TemplateDropPoint> dropPoints) {
+	public TemplateTour(List<TemplateDropPoint> dropPoints) {
 		this.dropPoints = dropPoints;
 	}
 
