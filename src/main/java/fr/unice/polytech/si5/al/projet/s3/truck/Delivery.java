@@ -5,13 +5,14 @@ import fr.unice.polytech.si5.al.projet.s3.drone.Drone;
 
 import java.util.List;
 
-public class Delivery extends Step {
+public class Delivery extends ExecutableStep {
 
 	private Box box;
 	private Drone drone;
 	private List<Drone> dronesAlt;
 
-	public Delivery(Box box, Drone drone, List<Drone> dronesAlt) {
+	public Delivery(String name, Box box, Drone drone, List<Drone> dronesAlt) {
+		super(name);
 		this.box = box;
 		this.drone = drone;
 		this.dronesAlt = dronesAlt;
@@ -19,8 +20,7 @@ public class Delivery extends Step {
 	}
 
 	public void execute() {
-		this.status = TaskStatus.PROCESSING;
 		System.out.println("Go to " + box.getDestination() + " (" + box.getWeight() + "kg)");
-		this.done();
+		this.status = TaskStatus.DONE;
 	}
 }

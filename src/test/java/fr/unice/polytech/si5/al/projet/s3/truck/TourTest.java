@@ -19,14 +19,14 @@ import static org.mockito.Mockito.when;
 public class TourTest {
 
 	@Mock
-	private DropPoint aMockedDropPoint;
+	private Sequence aMockedDropPoint;
 
 	@Mock
-	private DropPoint anotherMockedDropPoint;
+	private Sequence anotherMockedDropPoint;
 
-	private List<DropPoint> dropPointList = new ArrayList<>();
+	private List<ExecutableStep> dropPointList = new ArrayList<>();
 
-	private Tour aTour;
+	private Sequence aTour;
 	private String aTourName = "A Tour";
 
 	@Before
@@ -37,17 +37,17 @@ public class TourTest {
 	@Test
 	public void aTour_WhenBuiltWithNoDropPoints_ShouldNotThrow() {
 		dropPointList = new LinkedList<>();
-		this.aTour = new Tour(aTourName, dropPointList);
+		this.aTour = new Sequence(aTourName, dropPointList);
 	}
 
 	@Test
 	public void aTour_WhenBuiltWithDropPoints_ShouldNotThrow() {
-		this.aTour = new Tour(aTourName, dropPointList);
+		this.aTour = new Sequence(aTourName, dropPointList);
 	}
 
 	@Test
 	public void aTour_WhenBuiltWithDropPoints_ShouldHavePushedThemInPendingQueue() {
-		this.aTour = new Tour(aTourName, dropPointList);
+		this.aTour = new Sequence(aTourName, dropPointList);
 		assertEquals(dropPointList.size(), aTour.getNumberOfDropPointsPending());
 		assertEquals(0, aTour.getNumberOfDropPointsDone());
 		assertEquals(0, aTour.getNumberOfDropPointsFailed());
@@ -55,27 +55,27 @@ public class TourTest {
 
 	@Test
 	public void aTour_WhenBuiltWithDropPoints_ShouldHaveSpecifiedDropPointsSortedProperly() {
-		this.aTour = new Tour(aTourName, dropPointList);
-		List<DropPoint> expected = this.dropPointList;
-		assertEquals(expected, this.aTour.getPendingDropPointsQueue());
+		this.aTour = new Sequence(aTourName, dropPointList);
+		List<ExecutableStep> expected = this.dropPointList;
+		assertEquals(expected, this.aTour.getPendingStepQueue());
 	}
 
 	@Test
 	public void aTour_WhenExecuteIsCalledAndPendingQueueIsEmpty_ShouldNotThrow() {
-		this.aTour = new Tour(aTourName, new ArrayList<>());
+		this.aTour = new Sequence(aTourName, new ArrayList<>());
 		this.aTour.execute();
 	}
 
 	@Test
 	public void aTour_WhenExecuteIsCalledAndHeadOfQueueIsPending_ShouldExecuteHeadOfQueue() {
-		this.aTour = new Tour(aTourName, dropPointList);
+		this.aTour = new Sequence(aTourName, dropPointList);
 		this.aTour.execute();
 		verify(aMockedDropPoint).execute();
 	}
 
 	@Test
 	public void aTour_WhenExecuteIsCalledAndHeadOfQueueIsDone_ShouldDeleteItOfPendingQueue() {
-		this.aTour = new Tour(aTourName, dropPointList);
+		this.aTour = new Sequence(aTourName, dropPointList);
 		willReturn(true).given(aMockedDropPoint).isDone();
 
 		this.aTour.execute();
@@ -85,7 +85,7 @@ public class TourTest {
 
 	@Test
 	public void aTour_WhenExecuteIsCalledAndHeadOfQueueIsDone_ShouldAddItToDoneQueue() {
-		this.aTour = new Tour(aTourName, dropPointList);
+		this.aTour = new Sequence(aTourName, dropPointList);
 		willReturn(true).given(aMockedDropPoint).isDone();
 
 		this.aTour.execute();
@@ -96,7 +96,7 @@ public class TourTest {
 
 	@Test
 	public void aTour_WhenExecuteIsCalledAndHeadOfQueueIsDone_ShouldExecuteNextPendingDropPoint() {
-		this.aTour = new Tour(aTourName, dropPointList);
+		this.aTour = new Sequence(aTourName, dropPointList);
 		willReturn(true).given(aMockedDropPoint).isDone();
 
 		this.aTour.execute();
@@ -106,7 +106,7 @@ public class TourTest {
 
 	@Test
 	public void aTour_WhenExecuteIsCalledAndHeadOfQueueIsFailed_ShouldDeleteItOfPendingQueue() {
-		this.aTour = new Tour(aTourName, dropPointList);
+		this.aTour = new Sequence(aTourName, dropPointList);
 		willReturn(true).given(aMockedDropPoint).isFailed();
 
 		this.aTour.execute();
@@ -116,7 +116,7 @@ public class TourTest {
 
 	@Test
 	public void aTour_WhenExecuteIsCalledAndHeadOfQueueIsFailed_ShouldAddItToFailedQueue() {
-		this.aTour = new Tour(aTourName, dropPointList);
+		this.aTour = new Sequence(aTourName, dropPointList);
 		willReturn(true).given(aMockedDropPoint).isFailed();
 
 		this.aTour.execute();
@@ -127,7 +127,7 @@ public class TourTest {
 
 	@Test
 	public void aTour_WhenExecuteIsCalledAndHeadOfQueueIsFailed_ShouldExecuteNextPendingDropPoint() {
-		this.aTour = new Tour(aTourName, dropPointList);
+		this.aTour = new Sequence(aTourName, dropPointList);
 		willReturn(true).given(aMockedDropPoint).isFailed();
 
 		this.aTour.execute();
@@ -138,11 +138,11 @@ public class TourTest {
 
 	@Test
 	public void aTour_WhenCompleted_AllQueueShouldBeEmpty() {
-		this.aTour = new Tour(aTourName, dropPointList);
+		this.aTour = new Sequence(aTourName, dropPointList);
 
 		int i = 0;
 		while (!aTour.isDone()) {
-			when(aTour.getPendingDropPointsQueue().element().isDone()).thenReturn(true);
+			when(aTour.getPendingStepQueue().element().isDone()).thenReturn(true);
 			aTour.execute();
 		}
 		assertEquals(0, aTour.getNumberOfDropPointsPending());
