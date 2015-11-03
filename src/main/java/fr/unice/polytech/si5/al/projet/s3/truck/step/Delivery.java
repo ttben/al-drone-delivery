@@ -1,7 +1,8 @@
-package fr.unice.polytech.si5.al.projet.s3.truck;
+package fr.unice.polytech.si5.al.projet.s3.truck.step;
 
 
 import fr.unice.polytech.si5.al.projet.s3.drone.Drone;
+import fr.unice.polytech.si5.al.projet.s3.truck.Box;
 
 import java.util.List;
 

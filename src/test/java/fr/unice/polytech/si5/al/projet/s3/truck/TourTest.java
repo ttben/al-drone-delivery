@@ -1,5 +1,7 @@
 package fr.unice.polytech.si5.al.projet.s3.truck;
 
+import fr.unice.polytech.si5.al.projet.s3.truck.step.ExecutableStep;
+import fr.unice.polytech.si5.al.projet.s3.truck.step.Sequence;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
