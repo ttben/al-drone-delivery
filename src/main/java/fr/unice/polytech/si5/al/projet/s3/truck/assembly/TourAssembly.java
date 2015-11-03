@@ -4,7 +4,10 @@ import com.google.gson.Gson;
 import fr.unice.polytech.si5.al.projet.s3.drone.Drone;
 import fr.unice.polytech.si5.al.projet.s3.drone.ParrotDrone;
 import fr.unice.polytech.si5.al.projet.s3.truck.Box;
-import fr.unice.polytech.si5.al.projet.s3.truck.Delivery;
+import fr.unice.polytech.si5.al.projet.s3.truck.step.Delivery;
+import fr.unice.polytech.si5.al.projet.s3.truck.step.ExecutableStep;
+import fr.unice.polytech.si5.al.projet.s3.truck.step.GoToStep;
+import fr.unice.polytech.si5.al.projet.s3.truck.step.Sequence;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,32 +19,39 @@ import java.util.Scanner;
  * @author Etienne Strobbe (02/11/2015).
  */
 public class TourAssembly {
-/*
+
     private static Gson gson = new Gson();
 
-    public static Tour jsonToTour(String json) {
-        TemplateJSON[] templateJSONs = gson.fromJson(json, TemplateJSON[].class);
-        List<DropPoint> dropPointList = new ArrayList<>();
-        for (int i = 0; i < templateJSONs.length; i++) {
-            dropPointList.add(getDropPointFromTemplate(templateJSONs[i]));
+    public static Sequence jsonToTour(String json) {
+        TemplateTour templateTour = gson.fromJson(json, TemplateTour.class);
+        List<ExecutableStep> dropPointList = new ArrayList<>();
+
+        for (int i = 0; i < templateTour.getDropPoints().size(); i++) {
+            dropPointList.add(getDropPointFromTemplate(templateTour.getDropPoints().get(i)));
         }
-        return new Tour("Tour bidule", dropPointList);
+
+        return new Sequence("Tour bidule", dropPointList);
     }
 
-    private static DropPoint getDropPointFromTemplate(TemplateJSON templateJSON) {
-        List<Delivery> deliveryList = new ArrayList<>();
+    private static Sequence getDropPointFromTemplate(TemplateDropPoint templateJSON) {
+        List<ExecutableStep> deliveryList = new ArrayList<>();
+
+        GoToStep goToStep = new GoToStep("Goto", templateJSON.getLocation());
+        deliveryList.add(goToStep);
+
         templateJSON.getDeliveries().forEach(
                 templateDeliveryJSON -> deliveryList.add(getDeliveryFromTemplate(templateDeliveryJSON))
         );
-        return new DropPoint(templateJSON.getLocation(), deliveryList);
+        
+        return new Sequence(templateJSON.getLocation(), deliveryList);
     }
 
-    private static Delivery getDeliveryFromTemplate(TemplateJSON.TemplateDeliveryJSON templateDeliveryJSON) {
+    private static ExecutableStep getDeliveryFromTemplate(TemplateDelivery templateDeliveryJSON) {
         List<Drone> droneAlt = new ArrayList<>();
         templateDeliveryJSON.droneAlt.forEach(
                 droneID -> droneAlt.add(getDrone(droneID))
         );
-        return new Delivery(
+        return new Delivery("Delivery",
                 getBox(templateDeliveryJSON.getBox()),
                 getDrone(templateDeliveryJSON.getDrone()),
                 droneAlt
@@ -82,5 +92,5 @@ public class TourAssembly {
         return result.toString();
 
     }
-    */
+
 }
