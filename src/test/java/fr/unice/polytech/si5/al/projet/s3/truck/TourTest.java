@@ -1,72 +1,151 @@
 package fr.unice.polytech.si5.al.projet.s3.truck;
 
-import fr.unice.polytech.si5.al.projet.s3.drone.ParrotDrone;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class TourTest {
 
-	private DropPoint firstDropPoint;
-	private DropPoint secondDropPoint;
+	@Mock
+	private DropPoint aMockedDropPoint;
+
+	@Mock
+	private DropPoint anotherMockedDropPoint;
+
 	private List<DropPoint> dropPointList = new ArrayList<>();
-
-
-	private Delivery firstDelivery;
-	private Delivery secondDelivery;
-	private List<Delivery> firstDropPointDeliveries = new ArrayList<>();
-	private List<Delivery> secondDropPointDeliveries = new ArrayList<>();
 
 	private Tour aTour;
 	private String aTourName = "A Tour";
 
 	@Before
 	public void setUp() {
-		buildDeliveries();
 		buildDropPoints();
 	}
 
 	@Test
-	public void aTour_WhenBuiltWithNoTasks_ShouldNotThrow() {
-		dropPointList = new ArrayList<>();
+	public void aTour_WhenBuiltWithNoDropPoints_ShouldNotThrow() {
+		dropPointList = new LinkedList<>();
 		this.aTour = new Tour(aTourName, dropPointList);
 	}
 
-
 	@Test
-	public void aTour_WhenBuiltWithTasks_ShouldNotThrow() {
+	public void aTour_WhenBuiltWithDropPoints_ShouldNotThrow() {
 		this.aTour = new Tour(aTourName, dropPointList);
 	}
 
+	@Test
+	public void aTour_WhenBuiltWithDropPoints_ShouldHavePushedThemInPendingQueue() {
+		this.aTour = new Tour(aTourName, dropPointList);
+		assertEquals(dropPointList.size(), aTour.getNumberOfDropPointsPending());
+		assertEquals(0, aTour.getNumberOfDropPointsDone());
+		assertEquals(0, aTour.getNumberOfDropPointsFailed());
+	}
 
 	@Test
-	public void aTour_WhenExecuteIsCalledAndStackIsEmpty_ShouldNotThrow() {
-		dropPointList = new ArrayList<>();
+	public void aTour_WhenBuiltWithDropPoints_ShouldHaveSpecifiedDropPointsSortedProperly() {
 		this.aTour = new Tour(aTourName, dropPointList);
+		List<DropPoint> expected = this.dropPointList;
+		assertEquals(expected, this.aTour.getPendingDropPointsQueue());
+	}
+
+	@Test
+	public void aTour_WhenExecuteIsCalledAndPendingQueueIsEmpty_ShouldNotThrow() {
+		this.aTour = new Tour(aTourName, new ArrayList<>());
 		this.aTour.execute();
 	}
 
 	@Test
-	public void aTour_WhenExecuteIsCalledAndTopOfStackIsDone_ShouldDeleteIt() {
+	public void aTour_WhenExecuteIsCalledAndHeadOfQueueIsPending_ShouldExecuteHeadOfQueue() {
 		this.aTour = new Tour(aTourName, dropPointList);
-		firstDelivery.done();
 		this.aTour.execute();
-		// We expect size-2 because the first delivery is done and the second is executed (and done)
-		assertEquals(firstDropPointDeliveries.size() - 2, firstDropPoint.getDeliveryQueue().size());
+		verify(aMockedDropPoint).execute();
 	}
+
+	@Test
+	public void aTour_WhenExecuteIsCalledAndHeadOfQueueIsDone_ShouldDeleteItOfPendingQueue() {
+		this.aTour = new Tour(aTourName, dropPointList);
+		willReturn(true).given(aMockedDropPoint).isDone();
+
+		this.aTour.execute();
+
+		assertEquals(dropPointList.size() - 1, this.aTour.getNumberOfDropPointsPending());
+	}
+
+	@Test
+	public void aTour_WhenExecuteIsCalledAndHeadOfQueueIsDone_ShouldAddItToDoneQueue() {
+		this.aTour = new Tour(aTourName, dropPointList);
+		willReturn(true).given(aMockedDropPoint).isDone();
+
+		this.aTour.execute();
+
+		assertEquals(1, this.aTour.getNumberOfDropPointsDone());
+		assertEquals(0, this.aTour.getNumberOfDropPointsFailed());
+	}
+
+	@Test
+	public void aTour_WhenExecuteIsCalledAndHeadOfQueueIsDone_ShouldExecuteNextPendingDropPoint() {
+		this.aTour = new Tour(aTourName, dropPointList);
+		willReturn(true).given(aMockedDropPoint).isDone();
+
+		this.aTour.execute();
+
+		verify(anotherMockedDropPoint).execute();
+	}
+
+	@Test
+	public void aTour_WhenExecuteIsCalledAndHeadOfQueueIsFailed_ShouldDeleteItOfPendingQueue() {
+		this.aTour = new Tour(aTourName, dropPointList);
+		willReturn(true).given(aMockedDropPoint).isFailed();
+
+		this.aTour.execute();
+
+		assertEquals(dropPointList.size() - 1, this.aTour.getNumberOfDropPointsPending());
+	}
+
+	@Test
+	public void aTour_WhenExecuteIsCalledAndHeadOfQueueIsFailed_ShouldAddItToFailedQueue() {
+		this.aTour = new Tour(aTourName, dropPointList);
+		willReturn(true).given(aMockedDropPoint).isFailed();
+
+		this.aTour.execute();
+
+		assertEquals(1, this.aTour.getNumberOfDropPointsFailed());
+		assertEquals(0, this.aTour.getNumberOfDropPointsDone());
+	}
+
+	@Test
+	public void aTour_WhenExecuteIsCalledAndHeadOfQueueIsFailed_ShouldExecuteNextPendingDropPoint() {
+		this.aTour = new Tour(aTourName, dropPointList);
+		willReturn(true).given(aMockedDropPoint).isFailed();
+
+		this.aTour.execute();
+
+		verify(anotherMockedDropPoint).execute();
+	}
+
 
 	@Test
 	public void aTour_WhenCompleted_AllQueueShouldBeEmpty() {
 		this.aTour = new Tour(aTourName, dropPointList);
+
+		int i = 0;
 		while (!aTour.isDone()) {
+			when(aTour.getPendingDropPointsQueue().element().isDone()).thenReturn(true);
 			aTour.execute();
 		}
-		assertEquals(0, aTour.getNumberOfDropPointOnQueue());
-		assertEquals(0, firstDropPoint.getDeliveryQueue().size());
+		assertEquals(0, aTour.getNumberOfDropPointsPending());
 	}
 
 
@@ -74,19 +153,7 @@ public class TourTest {
 	// @Test(expected = Exception)
 
 	private void buildDropPoints() {
-		firstDropPoint = new DropPoint("DropPoint 1 masséna", this.firstDropPointDeliveries);
-		secondDropPoint = new DropPoint("DropPoint 2 biot", this.secondDropPointDeliveries);
-		dropPointList.add(firstDropPoint);
-		dropPointList.add(secondDropPoint);
-	}
-
-	private void buildDeliveries() {
-		///List<Task> tasks = new ArrayList<>();
-
-		firstDelivery = new Delivery(new Box("rue du choux pointu", 2.5), new ParrotDrone(), new ArrayList<>());
-		this.firstDropPointDeliveries.add(firstDelivery);
-
-		secondDelivery = new Delivery(new Box("Avenue des flan moisis", 0.35), new ParrotDrone(), new ArrayList<>());
-		this.firstDropPointDeliveries.add(secondDelivery);
+		dropPointList.add(aMockedDropPoint);
+		dropPointList.add(anotherMockedDropPoint);
 	}
 }

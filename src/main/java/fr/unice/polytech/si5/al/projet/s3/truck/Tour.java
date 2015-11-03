@@ -10,50 +10,77 @@ import java.util.Queue;
  */
 public class Tour {
 
-	private Queue<DropPoint> dropPointQueue;
+	private Queue<DropPoint> pendingDropPointsQueue = new LinkedList<>();
+	private Queue<DropPoint> doneDropPointsQueue = new LinkedList<>();
+	private Queue<DropPoint> failedDropPointsQueue = new LinkedList<>();
+
 	private String name;
 	private TaskStatus status;
 
 	public Tour(String name, List<DropPoint> dropPointsList) {
 		this.name = name;
-		this.dropPointQueue = new LinkedList<>();
-		dropPointsList.forEach(dropPointQueue::add);
-		status = TaskStatus.PENDING;
+		this.status = TaskStatus.PENDING;
+		dropPointsList.forEach(this.pendingDropPointsQueue::add);
 	}
 
-	public Queue<DropPoint> getDropPointQueue() {
-		return dropPointQueue;
+	public Queue<DropPoint> getPendingDropPointsQueue() {
+		return pendingDropPointsQueue;
+	}
+
+	public Queue<DropPoint> getFailedDropPointsQueue() {
+		return failedDropPointsQueue;
+	}
+
+	public Queue<DropPoint> getDoneDropPointsQueue() {
+		return doneDropPointsQueue;
 	}
 
 	public boolean isDone() {
-		return status == TaskStatus.DONE;
+		return this.status == TaskStatus.DONE;
 	}
 
-	public int getNumberOfDropPointOnQueue() {
-		return this.dropPointQueue.size();
+	public int getNumberOfDropPointsPending() {
+		return this.pendingDropPointsQueue.size();
+	}
+
+
+	public int getNumberOfDropPointsFailed() {
+		return this.failedDropPointsQueue.size();
+	}
+
+
+	public int getNumberOfDropPointsDone() {
+		return this.doneDropPointsQueue.size();
 	}
 
 	public void execute() {
 		try {
-
-			DropPoint currentDropPoint = dropPointQueue.element();
-			currentDropPoint = cleanQueueAndGetTopIfNotEmpty(currentDropPoint);
-
+			cleanPendingQueue();
+			DropPoint currentDropPoint = this.pendingDropPointsQueue.element();
 			currentDropPoint.execute();
-			cleanQueueAndGetTopIfNotEmpty(currentDropPoint);
-
 		} catch (NoSuchElementException e) {
-			status = TaskStatus.DONE;
+			this.status = TaskStatus.DONE;
 			System.out.println("There is no more things to do on this tour !");
 		}
 	}
 
-	private DropPoint cleanQueueAndGetTopIfNotEmpty(DropPoint lastDropPointHandled) {
-		while (lastDropPointHandled.isDone() || lastDropPointHandled.failed()) {
-			dropPointQueue.poll();
-			lastDropPointHandled = dropPointQueue.element();
-		}
-		return lastDropPointHandled;
-	}
 
+	/**
+	 * Clean head of queue :  all doneDropPointsQueue or failed element are deleted
+	 */
+	private void cleanPendingQueue() {
+		DropPoint currentDropPoint = pendingDropPointsQueue.element();
+
+		while (currentDropPoint.isDone() || currentDropPoint.isFailed()) {
+
+			if (currentDropPoint.isDone()) {
+				this.doneDropPointsQueue.add(currentDropPoint);
+			} else {
+				this.failedDropPointsQueue.add(currentDropPoint);
+			}
+
+			pendingDropPointsQueue.poll();
+			currentDropPoint = pendingDropPointsQueue.element();
+		}
+	}
 }

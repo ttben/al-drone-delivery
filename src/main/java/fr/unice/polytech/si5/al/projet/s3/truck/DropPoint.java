@@ -5,33 +5,23 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
-public class DropPoint {
+public class DropPoint extends Step {
 
-	private Queue<Delivery> deliveryQueue;
+	private Queue<Delivery> pendingDeliveriesQueue;
+	private Queue<Delivery> doneDeliveriesQueue;
+	private Queue<Delivery> failedDeliveriesQueue;
 	private String location;
 	private TaskStatus status;
 
 	public DropPoint(String location, List<Delivery> deliveryList) {
 		this.location = location;
-		this.deliveryQueue = new LinkedList<>();
-		deliveryList.forEach(deliveryQueue::add);
+		this.pendingDeliveriesQueue = new LinkedList<>();
+		deliveryList.forEach(pendingDeliveriesQueue::add);
 		this.status = TaskStatus.PENDING;
 	}
 
-	public boolean isDone() {
-		return status == TaskStatus.DONE;
-	}
-
-	public void done() {
-		status = TaskStatus.DONE;
-	}
-
-	public boolean failed() {
-		return status == TaskStatus.ERRORED;
-	}
-
-	public Queue<Delivery> getDeliveryQueue() {
-		return this.deliveryQueue;
+	public Queue<Delivery> getPendingDeliveriesQueue() {
+		return this.pendingDeliveriesQueue;
 	}
 
 	public void execute() {
@@ -39,21 +29,32 @@ public class DropPoint {
 		System.out.println("Executing DropPoint at position : " + location);
 
 		try {
-			Delivery currentDelivery = deliveryQueue.element();
-			currentDelivery = cleanQueueAndGetTopIfNotEmpty(currentDelivery);
+			cleanPendingQueue();
+			Delivery currentDelivery = pendingDeliveriesQueue.element();
 			currentDelivery.execute();
-			cleanQueueAndGetTopIfNotEmpty(currentDelivery);
 		} catch (NoSuchElementException e) {
 			this.done();
 			System.out.println("There is no more things to do on this dropPoint !");
 		}
 	}
 
-	private Delivery cleanQueueAndGetTopIfNotEmpty(Delivery lastDeliveryHandled) {
-		while (lastDeliveryHandled.isDone() || lastDeliveryHandled.failed()) {
-			deliveryQueue.poll();
-			lastDeliveryHandled = deliveryQueue.element();
+
+	/**
+	 * Clean head of queue :  all doneDropPointsQueue or failed element are deleted
+	 */
+	private void cleanPendingQueue() {
+		Delivery currentDelivery = pendingDeliveriesQueue.element();
+
+		while (currentDelivery.isDone() || currentDelivery.isFailed()) {
+
+			if (currentDelivery.isDone()) {
+				this.doneDeliveriesQueue.add(currentDelivery);
+			} else {
+				this.failedDeliveriesQueue.add(currentDelivery);
+			}
+
+			pendingDeliveriesQueue.poll();
+			currentDelivery = pendingDeliveriesQueue.element();
 		}
-		return lastDeliveryHandled;
 	}
 }
