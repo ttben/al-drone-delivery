@@ -3,11 +3,26 @@ package fr.unice.polytech.si5.al.projet.s3.truck.step;
 import fr.unice.polytech.si5.al.projet.s3.truck.DroneDeliveryApp;
 
 public abstract class ExecutableStep {
+
+	public boolean isValidated() {
+		return this.status == TaskStatus.VALIDATED;
+	}
+
+	public boolean hasStarted() {
+		return this.status == TaskStatus.STARTED;
+	}
+
+	public TaskStatus getStatus() {
+		return status;
+	}
+
 	enum TaskStatus {
-		DONE,
-		FAILED,
 		PENDING,
-		PROCESSING
+		STARTED,
+		VALIDATED,
+		DOING,
+		DONE,
+		FAILED
 	}
 
 	protected String name;
@@ -16,6 +31,24 @@ public abstract class ExecutableStep {
 	protected ExecutableStep(String name) {
 		this.name = name;
 		this.status = TaskStatus.PENDING;
+	}
+
+	public void doing() {
+		this.status = TaskStatus.DOING;
+	}
+
+	public void fail() {
+		this.status = TaskStatus.FAILED;
+	}
+
+	public void done() { this.status = TaskStatus.DONE; }
+
+	public void start() {
+		this.status = TaskStatus.STARTED;
+	}
+
+	public void validate() {
+		this.status = TaskStatus.VALIDATED;
 	}
 
 	public boolean isDone() {
@@ -30,8 +63,8 @@ public abstract class ExecutableStep {
 		return this.status == TaskStatus.PENDING;
 	}
 
-	public boolean isProcessing() {
-		return this.status == TaskStatus.PROCESSING;
+	public boolean isDoing() {
+		return this.status == TaskStatus.DOING;
 	}
 
 	public String getName() {

@@ -1,22 +1,22 @@
 package fr.unice.polytech.si5.al.projet.s3.truck;
 
 import fr.unice.polytech.si5.al.projet.s3.drone.Drone;
-import fr.unice.polytech.si5.al.projet.s3.drone.ParrotDrone;
-import fr.unice.polytech.si5.al.projet.s3.truck.assembly.TourAssembly;
-import fr.unice.polytech.si5.al.projet.s3.truck.step.Sequence;
+import fr.unice.polytech.si5.al.projet.s3.truck.step.Delivery;
+import fr.unice.polytech.si5.al.projet.s3.truck.step.Deployment;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class DroneDeliveryApp {
-	private Sequence tour;
+	private List<Drone> drones;
+	private List<Delivery> deliveries;
 
-	private Map<String, Drone> mapIDToDrone = new HashMap<>();
-	private Map<String, Box> mapIDToBox = new HashMap<>();
+	private Deployment currentDeployment;
 
+	public DroneDeliveryApp() {
+
+	}
+
+	/*
 	public DroneDeliveryApp(String pathOfFile) {
 		try {
 			BufferedReader br = null;
@@ -63,4 +63,5 @@ public class DroneDeliveryApp {
 	public Box getBoxByID(String box) {
 		return this.mapIDToBox.get(box);
 	}
+	*/
 }

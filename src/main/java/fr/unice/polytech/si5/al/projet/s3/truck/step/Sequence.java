@@ -44,7 +44,7 @@ public class Sequence extends ExecutableStep {
 	}
 
 	public void execute(DroneDeliveryApp app) {
-		status = TaskStatus.PROCESSING;
+		status = TaskStatus.DOING;
 		System.out.println("Executing Sequence : " + this.name);
 		try {
 			cleanPendingQueue();

@@ -1,32 +1,67 @@
 package fr.unice.polytech.si5.al.projet.s3.truck.step;
 
 
-import fr.unice.polytech.si5.al.projet.s3.drone.Drone;
-import fr.unice.polytech.si5.al.projet.s3.truck.Box;
-import fr.unice.polytech.si5.al.projet.s3.truck.DroneDeliveryApp;
+import fr.unice.polytech.si5.al.projet.s3.truck.*;
 
 import java.util.List;
 
 public class Delivery extends ExecutableStep {
+	private DeliveryID ID;
 
-	private String box;
-	private String drone;
-	private List<String> dronesAlt;
+	private Box box;
+	private Drone drone;
+	private List<Drone> dronesAlt;
 
-	public Delivery(String name, String box, String drone, List<String> dronesAlt) {
+	private Delivery next;
+	private Delivery prev;
+
+	public Delivery(DeliveryID ID, String name, Box box, Drone drone, List<Drone> dronesAlt) {
 		super(name);
+		this.ID = ID;
 		this.box = box;
 		this.drone = drone;
 		this.dronesAlt = dronesAlt;
 		this.status = TaskStatus.PENDING;
 	}
 
-	public void execute(DroneDeliveryApp app) {
-		Box boxToDeliver = app.getBoxByID(box);
-		Drone droneToUse = app.getDroneByID(drone);
+	public DeliveryID getID() {
+		return this.ID;
+	}
 
-		System.out.println("\t+ Deliver box to " + boxToDeliver.getDestination()
-				+ " using " + droneToUse.getID() + ". Weight : (" + boxToDeliver.getWeight() + "kg)");
+	public void start() {
+		this.start();
+	}
+
+	public boolean validate(DroneID droneID, String boxID) {
+		//TODO CHECK IF DRONE AND BOX ARE OK
+		//	if(checkOK) validate();
+		return true;
+	}
+
+	public void setPrev(Delivery prev) {
+		this.prev = prev;
+	}
+
+	public void setNext(Delivery next) {
+		this.next = next;
+	}
+
+	public boolean hasPrev() {
+		return this.prev != null;
+	}
+
+	public boolean hasNext() {
+		return this.next != null;
+	}
+
+	public Delivery next() {
+		return this.next;
+	}
+
+	public void execute(DroneDeliveryApp app) {
+
+		System.out.println("\t+ Deliver box to " + box.getDestination()
+				+ " using " + drone.getID() + ". Weight : (" + box.getWeight() + "kg)");
 
 		this.status = TaskStatus.DONE;
 	}
@@ -34,5 +69,13 @@ public class Delivery extends ExecutableStep {
 	@Override
 	String getDescription() {
 		return "(Deliver box " + box + " using " + drone + ")";
+	}
+
+	public DroneID getDroneID() {
+		return this.drone.getID();
+	}
+
+	public Drone getDrone() {
+		return drone;
 	}
 }

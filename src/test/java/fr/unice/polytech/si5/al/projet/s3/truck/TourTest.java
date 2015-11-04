@@ -154,13 +154,6 @@ public class TourTest {
 		}
 		assertEquals(0, aTour.getNumberOfDropPointsPending());
 	}
-	
-	@Test
-	public void a() throws IOException {
-		DroneDeliveryApp d = new DroneDeliveryApp("./src/main/app-in-stub.json");
-		d.start();
-	}
-
 
 	//	To Ignore that an exception is raised:
 	// @Test(expected = Exception)
