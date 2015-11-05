@@ -53,4 +53,8 @@ public class Delivery extends ForwardChain<Delivery> {
 	public Box getBox() {
 		return box;
 	}
+
+	public boolean isPending() {
+		return this.isPending();
+	}
 }
