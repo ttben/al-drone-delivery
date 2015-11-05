@@ -19,7 +19,7 @@
     <bundle.symbolicName>${project.artifactId}</bundle.symbolicName>
     <bundle.namespace>fr.unice.polytech.soa1.cookbook</bundle.namespace>
   </properties>
-  
+
   <dependencies>
     <!-- JUnit for unit tests purpose -->
     <dependency>

@@ -1,22 +1,20 @@
 package fr.unice.polytech.al.drones.central;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Collection;
 
+/**
+ * Created by user on 05/11/2015.
+ */
 @Path("/shipping")
-// Here we generate JSON data from scratch, one should use a framework instead
 @Produces(MediaType.APPLICATION_JSON)
-public class ShippingService {
+public interface ShippingService {
 
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addAShipping(JSONObject description) {
-
-		return Response.ok().build();
-	}
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    Response addAShipping(String description);
 }

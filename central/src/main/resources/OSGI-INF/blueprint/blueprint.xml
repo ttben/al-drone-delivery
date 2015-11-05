@@ -27,10 +27,12 @@ http://cxf.apache.org/blueprint/jaxrs http://cxf.apache.org/schemas/blueprint/ja
         <jaxrs:serviceBeans>
             <ref component-id="ship"/>
             <ref component-id="pack"/>
+            <ref component-id="tour"/>
         </jaxrs:serviceBeans>
     </jaxrs:server>
 
-    <bean id="ship" class="fr.unice.polytech.al.drones.central.ShippingService"/>
-    <bean id="pack" class="fr.unice.polytech.al.drones.central.PackageService"/>
+    <bean id="tour" class="fr.unice.polytech.al.drones.central.TourServiceImpl"/>
+    <bean id="ship" class="fr.unice.polytech.al.drones.central.ShippingServiceImpl"/>
+    <bean id="pack" class="fr.unice.polytech.al.drones.central.PackageServiceImpl"/>
 
 </blueprint>
