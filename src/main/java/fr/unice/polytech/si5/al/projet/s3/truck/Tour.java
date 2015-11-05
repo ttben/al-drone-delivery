@@ -14,6 +14,10 @@ public class Tour {
 		currentDropPoint = dropPoints.get(0);
 	}
 
+	public List<Delivery> getCurrentDeliveries() {
+		return this.currentDropPoint.getCurrentDeliveries();
+	}
+
 	private void chain(DropPoint dropPoint, DropPoint headOfChain) {
 		DropPoint currentDropPoint = headOfChain;
 

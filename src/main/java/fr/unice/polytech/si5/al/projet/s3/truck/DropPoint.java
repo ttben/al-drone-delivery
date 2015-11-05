@@ -37,4 +37,8 @@ public class DropPoint extends ForwardChain<DropPoint> {
 	public void arrivedAtLocation() {
 		this.goToStep.done();
 	}
+
+	public List<Delivery> getCurrentDeliveries() {
+		return this.deployment.getCurrentDeliveries();
+	}
 }
