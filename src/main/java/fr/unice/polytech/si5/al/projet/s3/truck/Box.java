@@ -7,6 +7,7 @@ public class Box {
 
     private String destination;
     private double weight;
+    private BoxID ID;
 
     public Box(String destination, double weight) {
         this.destination = destination;
@@ -27,5 +28,9 @@ public class Box {
 
     public void setWeight(double weight) {
         this.weight = weight;
+    }
+
+    public BoxID getID() {
+        return ID;
     }
 }

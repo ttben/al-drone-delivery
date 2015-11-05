@@ -1,16 +1,14 @@
 package fr.unice.polytech.si5.al.projet.s3.truck;
 
 import fr.unice.polytech.si5.al.projet.s3.drone.Drone;
-import fr.unice.polytech.si5.al.projet.s3.truck.step.Delivery;
-import fr.unice.polytech.si5.al.projet.s3.truck.step.Deployment;
 
 import java.util.List;
 
 public class DroneDeliveryApp {
+	private Tour tour;
+
 	private List<Drone> drones;
 	private List<Delivery> deliveries;
-
-	private Deployment currentDeployment;
 
 	public DroneDeliveryApp() {
 

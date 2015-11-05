@@ -1,8 +1,8 @@
-package fr.unice.polytech.si5.al.projet.s3.truck.step;
+package fr.unice.polytech.si5.al.projet.s3.truck;
 
 import fr.unice.polytech.si5.al.projet.s3.truck.DroneDeliveryApp;
 
-public abstract class ExecutableStep {
+public abstract class State {
 
 	public boolean isValidated() {
 		return this.status == TaskStatus.VALIDATED;
@@ -16,7 +16,11 @@ public abstract class ExecutableStep {
 		return status;
 	}
 
-	enum TaskStatus {
+	public void pending() {
+		this.status = TaskStatus.PENDING;
+	}
+
+	protected enum TaskStatus {
 		PENDING,
 		STARTED,
 		VALIDATED,
@@ -28,7 +32,7 @@ public abstract class ExecutableStep {
 	protected String name;
 	protected TaskStatus status;
 
-	protected ExecutableStep(String name) {
+	protected State(String name) {
 		this.name = name;
 		this.status = TaskStatus.PENDING;
 	}
@@ -71,8 +75,4 @@ public abstract class ExecutableStep {
 		return this.name;
 	}
 
-	abstract String getDescription();
-
-	//	For data injection
-	abstract void execute(DroneDeliveryApp app);
 }
