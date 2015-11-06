@@ -1,4 +1,4 @@
-package fr.unice.polytech.al.drones.central;
+package fr.unice.polytech.al.drones.warehouse;
 
 import javax.ws.rs.core.Response;
 

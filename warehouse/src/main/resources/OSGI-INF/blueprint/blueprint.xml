@@ -23,14 +23,12 @@
 http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
 http://cxf.apache.org/blueprint/jaxrs http://cxf.apache.org/schemas/blueprint/jaxrs.xsd">
 
-    <jaxrs:server id="centralService" address="/central">
+    <jaxrs:server id="warehouseService" address="/warehouse">
         <jaxrs:serviceBeans>
-            <ref component-id="ship"/>
-            <ref component-id="pack"/>
+            <ref component-id="tour"/>
         </jaxrs:serviceBeans>
     </jaxrs:server>
 
-    <bean id="ship" class="fr.unice.polytech.al.drones.central.ShippingServiceImpl"/>
-    <bean id="pack" class="fr.unice.polytech.al.drones.central.PackageServiceImpl"/>
+    <bean id="tour" class="fr.unice.polytech.al.drones.warehouse.TourServiceImpl"/>
 
 </blueprint>

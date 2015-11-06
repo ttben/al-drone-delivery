@@ -10,10 +10,11 @@
   <artifactId>system</artifactId>
   <version>1.0</version>
   <packaging>pom</packaging>
-  <name>TEST AL</name>
+  <name>AL drones</name>
 
   <modules>
     <module>central</module>
+    <module>warehouse</module>
   </modules>
-    
+
 </project>

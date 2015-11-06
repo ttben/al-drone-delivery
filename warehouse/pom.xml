@@ -6,10 +6,10 @@
   <modelVersion>4.0.0</modelVersion>
   
   <groupId>fr.unice.polytech.al.drones</groupId>
-  <artifactId>central</artifactId>
+  <artifactId>warehouse</artifactId>
   <version>1.0</version>
   <packaging>bundle</packaging>
-  <name>Central</name>
+  <name>Warehouse</name>
 
   <properties>
     <!-- Version for dependencies (CXF + JUnit) -->
@@ -68,10 +68,10 @@
           <instructions>
             <Embed-Dependency>*;scope=compile;inline=false</Embed-Dependency>
             <Embed-Transitive>true</Embed-Transitive>
-            <Bundle-SymbolicName>central</Bundle-SymbolicName>
+            <Bundle-SymbolicName>warehouse</Bundle-SymbolicName>
             <Bundle-Version>${project.version}</Bundle-Version>
             <Export-Package>
-	      ${bundle.namespace}.central.*;version="${project.version}"
+	      ${bundle.namespace}.warehouse.*;version="${project.version}"
 	    </Export-Package>
             <Import-Package>
               javax.xml.bind,
