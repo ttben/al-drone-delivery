@@ -14,7 +14,7 @@ public interface TourService {
 
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
-    Response getTour(JSONObject description);
+    Response getTour();
 
     @POST
     Response newTour();

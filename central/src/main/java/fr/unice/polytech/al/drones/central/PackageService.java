@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 public interface PackageService {
     @PUT
     @Path("/{id}/status")
-    @Consumes(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_JSON)
     Response updateStatus(@PathParam("{id}") String id, String status);
 
 
