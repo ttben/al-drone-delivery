@@ -1,4 +1,4 @@
-package fr.unice.polytech.si5.al.projet.s3;
+package fr.unice.polytech.si5.al.projet;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

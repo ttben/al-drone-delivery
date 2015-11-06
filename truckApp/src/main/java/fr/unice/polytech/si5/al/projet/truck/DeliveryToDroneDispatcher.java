@@ -1,4 +1,4 @@
-package fr.unice.polytech.si5.al.projet.s3.truck;
+package fr.unice.polytech.si5.al.projet.truck;
 
 import java.util.HashMap;
 import java.util.List;
