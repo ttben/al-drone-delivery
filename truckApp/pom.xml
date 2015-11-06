@@ -1,20 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>deliveryByDronesApp</artifactId>
+        <groupId>fr.unice.polytech.si5.al.projet.s3</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>fr.unice.polytech.si5.al.projet.s3</groupId>
-    <artifactId>deliveryByDronesApp</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>truckApp</module>
-    </modules>
-    <packaging>pom</packaging>
+    <artifactId>truckApp</artifactId>
+    <packaging>jar</packaging>
 
-    <name>delivery by drones app</name>
+    <name>truckApp</name>
     <url>http://maven.apache.org</url>
 
     <properties>
-        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -39,7 +38,6 @@
         </dependency>
     </dependencies>
 
-
     <build>
         <plugins>
             <plugin>
@@ -53,5 +51,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
