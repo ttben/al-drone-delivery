@@ -1,18 +1,22 @@
 package fr.unice.polytech.al.drones.warehouse;
 
+import fr.unice.polytech.al.drones.tour.Tour;
+import fr.unice.polytech.al.drones.tour.TourStorage;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONObject;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 
 /**
  * Created by user on 05/11/2015.
  */
 public class TourServiceImpl implements TourService {
 
-    public Response getTour(JSONObject description) {
+    private ObjectMapper objectMapper = new ObjectMapper();
+
+    public Response getTour() {
+        Tour tour = TourStorage.getLast();
         return Response.ok().build();
     }
 
