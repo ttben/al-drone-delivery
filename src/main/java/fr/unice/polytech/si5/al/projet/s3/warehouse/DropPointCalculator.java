@@ -1,5 +1,6 @@
 package fr.unice.polytech.si5.al.projet.s3.warehouse;
 
+import fr.unice.polytech.si5.al.projet.s3.central.Item;
 import fr.unice.polytech.si5.al.projet.s3.drone.GPSLocation;
 import fr.unice.polytech.si5.al.projet.s3.shipping.Shipping;
 

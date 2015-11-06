@@ -1,14 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>fr.unice.polytech.si5.al.projet.s3</groupId>
-  <artifactId>deliveryByDronesApp</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+    <groupId>fr.unice.polytech.si5.al.projet</groupId>
+    <artifactId>deliveryByDronesApp</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-  <name>delivery by drones app</name>
-  <url>http://maven.apache.org</url>
+    <name>delivery by drones app</name>
+    <url>http://maven.apache.org</url>
 
   <properties>
     <java.version>1.8</java.version>
@@ -51,4 +51,10 @@
     </plugins>
   </build>
 
+    <modules>
+        <module>central</module>
+        <module>warehouse</module>
+        <module>truckApp</module>
+        <module>serverCommon</module>
+    </modules>
 </project>
