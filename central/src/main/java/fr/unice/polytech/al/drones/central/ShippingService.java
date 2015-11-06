@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 /**
  * Created by user on 05/11/2015.
  */
-@Path("/shipping")
+@Path("/Shipping")
 @Produces(MediaType.APPLICATION_JSON)
 public interface ShippingService {
 
