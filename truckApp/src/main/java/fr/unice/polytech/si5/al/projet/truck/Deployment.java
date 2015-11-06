@@ -1,9 +1,6 @@
 package fr.unice.polytech.si5.al.projet.truck;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class represent a drone deployment<br/>

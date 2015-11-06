@@ -1,5 +1,7 @@
 package fr.unice.polytech.si5.al.projet.truck;
 
+import fr.unice.polytech.si5.al.projet.drone.drone.Drone;
+
 import java.util.List;
 
 public class DroneDeliveryApp {
