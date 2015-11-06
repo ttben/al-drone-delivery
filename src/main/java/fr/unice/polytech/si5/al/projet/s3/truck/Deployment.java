@@ -24,6 +24,16 @@ public class Deployment {
 		mapDroneIDToCurrentDelivery = DeliveryToDroneDispatcher.dispatch(deliveries);
 	}
 
+	public Map<Drone, List<Delivery>> getDeliveriesDescription() {
+		Map<Drone, List<Delivery>> result = new HashMap<>();
+
+		drones.forEach(drone -> {
+			result.put(drone, drone.getDeliveries());
+		});
+
+		return result;
+	}
+
 	public void start(DeliveryID deliveryID) {
 		List<Delivery> currentDeliveries = this.getCurrentDeliveries();
 		Delivery targetDelivery = currentDeliveries.stream().filter(delivery -> delivery.getID().equals(deliveryID)).findFirst().get();
