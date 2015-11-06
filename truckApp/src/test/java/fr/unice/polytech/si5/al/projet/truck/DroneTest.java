@@ -1,5 +1,7 @@
 package fr.unice.polytech.si5.al.projet.truck;
 
+import fr.unice.polytech.si5.al.projet.truck.Delivery;
+import fr.unice.polytech.si5.al.projet.truck.Drone;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
