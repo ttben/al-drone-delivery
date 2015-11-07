@@ -16,12 +16,11 @@ import java.util.*;
 public class Deployment {
 
 	private List<Drone> drones = new ArrayList<>();
-	private Map<DeliveryID, List<Drone>> mapDeliveryIDToAltDrones = new HashMap<>();
+	private Map<Delivery, List<Drone>> droneAltAssociation;
 
-	private Map<DroneID, Delivery> mapDroneIDToCurrentDelivery = new HashMap<>();
-
-	public Deployment(List<Delivery> deliveries) {
-		mapDroneIDToCurrentDelivery = DeliveryToDroneDispatcher.dispatch(deliveries);
+	public Deployment(List<Drone> drones, Map<Delivery, List<Drone>> droneAltAssociation) {
+		this.drones = drones;
+		this.droneAltAssociation = droneAltAssociation;
 	}
 
 	public Map<Drone, List<Delivery>> getDeliveriesDescription() {
@@ -34,59 +33,82 @@ public class Deployment {
 		return result;
 	}
 
+	/**
+	 * Start a delivery in the deployment
+	 * @param deliveryID the delivery to start
+	 */
 	public void start(DeliveryID deliveryID) {
 		List<Delivery> currentDeliveries = this.getCurrentDeliveries();
 		Delivery targetDelivery = currentDeliveries.stream().filter(delivery -> delivery.getID().equals(deliveryID)).findFirst().get();
 		targetDelivery.start();
 	}
 
+	/**
+	 * Declare that a drone is gone to deliver a package (box)
+	 * Can throw an IllegalArgumentException if drone is not found
+	 * @param droneID the drone that's gone
+	 */
 	public void isGone(DroneID droneID) {
-		Delivery deliveryTarget = this.mapDroneIDToCurrentDelivery.get(droneID);
+		Drone drone = getDroneFromDroneID(droneID);
 
-		if(!deliveryTarget.isValidated()) {
-			throw new IllegalArgumentException("Delivery declared gone but was " + deliveryTarget.getState());
+		if(drone == null) {
+			throw new IllegalArgumentException("Specified drone was not found : " + droneID);
 		}
-
-		deliveryTarget.doing();
+		drone.startNextDelivery();
 	}
 
+	/**
+	 * Look for a Drone in the drones by its DroneID
+	 * @param droneID
+	 * @return the drone if found, null otherwise
+	 */
+	private Drone getDroneFromDroneID(DroneID droneID){
+		for(Drone drone : drones){
+			if(drone.getID().equals(droneID)){
+				return drone;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Declare that a drone is dead (for any reason)
+	 * @param droneID the drone that's dead
+	 */
 	public void isDead(DroneID droneID) {
-
-		//	Set all delivery state at "FAILED"
-		Delivery remainingChainedDeliveries = this.mapDroneIDToCurrentDelivery.get(droneID);
-		Delivery currentDelivery = remainingChainedDeliveries;
-		while(currentDelivery.hasNext()) {
-			currentDelivery.fail();
-			currentDelivery = currentDelivery.next();
-		}
-	}
-
-	public void isBack(DroneID droneID) {
-		Delivery deliveryTarget = this.mapDroneIDToCurrentDelivery.get(droneID);
-
-		if(deliveryTarget == null) {
+		Drone drone = getDroneFromDroneID(droneID);
+		if(drone == null) {
 			throw new IllegalArgumentException("Specified drone was not found : " + droneID);
 		}
 
-		if(!deliveryTarget.isDoing()) {
-			throw new IllegalArgumentException("Delivery declared back but were never declared gone before. Was " + deliveryTarget.getState());
-		}
-
-		deliveryTarget.done();
-
-		if(deliveryTarget.hasNext()) {
-			Delivery nextDelivery = deliveryTarget.next();
-			mapDroneIDToCurrentDelivery.put(droneID, nextDelivery);
-		}
-		else {
-			mapDroneIDToCurrentDelivery.remove(droneID);
-		}
+		List<Delivery> deliveriesToDispatch = drone.declareIsDead();
+		DeliveryToDroneDispatcher.dispatchAfterDeadDrone(deliveriesToDispatch,droneAltAssociation);
 	}
 
+	/**
+	 * Declare that a drone is back from a delivery
+	 * Can throw an IllegalArgumentException if not declared gone before or unknown DroneID
+	 * @param droneID the drone that's back
+	 */
+	public void isBack(DroneID droneID) {
+		Drone drone = getDroneFromDroneID(droneID);
+
+		if (drone == null) {
+			throw new IllegalArgumentException("Specified drone was not found : " + droneID);
+		}
+
+		drone.isBack();
+
+	}
+
+	/**
+	 * Give the state of the deployment : done or not
+	 * @return true if done, false otherwise
+	 */
 	public boolean isDone() {
 
-		for(DroneID droneID : mapDroneIDToCurrentDelivery.keySet()) {
-			if(mapDroneIDToCurrentDelivery.get(droneID).hasNext()) {
+		for(Drone drone : drones) {
+			if(drone.getRemainingDeliveries().size() > 0) {
 				return false;
 			}
 		}
@@ -94,8 +116,20 @@ public class Deployment {
 		return true;
 	}
 
+	/**
+	 * Get the list of current deliveries
+	 * (a current delivery is a delivery that's being at least processed)
+	 * @return the list of current deliveries
+	 */
 	public List<Delivery> getCurrentDeliveries() {
-		return new ArrayList<>(mapDroneIDToCurrentDelivery.values());
+		List<Delivery> listToReturn = new ArrayList<>();
+		for (Drone drone : drones){
+			Delivery delivery = drone.getCurrentDelivery();
+			if (delivery != null) {
+				listToReturn.add(delivery);
+			}
+		}
+		return listToReturn;
 	}
 
 }

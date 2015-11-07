@@ -1,9 +1,10 @@
 package fr.unice.polytech.si5.al.projet.truck;
 
 
-public class Delivery extends ForwardChain<Delivery> {
+public class Delivery{
 	private DeliveryID ID;
 
+	protected State state;
 	private Box box;
 
 

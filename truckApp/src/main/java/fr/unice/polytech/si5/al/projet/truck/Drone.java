@@ -9,6 +9,7 @@ public class Drone {
 
 	private DroneID ID;
 	private String name;
+	private boolean alive;
 
 	//	Contains all deliveries the drone has (no matter the status)
 	private Queue<Delivery> deliveries = new LinkedList<>();
@@ -23,6 +24,7 @@ public class Drone {
 	public Drone(String ID, String name) {
 		this.ID = new DroneID(ID);
 		this.name = name;
+		this.alive = true;
 	}
 
 
@@ -115,8 +117,13 @@ public class Drone {
 		List<Delivery> remainingDeliveries = getRemainingDeliveries();
 
 		this.flushAllDeliveries();
+		this.alive = false;
 
 		return remainingDeliveries;
+	}
+
+	public boolean isAlive(){
+		return this.alive;
 	}
 
 	public void flushAllDeliveries() {
