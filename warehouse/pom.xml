@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>fr.unice.polytech.si5.al.drones</groupId>
+  <artifactId>warehouse</artifactId>
+  <version>1.0</version>
+  <packaging>bundle</packaging>
+  <name>Warehouse</name>
+
+  <properties>
+    <!-- Version for dependencies (CXF + JUnit) -->
+    <junit.version>4.12</junit.version>
+    <cxf.version>3.1.2</cxf.version>
+    <!-- OSGI bundle information (needed to deploy on ServiceMix) -->
+    <bundle.symbolicName>${project.artifactId}</bundle.symbolicName>
+    <bundle.namespace>fr.unice.polytech.al.drones</bundle.namespace>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>codehaus</id>
+      <url>http://repository.codehaus.org/org/codehaus</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <!-- JUnit for unit tests purpose -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- CXF HTTP/REST implementation -->
+    <dependency>
+      <groupId>org.apache.servicemix.specs</groupId>
+      <artifactId>org.apache.servicemix.specs.jsr339-api-2.0</artifactId>
+      <version>2.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.servicemix.bundles</groupId>
+      <artifactId>org.apache.servicemix.bundles.commons-httpclient</artifactId>
+      <version>3.1_7</version>
+    </dependency>
+    <!-- Json data model -->
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20141113</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.8.5</version>
+    </dependency>
+  </dependencies>
+  
+    <build>
+      <plugins>
+	<!-- Maven build plugin to create an OSGI bundle instead of a plain JAR file-->
+	<plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <version>2.5.4</version>
+        <executions>
+          <execution>
+            <id>bundle-manifest</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>manifest</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <instructions>
+            <Embed-Dependency>*;scope=compile;inline=false</Embed-Dependency>
+            <Embed-Transitive>true</Embed-Transitive>
+            <Bundle-SymbolicName>warehouse</Bundle-SymbolicName>
+            <Bundle-Version>${project.version}</Bundle-Version>
+            <Export-Package>
+	      ${bundle.namespace}.warehouse.*;version="${project.version}"
+	    </Export-Package>
+            <Import-Package>
+              javax.xml.bind,
+              javax.xml.bind.annotation,
+              javax.ws.rs,
+              javax.ws.rs.core,
+              javax.ws.rs.ext,
+              org.osgi.service.blueprint
+            </Import-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
