@@ -6,6 +6,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONObject;
 
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 
 
 /**
@@ -17,7 +18,11 @@ public class TourServiceImpl implements TourService {
 
     public Response getTour() {
         Tour tour = TourStorage.getLast();
-        return Response.ok().build();
+        try {
+            return Response.ok(objectMapper.writeValueAsString(tour)).build();
+        } catch (IOException e) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 
     public Response newTour() {
