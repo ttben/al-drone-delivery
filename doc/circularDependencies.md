@@ -70,9 +70,10 @@ Objectifs :
 
 ## Approche naive
 
-Evidemment, les deux problèmes sont très liés, et chacun a besoin de la solution de l'autre pour trouver la 
-solution optimale. Un manière de couper cette dépendence cyclique est de proposer une implémentation sub-optimale 
-de l'un d'eux sur laquelle l'autre se reposera.
+Evidemment, les problèmes sont très couplés entre eux, et chacun aurait besoin de la solution de l'autre pour trouver sa 
+propre solution optimale.  
+Une manière de couper cette dépendence cyclique est de proposer une implémentation sub-optimale de l'un d'eux sur
+laquelle l'autre se reposera.
 
 On choisira, en approche naive, pour résoudre la boucle de dépendance principale :
 
