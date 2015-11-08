@@ -3,6 +3,7 @@ package fr.unice.polytech.al.drones.central.business;
 /**
  * Created by sebastien on 06/11/15.
  */
+@Deprecated
 public class Dimensions {
     private int x;
     private int y;

@@ -2,6 +2,7 @@ package fr.unice.polytech.al.drones.central.business;
 
 import org.json.JSONObject;
 
+@Deprecated
 public class CustomerAddress {
 
     private String name;
