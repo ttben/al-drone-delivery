@@ -19,7 +19,7 @@ public class TourServiceImpl implements TourService {
     public Response getTour() {
         Tour tour = TourStorage.getLast();
         try {
-            return Response.ok(objectMapper.writeValueAsString(tour)).build();
+            return Response.ok(objectMapper.writeValueAsString(tour.getDropPoints())).build();
         } catch (IOException e) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }

@@ -21,7 +21,7 @@ public class TourStorage {
     }
 
     static {
-        tourList.add(new Tour(new DropPoint(new Address("here"),
+        tourList.add(new Tour(new DropPoint("here",
                 new Delivery("drone1", "package1","drone3"))));
     }
 }

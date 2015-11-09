@@ -11,15 +11,15 @@ import java.util.List;
  */
 public class DropPoint {
 
-    public Address getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Address location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
-    private Address location;
+    private String location;
 
     public List<Delivery> getDeliveries() {
         return deliveries;
@@ -31,7 +31,7 @@ public class DropPoint {
 
     private List<Delivery> deliveries = new LinkedList<Delivery>();
 
-    public DropPoint(Address l, Delivery pt){
+    public DropPoint(String l, Delivery pt){
         this.location = l;
         this.deliveries.add(pt);
     }
