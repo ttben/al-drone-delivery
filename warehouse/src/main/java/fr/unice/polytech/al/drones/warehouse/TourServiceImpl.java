@@ -1,11 +1,12 @@
 package fr.unice.polytech.al.drones.warehouse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.unice.polytech.al.drones.tour.DropPoint;
 import fr.unice.polytech.al.drones.tour.Tour;
 import fr.unice.polytech.al.drones.tour.TourStorage;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.json.JSONObject;
 
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 
 
 /**
@@ -17,10 +18,20 @@ public class TourServiceImpl implements TourService {
 
     public Response getTour() {
         Tour tour = TourStorage.getLast();
-        return Response.ok().build();
+        try {
+            return Response.ok(objectMapper.writeValueAsString(tour)).build();
+        } catch (IOException e) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 
-    public Response newTour() {
+    public Response newTour(String description) {
+        try {
+            DropPoint dropPoint = objectMapper.readValue(description,DropPoint.class);
+            TourStorage.getLast().addShipping(dropPoint);
+        } catch (IOException e) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+        }
         return Response.ok().build();
     }
 
