@@ -15,6 +15,8 @@ public class PackageToShip {
 		this.dimensions = dimensions;
 	}
 
+
+
 	public Dimensions getDimensions() {
 		return dimensions;
 	}
