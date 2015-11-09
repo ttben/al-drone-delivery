@@ -65,7 +65,7 @@ public class Drone {
 	}
 
 	public void startNextDelivery() {
-		this.currentDelivery = this.deliveries.peek();
+		this.currentDelivery = this.pendingDeliveries.poll();
 		this.currentDelivery.start();
 	}
 
@@ -95,7 +95,7 @@ public class Drone {
 
 		currentDelivery.done();
 		this.doneDeliveries.add(currentDelivery);
-		currentDelivery = null;
+		currentDelivery = this.pendingDeliveries.poll();
 	}
 
 	public void hasFailedDelivery() {
@@ -131,5 +131,17 @@ public class Drone {
 		this.pendingDeliveries = new LinkedList<>();
 		this.doneDeliveries = new LinkedList<>();
 		this.failedDeliveries = new LinkedList<>();
+	}
+
+	public boolean isGone() {
+		if(this.currentDelivery != null) {
+			return this.currentDelivery.isDoing();
+		}
+
+		return false;
+	}
+
+	public void gone() {
+		this.currentDelivery.doing();
 	}
 }

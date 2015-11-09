@@ -33,6 +33,22 @@ public class Deployment {
 		return result;
 	}
 
+	public Map<Drone, Delivery> getCurrentDeliveriesDescription() {
+		 Map<Drone, Delivery> result = new HashMap<>();
+
+		this.getDroneInTruck().forEach(drone -> {
+			result.put(drone, drone.getCurrentDelivery());
+		});
+
+		return result;
+	}
+
+	public void start() {
+		drones.forEach(drone -> {
+			drone.startNextDelivery();
+		});
+	}
+
 	/**
 	 * Start a delivery in the deployment
 	 * @param deliveryID the delivery to start
@@ -56,7 +72,7 @@ public class Deployment {
 		if(drone == null) {
 			throw new IllegalArgumentException("Specified drone was not found : " + droneID);
 		}
-		drone.startNextDelivery();
+		drone.gone();
 	}
 
 	/**
@@ -132,6 +148,43 @@ public class Deployment {
 			}
 		}
 		return listToReturn;
+	}
+
+	public boolean checkAssociation(DroneID droneID, DeliveryID deliveryID) {
+		Drone drone = this.getDroneFromDroneID(droneID);
+		if(drone == null) {
+			throw new IllegalArgumentException("DroneID not found");
+		}
+
+		boolean isCurrentDroneDelivery = drone.getCurrentDelivery().getID().equals(deliveryID);
+		if (!isCurrentDroneDelivery) {
+			throw new IllegalArgumentException("DeliveryID is not delivery to do with specified drone");
+		}
+
+		return true;
+	}
+
+	public List<Drone> getDroneGone() {
+		List<Drone> dronesGone = new ArrayList<>();
+
+		drones.forEach(drone -> {
+			if(drone.isGone()) {
+				dronesGone.add(drone);
+			}
+		});
+		return dronesGone;
+	}
+
+	public List<Drone> getDroneInTruck() {
+		List<Drone> dronesPending = new ArrayList<>();
+
+		drones.forEach(drone -> {
+			if(!drone.isGone() && drone.isAlive()) {
+				dronesPending.add(drone);
+			}
+		});
+
+		return dronesPending;
 	}
 
 }

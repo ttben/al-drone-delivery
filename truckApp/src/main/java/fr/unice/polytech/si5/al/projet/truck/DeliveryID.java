@@ -18,4 +18,8 @@ public class DeliveryID {
 
 		return result;
 	}
+
+	public String getValue() {
+		return this.ID;
+	}
 }
