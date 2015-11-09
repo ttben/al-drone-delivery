@@ -9,6 +9,12 @@ import fr.unice.polytech.si5.al.projet.truck.domain.delivery.DeliveryID;
 import fr.unice.polytech.si5.al.projet.truck.domain.drone.Drone;
 import fr.unice.polytech.si5.al.projet.truck.domain.drone.DroneID;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -18,7 +24,22 @@ public class Controller {
 	private Tour model;
 	private View view;
 
-	public Controller() {
+	public Controller() throws IOException {
+
+
+		StringBuilder result = new StringBuilder();
+		URL url = new URL("http://localhost");
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("GET");
+		BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		String line;
+		while ((line = rd.readLine()) != null) {
+			result.append(line);
+		}
+		rd.close();
+		System.out.printf(" HTTP GET " + result.toString());
+
+
 
 		List<Drone> drones = new ArrayList<>();
 		Drone packito = new Drone("7","Packito");
@@ -79,7 +100,7 @@ public class Controller {
 		return this.model.getCurrentDeliveriesDescription();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		Controller controller = new Controller();
 
 	}
