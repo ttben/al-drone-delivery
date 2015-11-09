@@ -1,9 +1,13 @@
-package fr.unice.polytech.si5.al.projet.truck;
+package fr.unice.polytech.si5.al.projet.truck.domain;
+
+import fr.unice.polytech.si5.al.projet.truck.domain.delivery.Delivery;
+import fr.unice.polytech.si5.al.projet.truck.domain.delivery.DeliveryID;
+import fr.unice.polytech.si5.al.projet.truck.domain.drone.Drone;
+import fr.unice.polytech.si5.al.projet.truck.domain.drone.DroneID;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by Benjamin on 04/11/2015.
@@ -24,7 +28,7 @@ public class Tour {
 	public Map<String, Object> getGlobalDeliveriesDescription() throws IllegalAccessException {
 		Map<String, Object> result = new HashMap<>();
 
-		result.put("gone", this.getDroneGone());
+		result.put("fly", this.getDroneGone());
 		result.put("pending", this.getCurrentDeliveriesDescription());
 
 		return result;
@@ -51,6 +55,10 @@ public class Tour {
 		return this.currentDropPoint.getCurrentDeliveriesDescription();
 	}
 
+	public boolean hasStarted() {
+		return this.started;
+	}
+
 	private void chain(DropPoint dropPoint, DropPoint headOfChain) {
 		DropPoint currentDropPoint = headOfChain;
 
@@ -75,6 +83,10 @@ public class Tour {
 
 	public void droneBack(DroneID droneID) {
 		this.currentDropPoint.declareIsBack(droneID);
+	}
+
+	public void droneDead(DroneID droneID) {
+		this.currentDropPoint.declareDroneIsDead(droneID);
 	}
 }
 

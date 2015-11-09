@@ -1,5 +1,10 @@
 package fr.unice.polytech.si5.al.projet.truck;
 
+import fr.unice.polytech.si5.al.projet.truck.domain.DropPoint;
+import fr.unice.polytech.si5.al.projet.truck.domain.GoToStep;
+import fr.unice.polytech.si5.al.projet.truck.domain.delivery.Delivery;
+import fr.unice.polytech.si5.al.projet.truck.domain.drone.Drone;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,70 +20,61 @@ public class ConsoleView implements View {
 	public ConsoleView(Controller controller) {
 		this.controller = controller;
 
-		System.out.println("Bienvenue sur l'application !");
+		System.out.println("\t====================================\n\t\tBienvenue sur l'application !\n\t====================================\n");
 	}
 
 	public void tourHasStarted(GoToStep goToStep) {
-		System.out.println("-> Tournee demarree");
-		System.out.println("Rendez-vous à " + goToStep.getDescription());
+		System.out.println("+ Rendez-vous à " + goToStep.getDescription());
+		boolean arrived = false;
+		do {
+			System.out.println("+ Etez-vous arrive ..? (Y/N)");
+			arrived = this.readYesNoInput();
+		}
+		while (!arrived);
 
-		System.out.println("Arrive ..? (Y/N)");
-		this.readYesNoInput();
 		this.controller.isArrivedAtLocation();
 	}
 
-	public void displayTourState() {
-		System.out.println("Tournee courante :");
-		Map<String, Object> globalContext = null;
-		try {
-			globalContext = controller.getGlobalTourDescription();
-
-			globalContext.forEach((status, droneDeliveryMap) -> {
-				switch (status) {
-					case "gone":
-						this.displayGoneDrones((List<Drone>) droneDeliveryMap);
-						break;
-					case "pending":
-						this.displayPendingDrones((Map<Drone, Delivery>) droneDeliveryMap);
-						break;
-					default:
-						break;
-				}
-			});
-
-			boolean actionValide = true;
-			String action = "";
-
-			do {
-				System.out.println("Que souhaitez vous faire ?");
-				System.out.println("1. Effectuer une autre livraison");
-				System.out.println("2. Declarer qu'un drone est revenu");
-
-				action = readInput();
-
-				actionValide = "1".equalsIgnoreCase(action) || "2".equalsIgnoreCase(action);
-				System.out.println(action + " walide? " + actionValide);
-
-			} while (!actionValide);
+	public void displayTourState(Map<String, Object> globalContext) {
 
 
-			switch (action) {
-				case "1":
-					doShipping();
+		globalContext.forEach((status, droneDeliveryMap) -> {
+			switch (status) {
+				case "fly":
+					this.displayGoneDrones((List<Drone>) droneDeliveryMap);
 					break;
-				case "2":
-					declareDroneCameBack();
+				case "pending":
+					this.displayPendingDrones((Map<Drone, Delivery>) droneDeliveryMap);
 					break;
 				default:
 					break;
 			}
+		});
 
-		} catch (IllegalAccessException e) {
-			System.out.println("Vous n'avez pas encore commence cette tournee ... On y Go ? (Y/N)");
+		boolean validAction;
+		String action;
 
-			if (this.readYesNoInput()) {
-				controller.startTour();
-			}
+		do {
+			System.out.println("\nQue souhaitez vous faire ?");
+			System.out.println("\t1.\tEffectuer une autre livraison");
+			System.out.println("\t2.\tDeclarer qu'un drone est revenu");
+
+			action = readInput();
+
+			validAction = "1".equalsIgnoreCase(action) || "2".equalsIgnoreCase(action);
+
+		} while (!validAction);
+
+
+		switch (action) {
+			case "1":
+				doShipping();
+				break;
+			case "2":
+				declareDroneCameBack();
+				break;
+			default:
+				break;
 		}
 
 	}
@@ -112,17 +108,24 @@ public class ConsoleView implements View {
 	}
 
 	private void displayPendingDrones(Map<Drone, Delivery> droneDeliveryMap) {
-		System.out.println("Drones a envoyer");
+		System.out.println("\n---------------------------------------------------------");
+		System.out.println("\t\t\t\t\t+ Drones a envoyer +\n");
 		droneDeliveryMap.forEach((drone, delivery) -> {
-			System.out.println("\t+ Attachez le drone #" + drone.getID().getValue() + " (" + drone.getName() + ") au paquet #" + delivery.getID().getValue());
+			System.out.println("DEBUG : DR/DE : " + drone + " " + delivery );
+			System.out.println("\t--> Attachez le drone #" + drone.getID().getValue() + " (" + drone.getName() + ") au paquet #" + delivery.getID().getValue());
 		});
+		System.out.println("\n---------------------------------------------------------");
+
 	}
 
 	private void displayGoneDrones(List<Drone> droneDeliveryMap) {
-		System.out.println("Drones en vol");
+		System.out.println("\n---------------------------------------------------------");
+		System.out.println("\t\t\t\t\t+ Drones en vol +\n");
 		droneDeliveryMap.forEach((drone) -> {
-			System.out.println("\t+ Drone #" + drone.getID().getValue() + " (" + drone.getName() + ")");
+			System.out.println("\t--> Drone #" + drone.getID().getValue() + " (" + drone.getName() + ")");
 		});
+		System.out.println("---------------------------------------------------------");
+
 	}
 
 	@Override
@@ -137,8 +140,22 @@ public class ConsoleView implements View {
 		if (isGoneCorrectly) {
 			this.controller.droneGone(droneID);
 		} else {
-			this.controller.declareDroneProblem();
+			this.controller.declareDroneProblem(droneID);
 		}
+	}
+
+	@Override
+	public void displayStartTour() {
+		System.out.println("Vous n'avez pas encore commence cette tournee ... On y Go ? (Y/N)");
+
+		if (this.readYesNoInput()) {
+			controller.startTour();
+		}
+	}
+
+	@Override
+	public void displayDroneNotFound(String droneID) {
+		System.out.println("Le drone de numero " + droneID + " n'a pas ete trouve");
 	}
 
 

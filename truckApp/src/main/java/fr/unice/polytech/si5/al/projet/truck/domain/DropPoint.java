@@ -1,8 +1,10 @@
-package fr.unice.polytech.si5.al.projet.truck;
+package fr.unice.polytech.si5.al.projet.truck.domain;
 
-import com.sun.org.apache.bcel.internal.generic.GOTO;
+import fr.unice.polytech.si5.al.projet.truck.domain.delivery.Delivery;
+import fr.unice.polytech.si5.al.projet.truck.domain.delivery.DeliveryID;
+import fr.unice.polytech.si5.al.projet.truck.domain.drone.Drone;
+import fr.unice.polytech.si5.al.projet.truck.domain.drone.DroneID;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,11 +35,6 @@ public class DropPoint extends ForwardChain<DropPoint> {
 		return deployment.getCurrentDeliveries();
 	}
 
-	public List<Delivery> start(DeliveryID deliveryID) {
-		this.deployment.start(deliveryID);
-		return this.deployment.getCurrentDeliveries();
-	}
-
 	public boolean isDone() {
 		return this.goToStep.isDone() && this.deployment.isDone();
 	}
@@ -45,6 +42,10 @@ public class DropPoint extends ForwardChain<DropPoint> {
 	public void arrivedAtLocation() throws Exception {
 		this.goToStep.done();
 		this.startDeploy();
+	}
+
+	public void declareDroneIsDead(DroneID droneID) {
+		this.deployment.isDead(droneID);
 	}
 
 	public List<Delivery> getCurrentDeliveries() {

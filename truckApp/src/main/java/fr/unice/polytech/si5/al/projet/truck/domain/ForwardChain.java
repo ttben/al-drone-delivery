@@ -1,4 +1,4 @@
-package fr.unice.polytech.si5.al.projet.truck;
+package fr.unice.polytech.si5.al.projet.truck.domain;
 
 public abstract class ForwardChain<T> {
 	private T next;

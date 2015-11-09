@@ -1,4 +1,4 @@
-package fr.unice.polytech.si5.al.projet.truck;
+package fr.unice.polytech.si5.al.projet.truck.domain.drone;
 
 /**
  * Created by Benjamin on 04/11/2015.
@@ -14,17 +14,20 @@ public class DroneID {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		DroneID droneID = (DroneID) o;
-
-		return !(ID != null ? !ID.equals(droneID.ID) : droneID.ID != null);
-
+		if(o instanceof DroneID) {
+			DroneID droneID = (DroneID) o;
+			return getValue().equalsIgnoreCase(droneID.getValue());
+		}
+		return false;
 	}
 
 	@Override
 	public int hashCode() {
 		return ID != null ? ID.hashCode() : 0;
+	}
+
+	@Override
+	public String toString() {
+		return this.getValue().toString();
 	}
 }

@@ -1,5 +1,9 @@
 package fr.unice.polytech.si5.al.projet.truck;
 
+import fr.unice.polytech.si5.al.projet.truck.domain.Deployment;
+import fr.unice.polytech.si5.al.projet.truck.domain.delivery.Delivery;
+import fr.unice.polytech.si5.al.projet.truck.domain.delivery.DeliveryID;
+import fr.unice.polytech.si5.al.projet.truck.domain.drone.Drone;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -9,8 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.mockito.BDDMockito.*;
 
 /**
  * @author Etienne Strobbe (07/11/2015).
@@ -38,7 +40,7 @@ public class DeploymentTest {
         List<Drone> drones = new ArrayList<>();
         drones.add(aDrone);
         drones.add(anotherDrone);
-        Map<Delivery,List<Drone>> droneAltAssociation = new HashMap<>();
+        Map<DeliveryID,List<Drone>> droneAltAssociation = new HashMap<>();
         aDeployment = new Deployment(drones, droneAltAssociation);
 
     }

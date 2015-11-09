@@ -1,5 +1,14 @@
 package fr.unice.polytech.si5.al.projet.truck;
 
+import fr.unice.polytech.si5.al.projet.truck.domain.Deployment;
+import fr.unice.polytech.si5.al.projet.truck.domain.DropPoint;
+import fr.unice.polytech.si5.al.projet.truck.domain.GoToStep;
+import fr.unice.polytech.si5.al.projet.truck.domain.Tour;
+import fr.unice.polytech.si5.al.projet.truck.domain.delivery.Delivery;
+import fr.unice.polytech.si5.al.projet.truck.domain.delivery.DeliveryID;
+import fr.unice.polytech.si5.al.projet.truck.domain.drone.Drone;
+import fr.unice.polytech.si5.al.projet.truck.domain.drone.DroneID;
+
 import java.util.*;
 
 /**
@@ -10,15 +19,16 @@ public class Controller {
 	private View view;
 
 	public Controller() {
-		/*
+
 		List<Drone> drones = new ArrayList<>();
 		Drone packito = new Drone("7","Packito");
 		Drone geraldo = new Drone("3", "Geraldo");
+		Drone helperado = new Drone("4", "The helper");
 
-		Delivery delivery1OfPackito = new Delivery(new DeliveryID("delivery1"), "livraison chez monsieur duval", new Box("-82.55N 78.79E",3.0));
-		Delivery delivery2OfPackito = new Delivery(new DeliveryID("delivery2"), "livraison chez monsieur strobbe", new Box("-82.50N 77.19E",1.0));
+		Delivery delivery1OfPackito = new Delivery(new DeliveryID("d1"), "-82.55N 78.79E");
+		Delivery delivery2OfPackito = new Delivery(new DeliveryID("d2"), "-82.50N 77.19E");
 
-		Delivery delivery1OfGeraldo = new Delivery(new DeliveryID("delivery3"), "livraison chez moi", new Box("-81.55N 75.79E",1.5));
+		Delivery delivery1OfGeraldo = new Delivery(new DeliveryID("d3"), "-81.55N 75.79E");
 
 		packito.addDelivery(delivery1OfPackito);
 		packito.addDelivery(delivery2OfPackito);
@@ -27,8 +37,12 @@ public class Controller {
 
 		drones.add(packito);
 		drones.add(geraldo);
+		drones.add(helperado);
 
-		Map<Delivery, List<Drone>> altDrones = new HashMap<>();
+		Map<DeliveryID, List<Drone>> altDrones = new HashMap<>();
+		List<Drone> listAltDrones = new ArrayList<>();
+		listAltDrones.add(helperado);
+		altDrones.put(delivery2OfPackito.getID(), listAltDrones);
 
 		GoToStep goToStep = new GoToStep("Super U", "-82.5588N 78.787E");
 		Deployment deployment = new Deployment(drones, altDrones);
@@ -39,12 +53,21 @@ public class Controller {
 
 		this.model = new Tour(dps);
 		this.view = new ConsoleView(this);
-		this.view.displayTourState();
-		*/
+		this.getGlobalTourDescription();
 	}
 
-	public Map<String, Object> getGlobalTourDescription() throws IllegalAccessException {
-		return this.model.getGlobalDeliveriesDescription();
+	public void getGlobalTourDescription() {
+		Map<String, Object> globalTourDescription;
+
+		try {
+			globalTourDescription = this.model.getGlobalDeliveriesDescription();
+
+			this.view.displayTourState(globalTourDescription);
+		} catch (IllegalAccessException e) {
+			this.view.displayStartTour();
+		}
+
+
 	}
 
 	public void startTour() {
@@ -65,11 +88,11 @@ public class Controller {
 		DropPoint dropPoint = null;
 		try {
 			dropPoint = this.model.truckDriverIsArrivedAtLocation();
+			this.getGlobalTourDescription();
 		} catch (Exception e) {
 			// TODO display error
 			e.printStackTrace();
 		}
-		this.view.displayTourState();
 	}
 
 	public void checkPair(String droneID, String packageID) {
@@ -79,23 +102,32 @@ public class Controller {
 			}
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			this.view.refuseAssociation();
-			this.view.displayDropPoint(this.model.getCurrentDropPoint());
+			this.getGlobalTourDescription();
 		}
 	}
 
-	public void declareDroneProblem() {
-
+	public void declareDroneProblem(String droneID) {
+		System.out.println("DRONE PB");
+		this.model.droneDead(new DroneID(droneID));
+		this.getGlobalTourDescription();
 	}
 
 	public void droneGone(String droneID) {
 		this.model.droneGone(new DroneID(droneID));
-		this.view.displayTourState();
+		this.getGlobalTourDescription();
 	}
 
 	public void droneBack(String droneID) {
-		this.model.droneBack(new DroneID(droneID));
-		this.view.displayTourState();
+		try {
+			this.model.droneBack(new DroneID(droneID));
+			this.getGlobalTourDescription();
+		}
+		catch(IllegalArgumentException e) {
+			this.view.displayDroneNotFound(droneID);
+			this.getGlobalTourDescription();
+		}
 	}
 
 }

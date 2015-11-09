@@ -3,11 +3,16 @@ package fr.unice.polytech.si5.al.projet.truck.assembly;
 import com.google.gson.Gson;
 import fr.unice.polytech.si5.al.projet.truck.*;
 import fr.unice.polytech.si5.al.projet.truck.assembly.template.TemplateDropPointJSON;
+import fr.unice.polytech.si5.al.projet.truck.domain.Deployment;
+import fr.unice.polytech.si5.al.projet.truck.domain.DropPoint;
+import fr.unice.polytech.si5.al.projet.truck.domain.GoToStep;
+import fr.unice.polytech.si5.al.projet.truck.domain.delivery.Delivery;
+import fr.unice.polytech.si5.al.projet.truck.domain.delivery.DeliveryID;
+import fr.unice.polytech.si5.al.projet.truck.domain.drone.Drone;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -51,7 +56,7 @@ public class Assembly {
         for (TemplateDropPointJSON aTemplateDropPointJson : templateDropPointJsonTab) {
             // building deployment and GoToStep
             List<Drone> theDrones = DeliveryToDroneDispatcher.dispatchDeliveryToDroneFromTemplate(aTemplateDropPointJson);
-            Map<Delivery,List<Drone>> altDroneMap = DeliveryToDroneDispatcher.dispatchAltDroneToDeliveryFromTemplate(aTemplateDropPointJson);
+            Map<DeliveryID,List<Drone>> altDroneMap = DeliveryToDroneDispatcher.dispatchAltDroneToDeliveryFromTemplate(aTemplateDropPointJson);
             Deployment deployment = new Deployment(theDrones,altDroneMap);
             GoToStep goToStep = new GoToStep("GoToStep",aTemplateDropPointJson.getLocation());
             DropPoint tmp = new DropPoint(goToStep,deployment);

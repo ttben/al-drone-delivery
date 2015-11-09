@@ -1,8 +1,7 @@
 package fr.unice.polytech.si5.al.projet.truck.assembly;
 
-import fr.unice.polytech.si5.al.projet.truck.Delivery;
-import fr.unice.polytech.si5.al.projet.truck.DeliveryID;
-import fr.unice.polytech.si5.al.projet.truck.Drone;
+import fr.unice.polytech.si5.al.projet.truck.domain.delivery.Delivery;
+import fr.unice.polytech.si5.al.projet.truck.domain.drone.Drone;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**

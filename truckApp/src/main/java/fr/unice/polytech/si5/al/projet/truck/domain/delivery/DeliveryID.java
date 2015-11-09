@@ -1,4 +1,4 @@
-package fr.unice.polytech.si5.al.projet.truck;
+package fr.unice.polytech.si5.al.projet.truck.domain.delivery;
 
 public class DeliveryID {
 
@@ -21,5 +21,10 @@ public class DeliveryID {
 
 	public String getValue() {
 		return this.ID;
+	}
+
+	@Override
+	public String toString() {
+		return getValue();
 	}
 }
