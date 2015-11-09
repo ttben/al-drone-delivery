@@ -1,0 +1,21 @@
+package fr.unice.polytech.si5.al.projet.truck.domain;
+
+
+public class GoToStep extends State {
+	private String location;
+
+
+	public GoToStep(String name, String location) {
+		super(name);
+		this.location = location;
+	}
+
+	public void execute(DroneDeliveryApp app) {
+		System.out.println("\t+ Bitch go to " + location + "...");
+		this.status = TaskStatus.DONE;
+	}
+
+	public String getDescription() {
+		return "(Go To " + location + ")";
+	}
+}
