@@ -1,5 +1,6 @@
 package fr.unice.polytech.si5.al.projet.truck;
 
+import fr.unice.polytech.si5.al.projet.truck.assembly.Assembly;
 import fr.unice.polytech.si5.al.projet.truck.assembly.DataBaseCreator;
 import fr.unice.polytech.si5.al.projet.truck.assembly.template.TemplateDeliveryJSON;
 import fr.unice.polytech.si5.al.projet.truck.assembly.template.TemplateDropPointJSON;

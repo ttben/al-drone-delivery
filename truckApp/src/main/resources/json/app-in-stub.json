@@ -4,9 +4,9 @@
     "deliveries": [
       {
         "drone": "droneID1",
-        "box": "packageID4",
+        "box": "delivery1",
         "droneAlt": [
-          "droneID2",
+          "droneID1",
           "droneID3"
         ]
       }
@@ -17,15 +17,7 @@
     "deliveries": [
       {
         "drone": "droneID1",
-        "box": "packageID1",
-        "droneAlt": [
-          "droneID2",
-          "droneID3"
-        ]
-      },
-      {
-        "drone": "droneID3",
-        "box": "packageID2",
+        "box": "delivery1",
         "droneAlt": [
           "droneID2",
           "droneID3"
@@ -33,7 +25,15 @@
       },
       {
         "drone": "droneID2",
-        "box": "packageID3",
+        "box": "delivery2",
+        "droneAlt": [
+          "droneID2",
+          "droneID3"
+        ]
+      },
+      {
+        "drone": "droneID2",
+        "box": "delivery3",
         "droneAlt": [
           "droneID2",
           "droneID3"

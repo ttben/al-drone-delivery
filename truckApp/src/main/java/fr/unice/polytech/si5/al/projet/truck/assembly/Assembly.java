@@ -2,17 +2,21 @@ package fr.unice.polytech.si5.al.projet.truck.assembly;
 
 import com.google.gson.Gson;
 import fr.unice.polytech.si5.al.projet.truck.*;
+import fr.unice.polytech.si5.al.projet.truck.assembly.template.TemplateDeliveryDescriptionJSON;
+import fr.unice.polytech.si5.al.projet.truck.assembly.template.TemplateDroneDescriptionJSON;
+import fr.unice.polytech.si5.al.projet.truck.assembly.template.TemplateDronesDeliveriesDescriptionJSON;
 import fr.unice.polytech.si5.al.projet.truck.assembly.template.TemplateDropPointJSON;
 import fr.unice.polytech.si5.al.projet.truck.domain.Deployment;
 import fr.unice.polytech.si5.al.projet.truck.domain.DropPoint;
 import fr.unice.polytech.si5.al.projet.truck.domain.GoToStep;
+import fr.unice.polytech.si5.al.projet.truck.domain.Tour;
 import fr.unice.polytech.si5.al.projet.truck.domain.delivery.Delivery;
 import fr.unice.polytech.si5.al.projet.truck.domain.delivery.DeliveryID;
 import fr.unice.polytech.si5.al.projet.truck.domain.drone.Drone;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -49,9 +53,8 @@ public class Assembly {
 
     }
 
-    public static DropPoint createChainedDropPoints(String json){
-        DropPoint head = null;
-        DropPoint current = null;
+    public static List<DropPoint> buildDropPointList(String json){
+        List<DropPoint> dropPointsToReturn = new ArrayList<>();
         TemplateDropPointJSON[] templateDropPointJsonTab = gson.fromJson(json,TemplateDropPointJSON[].class);
         for (TemplateDropPointJSON aTemplateDropPointJson : templateDropPointJsonTab) {
             // building deployment and GoToStep
@@ -60,29 +63,48 @@ public class Assembly {
             Deployment deployment = new Deployment(theDrones,altDroneMap);
             GoToStep goToStep = new GoToStep("GoToStep",aTemplateDropPointJson.getLocation());
             DropPoint tmp = new DropPoint(goToStep,deployment);
-            // 1st pass
-            if (head == null){
-                head = tmp;
-                current = head;
-            }
-            else {
-                DeliveryToDroneDispatcher.chain(current,tmp);
-                current = current.next();
-            }
+            dropPointsToReturn.add(tmp);
         }
-        return head;
+        return dropPointsToReturn;
     }
 
-    private static List<Drone> buildDrones(String json){
-        throw new NotImplementedException();
+    public static List<Drone> buildDrones(String json){
+        List<Drone> dronesToReturn = new ArrayList<>();
+        TemplateDronesDeliveriesDescriptionJSON templateDronesDeliveriesDescriptionJSON = gson.fromJson(json,TemplateDronesDeliveriesDescriptionJSON.class);
+        List<TemplateDroneDescriptionJSON> templateDroneDescriptionJSONList = templateDronesDeliveriesDescriptionJSON.getDroneDescriptions();
+        for (TemplateDroneDescriptionJSON templateDrone : templateDroneDescriptionJSONList){
+            Drone drone = new Drone(templateDrone.getDroneID(),templateDrone.getDroneName());
+            dronesToReturn.add(drone);
+        }
+        return dronesToReturn;
+    }
+
+    public static List<Delivery> buildDelivery(String json){
+        List<Delivery> deliveriesToReturn = new ArrayList<>();
+        TemplateDronesDeliveriesDescriptionJSON templateDronesDeliveriesDescriptionJSON = gson.fromJson(json,TemplateDronesDeliveriesDescriptionJSON.class);
+        List<TemplateDeliveryDescriptionJSON> templateDeliveryDescriptionJSONList = templateDronesDeliveriesDescriptionJSON.getDeliveryDescriptions();
+        for (TemplateDeliveryDescriptionJSON templateDelivery : templateDeliveryDescriptionJSONList){
+            Delivery delivery = new Delivery(new DeliveryID(templateDelivery.getDeliveryID()), templateDelivery.getDestination());
+            deliveriesToReturn.add(delivery);
+        }
+        return deliveriesToReturn;
+    }
+
+    public static Tour getTourFromJson(String descriptionJson, String missionJson){
+        DataBaseCreator.init(descriptionJson);
+        List<DropPoint> dropPoints = buildDropPointList(missionJson);
+        return new Tour(dropPoints);
     }
 
 
 
     public static void main(String[] args) {
-        String json = getFile("json/app-in-stub.json");
-        System.out.printf(json);
-        DropPoint dropPoint = createChainedDropPoints(json);
+        String missionJson = getFile("json/app-in-stub.json");
+        String descriptionJson = getFile("json/drones-n-deliveries-descriptions.json");
+        //System.out.printf(missionJson);
+        //System.out.printf(descriptionJson);
+        Tour t = getTourFromJson(descriptionJson,missionJson);
+        System.out.println("La tour = "+t);
     }
 
 }

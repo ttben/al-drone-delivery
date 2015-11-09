@@ -62,11 +62,12 @@ public class Tour {
 	private void chain(DropPoint dropPoint, DropPoint headOfChain) {
 		DropPoint currentDropPoint = headOfChain;
 
-		while(headOfChain.hasNext()) {
+		while(currentDropPoint.hasNext()) {
 			currentDropPoint = currentDropPoint.next();
 		}
-
-		currentDropPoint.setNext(dropPoint);
+		if(currentDropPoint != dropPoint) {
+			currentDropPoint.setNext(dropPoint);
+		}
 	}
 
 	public boolean checkAssociation(DroneID droneID, DeliveryID deliveryID) {

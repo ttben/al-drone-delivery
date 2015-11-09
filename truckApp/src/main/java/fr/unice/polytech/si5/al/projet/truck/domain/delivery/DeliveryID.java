@@ -19,6 +19,10 @@ public class DeliveryID {
 		return result;
 	}
 
+	public String getID() {
+		return ID;
+	}
+
 	public String getValue() {
 		return this.ID;
 	}
