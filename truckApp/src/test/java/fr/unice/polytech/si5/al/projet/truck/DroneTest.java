@@ -11,6 +11,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.*;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.verify;
@@ -201,13 +202,13 @@ public class DroneTest {
 	}
 
 	@Test
-	public void aDrone_WhenDeclareIsBack_ShouldNotHaveCurrentDelivery() {
+	public void aDrone_WhenDeclareIsBack_ShouldHaveNextPendingDelivery() {
 		aDrone.startNextDelivery();
 		willReturn(true).given(aDelivery).isDoing();
 
 		aDrone.isBack();
 
-		assertNull(aDrone.getCurrentDelivery());
+		assertEquals(anotherDelivery,aDrone.getCurrentDelivery());
 	}
 
 	@Test

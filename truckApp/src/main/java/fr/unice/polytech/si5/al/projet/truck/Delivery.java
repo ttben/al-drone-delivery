@@ -12,6 +12,7 @@ public class Delivery{
 		this.ID = ID;
 		this.box = box;
 
+		this.state = new State("Delivery status");
 		this.state.pending();
 	}
 
@@ -54,6 +55,6 @@ public class Delivery{
 	}
 
 	public boolean isPending() {
-		return this.isPending();
+		return this.state.isPending();
 	}
 }
