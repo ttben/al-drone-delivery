@@ -21,7 +21,7 @@ public class TourServiceImpl implements TourService {
     }
 
     public Response newTour() {
-        return Response.ok().build();
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     public Response setStatus(String id) {
