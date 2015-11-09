@@ -8,7 +8,7 @@ public class DropPoint extends ForwardChain<DropPoint> {
 	private GoToStep goToStep;
 	private Deployment deployment;
 
-	private DropPoint(GoToStep goToStep, Deployment deployment) {
+	public DropPoint(GoToStep goToStep, Deployment deployment) {
 		this.goToStep = goToStep;
 		this.deployment = deployment;
 	}

@@ -1,9 +1,11 @@
 package fr.unice.polytech.si5.al.projet.truck;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import fr.unice.polytech.si5.al.projet.truck.assembly.DataBaseCreator;
+import fr.unice.polytech.si5.al.projet.truck.assembly.template.TemplateDeliveryJSON;
+import fr.unice.polytech.si5.al.projet.truck.assembly.template.TemplateDropPointJSON;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Benjamin Benni, Etienne Strobbe
@@ -45,13 +47,45 @@ public class DeliveryToDroneDispatcher {
 		return failedDelivery;
 	}
 
-	/*private static void chain(Delivery delivery, Delivery headOfChain) {
-		Delivery currentDelivery = headOfChain;
+    /**
+     * Build a list of Drone from a Template (built from a JSON file)
+     * Each drone contains the list of Delivery that it's supposed to deliver.
+     * @param aTemplateDropPointJson the template
+     * @return the list of Drone
+     */
+	public static List<Drone> dispatchDeliveryToDroneFromTemplate(TemplateDropPointJSON aTemplateDropPointJson) {
+		Set<Drone> drones = new HashSet<>();
+		for(TemplateDeliveryJSON aTemplateDeliveryJSON : aTemplateDropPointJson.getDeliveries()){
+            Drone theDrone = DataBaseCreator.getDroneFromID(aTemplateDeliveryJSON.getDrone());
+            theDrone.addDelivery(DataBaseCreator.getDeliveryFromID(aTemplateDeliveryJSON.getBox()));
+			drones.add(theDrone);
+		}
+        return new ArrayList<>(drones);
+	}
+
+    /**
+     * Build the map associating Delivery to alternatives drones from a template (built from a JSON file)
+     * @param aTemplateDropPointJson the template
+     * @return the map containing the deliveries and theirs alt drones
+     */
+    public static Map<Delivery, List<Drone>> dispatchAltDroneToDeliveryFromTemplate(TemplateDropPointJSON aTemplateDropPointJson) {
+        Map<Delivery,List<Drone>> mapToReturn = new HashMap<>();
+        for (TemplateDeliveryJSON aTemplateDeliveryJson : aTemplateDropPointJson.getDeliveries()){
+            // TODO change this Delivery into DeliveryID when Ben will push his changes
+            Delivery delivery = DataBaseCreator.getDeliveryFromID(aTemplateDeliveryJson.getBox());
+            List<Drone> drones = aTemplateDeliveryJson.getDroneAlt().stream().map(DataBaseCreator::getDroneFromID).collect(Collectors.toList());
+            mapToReturn.put(delivery,drones);
+        }
+        return mapToReturn;
+    }
+
+	public static void chain(DropPoint delivery, DropPoint headOfChain) {
+        DropPoint currentDelivery = headOfChain;
 
 		while(headOfChain.hasNext()) {
 			currentDelivery = currentDelivery.next();
 		}
 
 		currentDelivery.setNext(delivery);
-	}*/
+	}
 }

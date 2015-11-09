@@ -1,0 +1,26 @@
+{
+  "drones": [
+    {
+      "droneName": "kakarot",
+      "droneID": "droneID1"
+    },
+    {
+      "droneName": "derp",
+      "droneID": "droneID2"
+    }
+  ],
+  "deliveries": [
+    {
+      "deliveryID": "delivery1",
+      "destination": "the blue house next to the supermarket"
+    },
+    {
+      "deliveryID": "delivery2",
+      "destination": "Ikea"
+    },
+    {
+      "deliveryID": "delivery3",
+      "destination": "the white house"
+    }
+  ]
+}

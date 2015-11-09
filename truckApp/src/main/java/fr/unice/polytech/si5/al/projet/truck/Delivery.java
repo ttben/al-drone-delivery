@@ -3,15 +3,16 @@ package fr.unice.polytech.si5.al.projet.truck;
 
 public class Delivery{
 	private DeliveryID ID;
+	private String destination;
 
 	protected State state;
-	private Box box;
+	//private Box box;
 
 
-	public Delivery(DeliveryID ID, String name, Box box) {
-		this.ID = ID;
-		this.box = box;
-
+	public Delivery(String ID, String destination) {
+		this.ID = new DeliveryID(ID);
+		//this.box = box;
+		this.destination = destination;
 		this.state.pending();
 	}
 
@@ -46,12 +47,12 @@ public class Delivery{
 	}
 
 	String getDescription() {
-		return "Deliver box " + box;
+		return "Deliver box to location " + destination;
 	}
 
-	public Box getBox() {
+	/*public Box getBox() {
 		return box;
-	}
+	}*/
 
 	public boolean isPending() {
 		return this.isPending();
