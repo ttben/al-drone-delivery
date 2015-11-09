@@ -1,5 +1,6 @@
 package fr.unice.polytech.si5.al.projet.truck;
 
+import fr.unice.polytech.si5.al.projet.truck.assembly.Assembly;
 import fr.unice.polytech.si5.al.projet.truck.domain.Deployment;
 import fr.unice.polytech.si5.al.projet.truck.domain.DropPoint;
 import fr.unice.polytech.si5.al.projet.truck.domain.GoToStep;
@@ -8,7 +9,14 @@ import fr.unice.polytech.si5.al.projet.truck.domain.delivery.Delivery;
 import fr.unice.polytech.si5.al.projet.truck.domain.delivery.DeliveryID;
 import fr.unice.polytech.si5.al.projet.truck.domain.drone.Drone;
 import fr.unice.polytech.si5.al.projet.truck.domain.drone.DroneID;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.io.IOUtils;
 
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.*;
 
 /**
@@ -18,8 +26,27 @@ public class Controller {
 	private Tour model;
 	private View view;
 
-	public Controller() {
+	public Controller() throws IOException {
 
+		URL warehouseGetTour = new URL("http://localhost:8181/cxf/warehouse/tour");
+		URLConnection yc = warehouseGetTour.openConnection();
+		BufferedReader in = new BufferedReader(
+				new InputStreamReader(
+						yc.getInputStream()));
+		String inputLine;
+
+		String res = "";
+		while ((inputLine = in.readLine()) != null) {
+			System.out.println(inputLine);
+			res += inputLine;
+		}
+		in.close();
+
+
+		Tour t = Assembly.getTourFromJson(Assembly.getFile("json/drones-n-deliveries-descriptions.json"), res);
+
+
+		/*
 		List<Drone> drones = new ArrayList<>();
 		Drone packito = new Drone("7","Packito");
 		Drone geraldo = new Drone("3", "Geraldo");
@@ -50,10 +77,11 @@ public class Controller {
 		DropPoint dp = new DropPoint(goToStep, deployment);
 		List<DropPoint> dps = new ArrayList<>();
 		dps.add(dp);
-
-		this.model = new Tour(dps);
+		*/
+		this.model = t;
 		this.view = new ConsoleView(this);
 		this.getGlobalTourDescription();
+
 	}
 
 	public void getGlobalTourDescription() {
@@ -79,7 +107,7 @@ public class Controller {
 		return this.model.getCurrentDeliveriesDescription();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		Controller controller = new Controller();
 
 	}

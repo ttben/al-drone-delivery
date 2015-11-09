@@ -12,6 +12,10 @@ public class DroneID {
 
 	public String getValue() { return this.ID;}
 
+	public String getID() {
+		return ID;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if(o instanceof DroneID) {

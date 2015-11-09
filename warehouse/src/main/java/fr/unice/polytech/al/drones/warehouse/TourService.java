@@ -17,7 +17,7 @@ public interface TourService {
     Response getTour();
 
     @POST
-    Response newTour();
+    Response newTour(String description);
 
     @Path("{id}/status")
     @PUT
