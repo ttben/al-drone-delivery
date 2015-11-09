@@ -91,7 +91,7 @@ public class DroneTest {
 	public void aDrone_WhenAskToStartNextDelivery_ShouldSetTheCurrentDeliveryStatusAtDoing() {
 		aDrone.startNextDelivery();
 		aDrone.getCurrentDelivery();
-		verify(aDelivery).doing();
+		verify(aDelivery).start();
 	}
 
 	@Test

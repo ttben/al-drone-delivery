@@ -38,6 +38,8 @@ public class Deployment {
 	 * @param deliveryID the delivery to start
 	 */
 	public void start(DeliveryID deliveryID) {
+		drones.forEach(drone -> drone.startNextDelivery());
+
 		List<Delivery> currentDeliveries = this.getCurrentDeliveries();
 		Delivery targetDelivery = currentDeliveries.stream().filter(delivery -> delivery.getID().equals(deliveryID)).findFirst().get();
 		targetDelivery.start();

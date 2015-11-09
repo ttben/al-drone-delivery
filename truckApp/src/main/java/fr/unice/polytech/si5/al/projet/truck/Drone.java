@@ -66,7 +66,7 @@ public class Drone {
 
 	public void startNextDelivery() {
 		this.currentDelivery = this.deliveries.peek();
-		this.currentDelivery.doing();
+		this.currentDelivery.start();
 	}
 
 
