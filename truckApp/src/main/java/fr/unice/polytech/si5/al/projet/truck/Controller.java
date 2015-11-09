@@ -43,20 +43,7 @@ public class Controller {
 		in.close();
 
 
-		File f = new File ("tmp.json");
-
-		try
-		{
-			FileWriter fw = new FileWriter (f);
-			fw.write (res);
-			fw.close();
-		}
-		catch (IOException exception)
-		{
-			System.out.println ("Erreur lors de lecriture : " + exception.getMessage());
-		}
-
-
+		Tour t = Assembly.getTourFromJson(Assembly.getFile("json/drones-n-deliveries-descriptions.json"), res);
 
 
 		/*
@@ -90,11 +77,11 @@ public class Controller {
 		DropPoint dp = new DropPoint(goToStep, deployment);
 		List<DropPoint> dps = new ArrayList<>();
 		dps.add(dp);
-
-		this.model = new Tour(dps);
+		*/
+		this.model = t;
 		this.view = new ConsoleView(this);
 		this.getGlobalTourDescription();
-		*/
+
 	}
 
 	public void getGlobalTourDescription() {
