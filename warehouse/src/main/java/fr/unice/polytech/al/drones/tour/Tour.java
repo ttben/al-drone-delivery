@@ -1,7 +1,5 @@
 package fr.unice.polytech.al.drones.tour;
 
-import fr.unice.polytech.si5.al.projet.shipping.PackageToShip;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,29 +7,21 @@ import java.util.List;
  * Created by user on 06/11/2015.
  */
 public class Tour {
-
-    private List<DropPoint> dropPointList = new LinkedList<DropPoint>();
-    private List<PackageToShip> packageToShips = new LinkedList<PackageToShip>();
-
-    public Tour(DropPoint dp, PackageToShip pt){
-        getDropPointList().add(dp);
-        getPackageToShips().add(pt);
+    public Tour(DropPoint dropPoint) {
+        dropPoints.add(dropPoint);
     }
 
-
-    public List<DropPoint> getDropPointList() {
-        return dropPointList;
+    public List<DropPoint> getDropPoints() {
+        return dropPoints;
     }
 
-    public void setDropPointList(List<DropPoint> dropPointList) {
-        this.dropPointList = dropPointList;
+    public void setDropPoints(List<DropPoint> dropPoints) {
+        this.dropPoints = dropPoints;
     }
 
-    public List<PackageToShip> getPackageToShips() {
-        return packageToShips;
-    }
+    private List<DropPoint> dropPoints = new LinkedList<DropPoint>();
 
-    public void setPackageToShips(List<PackageToShip> packageToShips) {
-        this.packageToShips = packageToShips;
+    public void addShipping(DropPoint sp){
+        dropPoints.add(sp);
     }
 }
