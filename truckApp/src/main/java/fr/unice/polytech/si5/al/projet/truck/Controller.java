@@ -10,6 +10,7 @@ public class Controller {
 	private View view;
 
 	public Controller() {
+		/*
 		List<Drone> drones = new ArrayList<>();
 		Drone packito = new Drone("7","Packito");
 		Drone geraldo = new Drone("3", "Geraldo");
@@ -39,6 +40,7 @@ public class Controller {
 		this.model = new Tour(dps);
 		this.view = new ConsoleView(this);
 		this.view.displayTourState();
+		*/
 	}
 
 	public Map<String, Object> getGlobalTourDescription() throws IllegalAccessException {
