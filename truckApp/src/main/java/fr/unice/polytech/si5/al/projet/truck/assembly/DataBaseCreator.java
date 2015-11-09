@@ -4,18 +4,37 @@ import fr.unice.polytech.si5.al.projet.truck.domain.delivery.Delivery;
 import fr.unice.polytech.si5.al.projet.truck.domain.drone.Drone;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Etienne Strobbe
  */
 public class DataBaseCreator {
 
+    private static List<Drone> drones = new ArrayList<>();
+    private static List<Delivery> deliveries = new ArrayList<>();
+
+    public static void init(String json){
+        drones = Assembly.buildDrones(json);
+        deliveries = Assembly.buildDelivery(json);
+    }
+
     public static Drone getDroneFromID(String id){
-        //return new Drone(id,"pouet");
-        throw new NotImplementedException();
+        for(Drone drone : drones){
+            if (drone.getID().getID().equals(id)){
+                return drone;
+            }
+        }
+        throw new IllegalArgumentException("Drone was not found -> bad ID");
     }
 
     public static Delivery getDeliveryFromID(String id){
-        //return new Delivery(new DeliveryID("packageID4"),null,null);
-        throw new NotImplementedException();
+        for (Delivery delivery : deliveries){
+            if(delivery.getID().getID().equals(id)){
+                return delivery;
+            }
+        }
+        throw new IllegalArgumentException("Delivery was not found -> bad ID");
     }
 }

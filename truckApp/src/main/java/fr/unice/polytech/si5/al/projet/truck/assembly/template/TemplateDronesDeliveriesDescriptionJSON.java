@@ -7,27 +7,27 @@ import java.util.List;
  */
 public class TemplateDronesDeliveriesDescriptionJSON {
 
-    private List<TemplateDroneDescriptionJSON> droneDescriptions;
-    private List<TemplateDeliveryDescriptionJSON> deliveryDescriptions;
+    private List<TemplateDroneDescriptionJSON> drones;
+    private List<TemplateDeliveryDescriptionJSON> deliveries;
 
     public TemplateDronesDeliveriesDescriptionJSON(List<TemplateDroneDescriptionJSON> droneDescriptions, List<TemplateDeliveryDescriptionJSON> deliveryDescriptions) {
-        this.droneDescriptions = droneDescriptions;
-        this.deliveryDescriptions = deliveryDescriptions;
+        this.drones = droneDescriptions;
+        this.deliveries = deliveryDescriptions;
     }
 
     public List<TemplateDroneDescriptionJSON> getDroneDescriptions() {
-        return droneDescriptions;
+        return drones;
     }
 
     public void setDroneDescriptions(List<TemplateDroneDescriptionJSON> droneDescriptions) {
-        this.droneDescriptions = droneDescriptions;
+        this.drones = droneDescriptions;
     }
 
     public List<TemplateDeliveryDescriptionJSON> getDeliveryDescriptions() {
-        return deliveryDescriptions;
+        return deliveries;
     }
 
     public void setDeliveryDescriptions(List<TemplateDeliveryDescriptionJSON> deliveryDescriptions) {
-        this.deliveryDescriptions = deliveryDescriptions;
+        this.deliveries = deliveryDescriptions;
     }
 }
