@@ -7,6 +7,8 @@ public class Shipping {
 	private PackageToShip aPackageToShip;
 	private GPSLocation target;
 
+
+
 	public ShippingStatus getShippingStatus() {
 		return shippingStatus;
 	}

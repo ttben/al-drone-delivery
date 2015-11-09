@@ -26,6 +26,9 @@ public class TourServiceImpl implements TourService {
     }
 
     public Response newTour(String description) {
+        // Recup quelque chose ?
+        // Construire un delivery a partir de ça
+        // L'ajouter
         try {
             DropPoint dropPoint = objectMapper.readValue(description,DropPoint.class);
             TourStorage.getLast().addShipping(dropPoint);
