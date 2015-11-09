@@ -7,6 +7,14 @@ import fr.unice.polytech.si5.al.projet.central.Address;
  */
 public class DropPoint {
 
+    public Address getLocation() {
+        return location;
+    }
+
+    public void setLocation(Address location) {
+        this.location = location;
+    }
+
     private Address location;
 
     public DropPoint(Address l){

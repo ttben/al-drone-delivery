@@ -10,16 +10,28 @@ import java.util.List;
  */
 public class Tour {
 
-    private List<DropPoint> dropPointList;
-    private List<PackageToShip> packageToShips;
+    private List<DropPoint> dropPointList = new LinkedList<DropPoint>();
+    private List<PackageToShip> packageToShips = new LinkedList<PackageToShip>();
 
     public Tour(DropPoint dp, PackageToShip pt){
-        dropPointList = new LinkedList<DropPoint>();
-        packageToShips = new LinkedList<PackageToShip>();
-
-        dropPointList.add(dp);
-        packageToShips.add(pt);
+        getDropPointList().add(dp);
+        getPackageToShips().add(pt);
     }
 
 
+    public List<DropPoint> getDropPointList() {
+        return dropPointList;
+    }
+
+    public void setDropPointList(List<DropPoint> dropPointList) {
+        this.dropPointList = dropPointList;
+    }
+
+    public List<PackageToShip> getPackageToShips() {
+        return packageToShips;
+    }
+
+    public void setPackageToShips(List<PackageToShip> packageToShips) {
+        this.packageToShips = packageToShips;
+    }
 }
