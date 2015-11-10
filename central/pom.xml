@@ -14,9 +14,7 @@
     <!--
         Pour deployer le central, utilisez mvn clean package
         Le jar se lance et lance le serveur sur le port indiqué dans server.properties
-        Il utilisera (quand je ferai les bons appels)
-         les adresses des warehouses fournies dans addresses.properties
-        Pour verifier pour l'instant, allez sur 'http://localhost:8282/shipping'
+        Il utilisera les adresses des warehouses fournies dans addresses.properties
     -->
 
     <properties>
