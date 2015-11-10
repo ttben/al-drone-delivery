@@ -21,15 +21,16 @@ public class Main {
         Server jettyServer = new Server(port);
         jettyServer.setHandler(context);
 
-        ServletHolder shippingServlet = context.addServlet(
+        ServletHolder servlet = context.addServlet(
                 org.glassfish.jersey.servlet.ServletContainer.class, "/*");
-        shippingServlet.setInitOrder(0);
+        servlet.setInitOrder(0);
 
         // Tells the Jersey Servlet which REST service/class to load.
 
-        shippingServlet.setInitParameter(
+        servlet.setInitParameter(
                 "jersey.config.server.provider.classnames",
-                ShippingServiceImpl.class.getCanonicalName());
+                ShippingServiceImpl.class.getCanonicalName()
+                + "," + PackageServiceImpl.class.getCanonicalName());
 
         // Load addresses
         AddressesHolder.loadAddresses();
