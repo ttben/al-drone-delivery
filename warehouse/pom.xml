@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  
+
   <groupId>fr.unice.polytech.si5.al.drones</groupId>
   <artifactId>warehouse</artifactId>
   <version>1.0</version>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <name>Warehouse</name>
-
+  <parent>
+    <groupId>fr.unice.polytech.si5.al.projet</groupId>
+    <artifactId>deliveryByDronesApp</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
   <properties>
     <!-- Version for dependencies (CXF + JUnit) -->
     <junit.version>4.12</junit.version>
@@ -19,15 +23,18 @@
     <bundle.symbolicName>${project.artifactId}</bundle.symbolicName>
     <bundle.namespace>fr.unice.polytech.al.drones</bundle.namespace>
   </properties>
-
   <repositories>
     <repository>
       <id>codehaus</id>
       <url>http://repository.codehaus.org/org/codehaus</url>
     </repository>
   </repositories>
-
   <dependencies>
+    <dependency>
+      <groupId>fr.unice.polytech.si5.al.projet</groupId>
+      <artifactId>serverCommon</artifactId>
+      <version>1.0</version>
+    </dependency>
     <!-- JUnit for unit tests purpose -->
     <dependency>
       <groupId>junit</groupId>
@@ -53,16 +60,17 @@
       <version>20141113</version>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
-      <version>1.8.5</version>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.6.3</version>
     </dependency>
+
   </dependencies>
-  
-    <build>
-      <plugins>
-	<!-- Maven build plugin to create an OSGI bundle instead of a plain JAR file-->
-	<plugin>
+
+  <build>
+    <plugins>
+      <!-- Maven build plugin to create an OSGI bundle instead of a plain JAR file-->
+      <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
         <extensions>true</extensions>
@@ -83,8 +91,8 @@
             <Bundle-SymbolicName>warehouse</Bundle-SymbolicName>
             <Bundle-Version>${project.version}</Bundle-Version>
             <Export-Package>
-	      ${bundle.namespace}.warehouse.*;version="${project.version}"
-	    </Export-Package>
+              ${bundle.namespace}.warehouse.*;version="${project.version}"
+            </Export-Package>
             <Import-Package>
               javax.xml.bind,
               javax.xml.bind.annotation,
