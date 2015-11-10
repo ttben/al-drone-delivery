@@ -12,6 +12,8 @@ public class Delivery {
     String box;
     List<String> droneAlt;
 
+    public Delivery() {}
+
     public Delivery(String drone, String box, String droneAlt) {
         this.drone = drone;
         this.box = box;
