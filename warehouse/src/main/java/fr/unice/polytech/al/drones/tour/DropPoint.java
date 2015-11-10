@@ -32,6 +32,7 @@ public class DropPoint {
 
     private List<Delivery> deliveries = new LinkedList<Delivery>();
 
+
     public DropPoint(String l, List<Delivery> pt){
         this.location = l;
         this.deliveries = (pt);

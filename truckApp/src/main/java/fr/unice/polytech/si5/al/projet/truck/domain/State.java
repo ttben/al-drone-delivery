@@ -1,6 +1,6 @@
-package fr.unice.polytech.si5.al.projet.truck;
+package fr.unice.polytech.si5.al.projet.truck.domain;
 
-public abstract class State {
+public class State {
 
 	public boolean isValidated() {
 		return this.status == TaskStatus.VALIDATED;

@@ -1,4 +1,4 @@
-package fr.unice.polytech.si5.al.projet.truck;
+package fr.unice.polytech.si5.al.projet.truck.domain;
 
 
 public class GoToStep extends State {
@@ -15,7 +15,7 @@ public class GoToStep extends State {
 		this.status = TaskStatus.DONE;
 	}
 
-	String getDescription() {
+	public String getDescription() {
 		return "(Go To " + location + ")";
 	}
 }
