@@ -34,13 +34,13 @@ We are using Maven to support the build. Here is the structure of a valid Maven 
     ├── src
     │   └── main
     │       ├── java
-    │       └── resources
+    │       └── fr.unice.polytech.al.drones.central.resources
     └── test
 
 
   * The `pom.xml` file describes the project
   * The `src/main/java` directory contains the source code of the service
-  * The `src/main/resources` directory contains additional resources
+  * The `src/main/fr.unice.polytech.al.drones.central.resources` directory contains additional fr.unice.polytech.al.drones.central.resources
   * The `test` directory contains the unit testing source code for the service
 
 ### Step #2: Filling the POM description model
@@ -95,7 +95,7 @@ Considering the implemented service, we need to make it compliant with the OSGi 
 
 ### Step #4: Describing the OSGi component
 
-In the `resources` directory, we rely on a file named `OSGI-INF/blueprint/blueprint.xml` that describes the service as an OSGi component. This file describes where the service will be deployed (here under a `demo` URL prefix), and bind this exposition to the implementation class through the definition of a bean.
+In the `fr.unice.polytech.al.drones.central.resources` directory, we rely on a file named `OSGI-INF/blueprint/blueprint.xml` that describes the service as an OSGi component. This file describes where the service will be deployed (here under a `demo` URL prefix), and bind this exposition to the implementation class through the definition of a bean.
 
 ```xml
 <jaxrs:server id="genService" address="/demo">

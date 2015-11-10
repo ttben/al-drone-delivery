@@ -32,7 +32,7 @@ public class Assembly {
 
         StringBuilder result = new StringBuilder("");
 
-        //Get file from resources folder
+        //Get file from fr.unice.polytech.al.drones.central.resources folder
         ClassLoader classLoader = Assembly.class.getClassLoader();
         File file = new File(classLoader.getResource(fileName).getFile());
 

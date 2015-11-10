@@ -11,9 +11,6 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public interface ShippingService {
 
-    @GET
-    Response test();
-
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     Response addAShipping(String description);
