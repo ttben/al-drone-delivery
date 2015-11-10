@@ -21,9 +21,7 @@ public class TourStorage {
     }
 
     static {
-        ArrayList<Delivery> deliveries = new ArrayList<Delivery>();
-        deliveries.add(new Delivery("drone1", "package1","drone3"));
-
-        tourList.add(new Tour(new DropPoint("here",deliveries)));
+        tourList.add(new Tour(new DropPoint("here",
+                new Delivery("drone1", "package1","drone3"))));
     }
 }

@@ -33,8 +33,7 @@ public class TourServiceImpl implements TourService {
             DropPoint dropPoint = objectMapper.readValue(description,DropPoint.class);
             TourStorage.getLast().addShipping(dropPoint);
         } catch (IOException e) {
-            e.printStackTrace();
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();
+            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
         return Response.ok().build();
     }
