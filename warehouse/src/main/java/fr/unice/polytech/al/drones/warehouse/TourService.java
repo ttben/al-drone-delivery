@@ -17,6 +17,7 @@ public interface TourService {
     Response getTour();
 
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     Response newTour(String description);
 
     @Path("{id}/status")
