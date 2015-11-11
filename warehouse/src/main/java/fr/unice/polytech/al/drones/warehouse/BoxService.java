@@ -18,5 +18,5 @@ public interface BoxService {
 
     @PUT
     @Path("/{id}")
-    Response addBox(String id,String box);
+    Response addBox(@PathParam("{id}")String id,String box);
 }

@@ -18,7 +18,7 @@ public class AddressHolder {
         InputStream input = null;
 
         try {
-            input = new FileInputStream("classes/addresses.properties");
+            input = new FileInputStream("classes/centralAddress.properties");
         }catch (Throwable t){
             System.err.println("Can't find addresses configs.");
         }
