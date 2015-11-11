@@ -10,6 +10,9 @@ public class TourStorage {
 
     private static LinkedList<Tour> tourList = new LinkedList<Tour>();
 
+    public static void add(Tour t){
+        tourList.add(t);
+    }
 
     public static Tour getLast(){
         return tourList.getLast();

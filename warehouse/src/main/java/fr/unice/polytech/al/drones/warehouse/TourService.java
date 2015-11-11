@@ -14,10 +14,42 @@ public interface TourService {
 
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
+    /**
+     * [{
+     * "location":"location info",
+     * "deliveries":
+     *     [
+     *     {"drone":"droneId"
+     *     "box":"boxId"
+     *     "droneAlt":[
+     *          "drone":"droneId"
+     *      ]
+     *      }
+     *     ]
+     * }]
+     * @return
+     */
     Response getTour();
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    /**
+     * Payload :
+     * {
+     * "location":"location info",
+     * "deliveries":
+     *     [
+     *     {"drone":"droneId"
+     *     "box":"boxId"
+     *     "droneAlt":[
+     *          "drone":"droneId"
+     *      ]
+     *      }
+     *     ]
+     * }
+     * @param description
+     * @return
+     */
     Response newTour(String description);
 
     @Path("{id}/status")
