@@ -10,15 +10,9 @@ import java.util.Properties;
  */
 public class AddressesHolder {
 
-    private static Map<String, String> reelAdressToIP;
-
-    public static Map<String, String> getReelAdressToIP() {
-        return reelAdressToIP;
-    }
-
-    public static void loadAddresses() {
+    public static HashMap<String, String> loadAddresses() {
         System.out.println("Loading addresses");
-        reelAdressToIP = new HashMap<String, String>();
+        HashMap<String, String> reelAdressToIP = new HashMap<String, String>();
         Properties prop = new Properties();
         InputStream input = null;
 
@@ -36,5 +30,6 @@ public class AddressesHolder {
             reelAdressToIP.put(p.getKey().toString(), p.getValue().toString());
         }
         System.out.println("Addresses : " + prop.entrySet());
+        return reelAdressToIP;
     }
 }
