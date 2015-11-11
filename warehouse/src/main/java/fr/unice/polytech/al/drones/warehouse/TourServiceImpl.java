@@ -1,13 +1,19 @@
 package fr.unice.polytech.al.drones.warehouse;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.al.drones.tour.Delivery;
 import fr.unice.polytech.al.drones.tour.DropPoint;
 import fr.unice.polytech.al.drones.tour.Tour;
 import fr.unice.polytech.al.drones.tour.TourStorage;
+import fr.unice.polytech.si5.al.projet.central.Address;
+import fr.unice.polytech.si5.al.projet.shipping.Dimensions;
+import fr.unice.polytech.si5.al.projet.shipping.PackageToShip;
+import fr.unice.polytech.si5.al.projet.shipping.Weight;
 
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,11 +42,24 @@ public class TourServiceImpl implements TourService {
      * @return
      */
     public Response getTour() {
+        /**
         Tour tour = TourStorage.getLast();
         try {
             return Response.ok(objectMapper.writeValueAsString(tour.getDropPoints())).build();
         } catch (IOException e) {
             return Response.status(Response.Status.NOT_FOUND).build();
+        }**/
+        List<PackageToShip> pkts = new ArrayList<>();
+
+        PackageToShip pts = new PackageToShip(new Address("here"),new Weight(10),new Dimensions(10,10,19));
+        PackageToShip pts2 = new PackageToShip(new Address("here"),new Weight(10),new Dimensions(10,10,19));
+        pkts.add(pts);
+        pkts.add(pts2);
+
+        try {
+            return Response.ok(objectMapper.writeValueAsString(pkts)).build();
+        } catch (JsonProcessingException e) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
     }
 

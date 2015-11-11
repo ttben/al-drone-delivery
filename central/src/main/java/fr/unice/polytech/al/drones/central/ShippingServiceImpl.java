@@ -4,16 +4,15 @@ import fr.unice.polytech.al.drones.central.business.CentralModel;
 import fr.unice.polytech.al.drones.central.business.DropPoint;
 import fr.unice.polytech.al.drones.central.config.AddressesHolder;
 import fr.unice.polytech.si5.al.projet.shipping.PackageToShip;
-import org.codehaus.jackson.map.ObjectMapper;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.HTTP;
 
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 // Here we generate JSON data from scratch, one should use a framework instead
@@ -22,15 +21,16 @@ public class ShippingServiceImpl implements ShippingService {
     public Response addAShipping(String description) {
         ObjectMapper mapper = new ObjectMapper();
         // PackageToShip en reception
-
-        List<PackageToShip> pkts;
+        PackageToShip pt;
+        List<PackageToShip> pkts = new ArrayList<>();
         try {
-            pkts = Arrays.asList(
-                    mapper.readValue(description, PackageToShip[].class));
+            //pkts = mapper.readValue(description, mapper.getTypeFactory().constructCollectionLikeType(List.class, PackageToShip.class))
+            pt = mapper.readValue(description,PackageToShip.class);
         } catch (Throwable t){
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            t.printStackTrace();
+            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
-
+        pkts.add(pt);
         HashMap<String, List<PackageToShip>> packagesToWarehouses
                 = new HashMap<String, List<PackageToShip>>();
 
@@ -42,7 +42,7 @@ public class ShippingServiceImpl implements ShippingService {
             packagesToWarehouses.get(ip).add(pack);
         }
 
-        List<DropPoint> drops = new ArrayList<DropPoint>();
+        List<DropPoint> drops = new LinkedList<>();
         for(String ip : packagesToWarehouses.keySet()){
             List<PackageToShip> toSend = packagesToWarehouses.get(ip);
             drops.add(CentralModel.getDropPoint(toSend));

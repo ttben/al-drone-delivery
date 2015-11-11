@@ -44,4 +44,6 @@ public class Delivery {
     public void setDroneAlt(List<String> droneAlt) {
         this.droneAlt = droneAlt;
     }
+
+
 }

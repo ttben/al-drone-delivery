@@ -23,4 +23,19 @@ public class Dimensions {
 	public double getDepth() {
 		return depth;
 	}
+
+	public Dimensions() {
+	}
+
+	public void setWidth(double width) {
+		this.width = width;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
+	}
+
+	public void setDepth(double depth) {
+		this.depth = depth;
+	}
 }

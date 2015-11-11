@@ -15,7 +15,17 @@ public class PackageToShip {
 		this.dimensions = dimensions;
 	}
 
+	public void setDimensions(Dimensions dimensions) {
+		this.dimensions = dimensions;
+	}
 
+	public void setWeight(Weight weight) {
+		this.weight = weight;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
 
 	public Dimensions getDimensions() {
 		return dimensions;
@@ -27,5 +37,8 @@ public class PackageToShip {
 
 	public Address getAddress() {
 		return address;
+	}
+
+	public PackageToShip() {
 	}
 }
