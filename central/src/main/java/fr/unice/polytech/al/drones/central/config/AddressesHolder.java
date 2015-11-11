@@ -32,6 +32,9 @@ public class AddressesHolder {
         } catch (IOException e) {
             System.err.println("Malformed addresses configs.");
         }
+        for(Map.Entry<Object, Object> p : prop.entrySet()){
+            reelAdressToIP.put(p.getKey().toString(), p.getValue().toString());
+        }
         System.out.println("Addresses : " + prop.entrySet());
     }
 }

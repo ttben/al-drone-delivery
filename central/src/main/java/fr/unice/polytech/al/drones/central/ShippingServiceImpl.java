@@ -33,7 +33,7 @@ public class ShippingServiceImpl implements ShippingService {
 
         Client client = ClientBuilder.newClient();
         System.out.println("IP destination : " + ip);
-        WebTarget resource = client.target(ip + "cxf/warehouse/tour");
+        WebTarget resource = client.target(ip + "/tour");
         Entity e = Entity.entity(description, MediaType.APPLICATION_JSON);
         Invocation.Builder b = resource.request();
 
