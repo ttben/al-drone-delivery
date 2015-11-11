@@ -91,12 +91,13 @@ public class TourServiceImpl implements TourService {
         try {
             list = Arrays.asList(objectMapper.readValue(description, DropPoint[].class));
         } catch (IOException e) {
+            System.out.println(e.getStackTrace());
             return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();
         }
 
         Tour t = new Tour(list);
         TourStorage.add(t);
-
+        System.out.println("ok " + TourStorage.getLast().toString());
         /**
          try {
          DropPoint dropPoint = objectMapper.readValue(description,DropPoint.class);

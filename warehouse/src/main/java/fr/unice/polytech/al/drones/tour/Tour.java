@@ -28,4 +28,11 @@ public class Tour {
     public void addShipping(DropPoint sp){
         dropPoints.add(sp);
     }
+
+    @Override
+    public String toString() {
+        return "Tour{" +
+                "dropPoints=" + dropPoints +
+                '}';
+    }
 }

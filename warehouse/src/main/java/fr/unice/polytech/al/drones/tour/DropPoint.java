@@ -37,4 +37,12 @@ public class DropPoint {
     public DropPoint() {
 
     }
+
+    @Override
+    public String toString() {
+        return "DropPoint{" +
+                "location='" + location + '\'' +
+                ", deliveries=" + deliveries +
+                '}';
+    }
 }
