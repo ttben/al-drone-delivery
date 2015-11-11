@@ -11,6 +11,10 @@ public class Tour {
         dropPoints.add(dropPoint);
     }
 
+    public Tour(List<DropPoint> list) {
+        dropPoints = list;
+    }
+
     public List<DropPoint> getDropPoints() {
         return dropPoints;
     }

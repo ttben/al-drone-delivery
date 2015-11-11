@@ -13,6 +13,12 @@ public class DroneServiceImpl implements DroneService {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
+    /**
+     * Returns :
+     * {"drone":"droneName"}
+     * @param id
+     * @return
+     */
     public Response getDroneInfo(String id) {
         try {
             return Response.ok(objectMapper.writeValueAsString(DroneStorage.read(id))).build();

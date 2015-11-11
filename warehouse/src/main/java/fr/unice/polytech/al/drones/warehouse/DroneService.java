@@ -12,5 +12,11 @@ import javax.ws.rs.core.Response;
 public interface DroneService {
     @GET
     @Path("/{id}")
+    /**
+     * Returns :
+     * {"drone":"droneName"}
+     * @param id drone id
+     * @return
+     */
     Response getDroneInfo(@PathParam("{id}") String id);
 }
