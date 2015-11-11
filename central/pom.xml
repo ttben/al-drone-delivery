@@ -10,7 +10,11 @@
     <version>1.0</version>
     <packaging>jar</packaging>
     <name>Central</name>
-
+    <parent>
+        <groupId>fr.unice.polytech.si5.al.projet</groupId>
+        <artifactId>deliveryByDronesApp</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <properties>
         <!-- Version for dependencies (CXF + JUnit) -->
         <junit.version>4.12</junit.version>
@@ -21,6 +25,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>fr.unice.polytech.si5.al.projet</groupId>
+            <artifactId>serverCommon</artifactId>
+            <version>1.0</version>
+        </dependency>
         <!-- JUnit for unit tests purpose -->
         <dependency>
             <groupId>junit</groupId>
