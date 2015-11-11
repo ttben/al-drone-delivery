@@ -7,6 +7,7 @@ import fr.unice.polytech.si5.al.projet.shipping.PackageToShip;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.unice.polytech.si5.al.projet.shipping.PackageToShipList;
 import org.json.HTTP;
 
 import javax.ws.rs.client.*;
@@ -22,20 +23,18 @@ public class ShippingServiceImpl implements ShippingService {
         ObjectMapper mapper = new ObjectMapper();
         // PackageToShip en reception
         PackageToShip pt;
-        List<PackageToShip> pkts = new ArrayList<>();
+        PackageToShipList pkts;
         try {
-            //pkts = mapper.readValue(description, mapper.getTypeFactory().constructCollectionLikeType(List.class, PackageToShip.class))
-            pt = mapper.readValue(description,PackageToShip.class);
+            pkts = mapper.readValue(description,  PackageToShipList.class);
         } catch (Throwable t){
             t.printStackTrace();
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
-        pkts.add(pt);
         HashMap<String, List<PackageToShip>> packagesToWarehouses
                 = new HashMap<String, List<PackageToShip>>();
 
         // Choose packages
-        for(PackageToShip pack : pkts){
+        for(PackageToShip pack : pkts.getPackageToShipList()){
             String ip = CentralModel.chooseWarehouseIP(pack.getAddress());
             if(!packagesToWarehouses.keySet().contains(ip))
                 packagesToWarehouses.put(ip, new ArrayList<PackageToShip>());

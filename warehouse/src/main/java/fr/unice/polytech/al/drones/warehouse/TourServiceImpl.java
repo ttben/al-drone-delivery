@@ -9,6 +9,7 @@ import fr.unice.polytech.al.drones.tour.TourStorage;
 import fr.unice.polytech.si5.al.projet.central.Address;
 import fr.unice.polytech.si5.al.projet.shipping.Dimensions;
 import fr.unice.polytech.si5.al.projet.shipping.PackageToShip;
+import fr.unice.polytech.si5.al.projet.shipping.PackageToShipList;
 import fr.unice.polytech.si5.al.projet.shipping.Weight;
 
 import javax.ws.rs.core.Response;
@@ -55,10 +56,12 @@ public class TourServiceImpl implements TourService {
         PackageToShip pts2 = new PackageToShip(new Address("here"),new Weight(10),new Dimensions(10,10,19));
         pkts.add(pts);
         pkts.add(pts2);
+        PackageToShipList pktsl = new PackageToShipList(pkts);
 
         try {
-            return Response.ok(objectMapper.writeValueAsString(pkts)).build();
+            return Response.ok(objectMapper.writeValueAsString(pktsl)).build();
         } catch (JsonProcessingException e) {
+            System.out.println(e.getStackTrace());
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
     }
