@@ -23,12 +23,6 @@
         <bundle.symbolicName>${project.artifactId}</bundle.symbolicName>
         <bundle.namespace>fr.unice.polytech.al.drones</bundle.namespace>
     </properties>
-    <repositories>
-        <repository>
-            <id>codehaus</id>
-            <url>http://repository.codehaus.org/org/codehaus</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>
@@ -104,6 +98,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
