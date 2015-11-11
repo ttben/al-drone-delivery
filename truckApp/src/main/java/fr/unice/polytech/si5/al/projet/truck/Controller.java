@@ -26,71 +26,87 @@ public class Controller {
 	private Tour model;
 	private View view;
 
+	public static boolean DEMO = true;
+
 	public Controller() throws IOException {
 
-		URL warehouseGetTour = new URL("http://localhost:8181/cxf/warehouse/tour");
-		URLConnection yc = warehouseGetTour.openConnection();
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(
-						yc.getInputStream()));
-		String inputLine;
+		Tour t = null;
 
-		String res = "";
-		while ((inputLine = in.readLine()) != null) {
-			System.out.println(inputLine);
-			res += inputLine;
+		if(DEMO) {
+
+			System.out.println("Recuperation des informations sur la tournee ...");
+
+			URL warehouseGetTour = new URL("http://localhost:8181/cxf/warehouse/tour");
+			URLConnection yc = warehouseGetTour.openConnection();
+			BufferedReader in = new BufferedReader(
+					new InputStreamReader(
+							yc.getInputStream()));
+			String inputLine;
+
+			String res = "";
+			while ((inputLine = in.readLine()) != null) {
+				res += inputLine;
+			}
+			in.close();
+
+
+			t = Assembly.getTourFromJson(Assembly.getFile("json/drones-n-deliveries-descriptions.json"), res);
 		}
-		in.close();
+		else {
 
 
-		Tour t = Assembly.getTourFromJson(Assembly.getFile("json/drones-n-deliveries-descriptions.json"), res);
+			List<Drone> drones = new ArrayList<>();
+			Drone packito = new Drone("7", "Packito");
+			Drone geraldo = new Drone("3", "Geraldo");
+			Drone helperado = new Drone("4", "The helper");
 
+			Delivery delivery1OfPackito = new Delivery(new DeliveryID("d1"), "-82.55N 78.79E");
+			Delivery delivery2OfPackito = new Delivery(new DeliveryID("d2"), "-82.50N 77.19E");
 
-		/*
-		List<Drone> drones = new ArrayList<>();
-		Drone packito = new Drone("7","Packito");
-		Drone geraldo = new Drone("3", "Geraldo");
-		Drone helperado = new Drone("4", "The helper");
+			Delivery delivery1OfGeraldo = new Delivery(new DeliveryID("d3"), "-81.55N 75.79E");
 
-		Delivery delivery1OfPackito = new Delivery(new DeliveryID("d1"), "-82.55N 78.79E");
-		Delivery delivery2OfPackito = new Delivery(new DeliveryID("d2"), "-82.50N 77.19E");
+			packito.addDelivery(delivery1OfPackito);
+			packito.addDelivery(delivery2OfPackito);
 
-		Delivery delivery1OfGeraldo = new Delivery(new DeliveryID("d3"), "-81.55N 75.79E");
+			geraldo.addDelivery(delivery1OfGeraldo);
 
-		packito.addDelivery(delivery1OfPackito);
-		packito.addDelivery(delivery2OfPackito);
+			drones.add(packito);
+			drones.add(geraldo);
+			drones.add(helperado);
 
-		geraldo.addDelivery(delivery1OfGeraldo);
+			Map<DeliveryID, List<Drone>> altDrones = new HashMap<>();
+			List<Drone> listAltDrones = new ArrayList<>();
+			listAltDrones.add(helperado);
+			altDrones.put(delivery2OfPackito.getID(), listAltDrones);
 
-		drones.add(packito);
-		drones.add(geraldo);
-		drones.add(helperado);
+			GoToStep goToStep = new GoToStep("Super U", "-82.5588N 78.787E");
+			Deployment deployment = new Deployment(drones, altDrones);
 
-		Map<DeliveryID, List<Drone>> altDrones = new HashMap<>();
-		List<Drone> listAltDrones = new ArrayList<>();
-		listAltDrones.add(helperado);
-		altDrones.put(delivery2OfPackito.getID(), listAltDrones);
+			DropPoint dp = new DropPoint(goToStep, deployment);
+			List<DropPoint> dps = new ArrayList<>();
+			dps.add(dp);
 
-		GoToStep goToStep = new GoToStep("Super U", "-82.5588N 78.787E");
-		Deployment deployment = new Deployment(drones, altDrones);
+			t = new Tour(dps);
+		}
 
-		DropPoint dp = new DropPoint(goToStep, deployment);
-		List<DropPoint> dps = new ArrayList<>();
-		dps.add(dp);
-		*/
 		this.model = t;
 		this.view = new ConsoleView(this);
 		this.getGlobalTourDescription();
-
 	}
 
 	public void getGlobalTourDescription() {
 		Map<String, Object> globalTourDescription;
 
 		try {
-			globalTourDescription = this.model.getGlobalDeliveriesDescription();
+			if(this.model.isFinished()){
+				this.view.displayTourFinished();
+			}
+			else {
+				globalTourDescription = this.model.getGlobalDeliveriesDescription();
+				this.view.displayTourState(globalTourDescription);
+			}
 
-			this.view.displayTourState(globalTourDescription);
+
 		} catch (IllegalAccessException e) {
 			this.view.displayStartTour();
 		}

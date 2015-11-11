@@ -1,5 +1,6 @@
 package fr.unice.polytech.si5.al.projet.truck.domain;
 
+import fr.unice.polytech.si5.al.projet.truck.Controller;
 import fr.unice.polytech.si5.al.projet.truck.domain.delivery.Delivery;
 import fr.unice.polytech.si5.al.projet.truck.domain.delivery.DeliveryID;
 import fr.unice.polytech.si5.al.projet.truck.domain.drone.Drone;
@@ -88,6 +89,13 @@ public class Tour {
 
 	public void droneDead(DroneID droneID) {
 		this.currentDropPoint.declareDroneIsDead(droneID);
+	}
+
+	public boolean isFinished(){
+		if(!Controller.DEMO) {
+			System.out.println("Check if tour is finished ...\nCurrent dropPoint has next ? " + currentDropPoint.hasNext() + "\nCurrentDropPoint is done ? " + currentDropPoint.isDone());
+		}
+		return !currentDropPoint.hasNext() && currentDropPoint.isDone();
 	}
 }
 

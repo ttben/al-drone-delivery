@@ -21,4 +21,6 @@ public interface View {
 	void displayStartTour();
 
 	void displayDroneNotFound(String droneID);
+
+	void displayTourFinished();
 }

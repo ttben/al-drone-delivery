@@ -11,6 +11,11 @@ class StartDeliveryState extends DeliveryState {
 	}
 
 	@Override
+	public DeliveryState fail(){
+		return new FailedDeliveryState();
+	}
+
+	@Override
 	public boolean hasStarted() {
 		return true;
 	}

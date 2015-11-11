@@ -141,6 +141,7 @@ public class Drone {
 
 	public void flushAllDeliveries() {
 		this.deliveries = new LinkedList<>();
+		this.currentDelivery = null;
 		this.pendingDeliveries = new LinkedList<>();
 		this.doneDeliveries = new LinkedList<>();
 		this.failedDeliveries = new LinkedList<>();
@@ -166,6 +167,6 @@ public class Drone {
 
 	@Override
 	public String toString() {
-		return "#" + this.ID.toString() + " " + this.name + " --- " + this.pendingDeliveries;
+		return "#" + this.ID.toString() + " " + this.name + " --- current : " + this.currentDelivery + " -- pending : " + this.pendingDeliveries;
 	}
 }

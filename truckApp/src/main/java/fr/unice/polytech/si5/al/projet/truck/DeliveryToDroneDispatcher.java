@@ -35,7 +35,9 @@ public class DeliveryToDroneDispatcher {
 	 * @return List of deliveries that did not found a alt drone
 	 */
 	public static List<Drone> dispatchAfterDeadDrone(List<Delivery> deliveriesToDispatch, Map<DeliveryID, List<Drone>> droneAltAssociation) {
-		System.out.println("DELIVERIES TO DISPATCH : " + deliveriesToDispatch + " DRONE ALT ASSOC " + droneAltAssociation);
+		if(!Controller.DEMO) {
+			System.out.println("DELIVERIES TO DISPATCH : " + deliveriesToDispatch + " DRONE ALT ASSOC " + droneAltAssociation);
+		}
 
 		List<Delivery> failedDelivery = new ArrayList<>();
 		List<Drone> dronesUsed = new ArrayList<>();
@@ -60,6 +62,7 @@ public class DeliveryToDroneDispatcher {
 			if(!replacementFound) {
 				failedDelivery.add(delivery);
 				delivery.fail();
+
 			}
 		}
 		return dronesUsed;
