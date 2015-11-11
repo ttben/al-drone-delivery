@@ -1,5 +1,6 @@
 package fr.unice.polytech.al.drones.central;
 
+import fr.unice.polytech.al.drones.central.business.CentralModel;
 import fr.unice.polytech.al.drones.central.config.AddressesHolder;
 import fr.unice.polytech.al.drones.central.config.PortReacher;
 import org.eclipse.jetty.server.Server;
@@ -33,7 +34,7 @@ public class Main {
                 + "," + PackageServiceImpl.class.getCanonicalName());
 
         // Load addresses
-        AddressesHolder.loadAddresses();
+        CentralModel cm = new CentralModel(AddressesHolder.loadAddresses());
         System.out.println("// ------- Server starting on port " + port);
         try {
             jettyServer.start();
