@@ -4,7 +4,6 @@ import fr.unice.polytech.si5.al.projet.central.Address;
 import fr.unice.polytech.si5.al.projet.drone.GPSLocation;
 import fr.unice.polytech.si5.al.projet.shipping.*;
 
-import javax.ws.rs.core.Response;
 import java.util.HashMap;
 
 /**

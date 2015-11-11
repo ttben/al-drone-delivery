@@ -1,10 +1,5 @@
 package fr.unice.polytech.al.drones.tour;
 
-import fr.unice.polytech.si5.al.projet.central.Address;
-import fr.unice.polytech.si5.al.projet.shipping.Dimensions;
-import fr.unice.polytech.si5.al.projet.shipping.PackageToShip;
-import fr.unice.polytech.si5.al.projet.shipping.Weight;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 

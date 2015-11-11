@@ -29,6 +29,7 @@
       <url>http://repository.codehaus.org/org/codehaus</url>
     </repository>
   </repositories>
+
   <dependencies>
     <dependency>
       <groupId>fr.unice.polytech.si5.al.projet</groupId>
@@ -69,43 +70,69 @@
 
   <build>
     <plugins>
-      <!-- Maven build plugin to create an OSGI bundle instead of a plain JAR file-->
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <extensions>true</extensions>
-        <version>2.5.4</version>
-        <executions>
-          <execution>
-            <id>bundle-manifest</id>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>manifest</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <instructions>
-            <Embed-Dependency>*;scope=compile;inline=false</Embed-Dependency>
-            <Embed-Transitive>true</Embed-Transitive>
-            <Bundle-SymbolicName>warehouse</Bundle-SymbolicName>
-            <Bundle-Version>${project.version}</Bundle-Version>
-            <Export-Package>
-              ${bundle.namespace}.warehouse.*;version="${project.version}"
-            </Export-Package>
-            <Import-Package>
-              javax.xml.bind,
-              javax.xml.bind.annotation,
-              javax.ws.rs,
-              javax.ws.rs.core,
-              javax.ws.rs.ext,
-              org.osgi.service.blueprint
-            </Import-Package>
-          </instructions>
-        </configuration>
-      </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.6</version>
+                <configuration>
+                    <createDependencyReducedPom>true</createDependencyReducedPom>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*.SF</exclude>
+                                <exclude>META-INF/*.DSA</exclude>
+                                <exclude>META-INF/*.RSA</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+                </configuration>
 
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>fr.unice.polytech.al.drones.warehouse.Main</Main-Class>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <outputDirectory>../libs</outputDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
 
-    </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+
   </build>
 </project>
