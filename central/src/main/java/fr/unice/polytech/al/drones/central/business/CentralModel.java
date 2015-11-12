@@ -20,6 +20,10 @@ public class CentralModel {
         w = new WarehouseChooser(warehouses);
     }
 
+    private static int INDEX_DRONE = 1;
+    private static int INDEX_BOX = 1;
+
+
     public CentralModel getInstance(){
         if(m == null)
             m = new CentralModel(AddressesHolder.loadAddresses());
@@ -33,9 +37,11 @@ public class CentralModel {
 
     public static DropPoint getDropPoint(List<PackageToShip> toSend) {
         ArrayList<Delivery> deliveries = new ArrayList<Delivery>();
-        for(PackageToShip pck : toSend){
-            deliveries.add(new Delivery("drone1", "box", "drone2"));
-        }
+
+        deliveries.add(new Delivery("d1", "p1", "d3"));
+        deliveries.add(new Delivery("d1", "p2", "d3"));
+        deliveries.add(new Delivery("d2", "p3", "d3"));
+
         return new DropPoint("dropLocation", deliveries);
     }
 }

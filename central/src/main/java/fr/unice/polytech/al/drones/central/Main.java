@@ -36,9 +36,17 @@ public class Main {
         // Load addresses
         CentralModel cm = new CentralModel(AddressesHolder.loadAddresses());
         System.out.println("// ------- Server starting on port " + port);
+
+        System.out.println("\n\n\t=====================================================\n\t\t\t\tCENTRAL\n" +
+                "\t=====================================================");
+
         try {
             jettyServer.start();
+
+
+
             jettyServer.join();
+
         } finally {
             jettyServer.destroy();
         }

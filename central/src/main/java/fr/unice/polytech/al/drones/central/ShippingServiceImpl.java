@@ -20,6 +20,8 @@ import java.util.*;
 public class ShippingServiceImpl implements ShippingService {
 
     public Response addAShipping(String description) {
+        System.out.println("\n\t+ Central -- Demande de prise en charge reçue");
+
         ObjectMapper mapper = new ObjectMapper();
         // PackageToShip en reception
         PackageToShip pt;
@@ -40,6 +42,9 @@ public class ShippingServiceImpl implements ShippingService {
                 packagesToWarehouses.put(ip, new ArrayList<PackageToShip>());
             packagesToWarehouses.get(ip).add(pack);
         }
+
+        System.out.println("\n\t+ Central -- Envoi la description de la tournee a l'entrepot");
+
 
         List<DropPoint> drops = new LinkedList<>();
         for(String ip : packagesToWarehouses.keySet()){
