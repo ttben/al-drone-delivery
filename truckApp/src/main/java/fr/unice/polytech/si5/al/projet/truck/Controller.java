@@ -26,12 +26,15 @@ public class Controller {
 	private Tour model;
 	private View view;
 
-	private boolean demo = true;
+	private static boolean DEMO = true;
 
 	public Controller() throws IOException {
 		Tour t = null;
 
-		if(!demo) {
+		if(DEMO) {
+
+			System.out.println("Recuperation des informations sur la tournee ...");
+
 			URL warehouseGetTour = new URL("http://localhost:8181/cxf/warehouse/tour");
 			URLConnection yc = warehouseGetTour.openConnection();
 			BufferedReader in = new BufferedReader(
@@ -84,19 +87,25 @@ public class Controller {
 
 			t = new Tour(dps);
 		}
+
 		this.model = t;
 		this.view = new ConsoleView(this);
 		this.getGlobalTourDescription();
-
 	}
 
 	public void getGlobalTourDescription() {
 		Map<String, Object> globalTourDescription;
 
 		try {
-			globalTourDescription = this.model.getGlobalDeliveriesDescription();
+			if(this.model.isFinished()){
+				this.view.displayTourFinished();
+			}
+			else {
+				globalTourDescription = this.model.getGlobalDeliveriesDescription();
+				this.view.displayTourState(globalTourDescription);
+			}
 
-			this.view.displayTourState(globalTourDescription);
+
 		} catch (IllegalAccessException e) {
 			this.view.displayStartTour();
 		}
