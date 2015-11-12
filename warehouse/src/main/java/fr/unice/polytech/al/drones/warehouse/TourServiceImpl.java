@@ -99,7 +99,7 @@ public class TourServiceImpl implements TourService {
 
         Tour t = new Tour(list);
         TourStorage.add(t);
-        System.out.println("ok " + TourStorage.getLast().toString());
+        System.out.println("\n\t+ Warehouse -- Nouvelle tournee reçue");
         /**
          try {
          DropPoint dropPoint = objectMapper.readValue(description,DropPoint.class);

@@ -37,9 +37,16 @@ public class Main {
         // Load addresses
         AddressHolder.loadAddress();
         System.out.println("// ------- Server starting on port "+port);
+
+        System.out.println("\n\n\t=====================================================\n\t\t\t\tWAREHOUSE\n" +
+                "\t=====================================================");
+
+
         try
         {
             jettyServer.start();
+
+
             jettyServer.join();
         }
         finally
