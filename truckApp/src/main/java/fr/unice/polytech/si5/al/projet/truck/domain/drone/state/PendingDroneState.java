@@ -1,5 +1,6 @@
 package fr.unice.polytech.si5.al.projet.truck.domain.drone.state;
 
+import fr.unice.polytech.si5.al.projet.truck.Controller;
 import fr.unice.polytech.si5.al.projet.truck.domain.drone.Drone;
 
 class PendingDroneState extends DroneState {
@@ -27,6 +28,10 @@ class PendingDroneState extends DroneState {
 	@Override
 	public DroneState declareFailure() {
 		this.drone.flushAllDeliveries();
+
+		if(!Controller.DEMO) {
+			System.out.println("Drone was pending and is declared in failure");
+		}
 		return new FailureDeclaredDroneState();
 	}
 }

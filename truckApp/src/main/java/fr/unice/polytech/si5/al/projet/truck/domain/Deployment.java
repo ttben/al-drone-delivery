@@ -123,7 +123,7 @@ public class Deployment {
 	 * @return true if done, false otherwise
 	 */
 	public boolean isDone() {
-
+		System.out.println("Check if deployment is done ...\n" + this.drones);
 		for(Drone drone : drones) {
 			if(drone.getRemainingDeliveries().size() > 0) {
 				return false;

@@ -158,6 +158,11 @@ public class ConsoleView implements View {
 		System.out.println("Le drone de numero " + droneID + " n'a pas ete trouve");
 	}
 
+	@Override
+	public void displayTourFinished() {
+		System.out.println("C'est fini !!!!");
+	}
+
 
 	private String readInput() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
