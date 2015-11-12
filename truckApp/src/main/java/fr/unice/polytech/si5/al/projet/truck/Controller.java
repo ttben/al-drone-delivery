@@ -26,58 +26,64 @@ public class Controller {
 	private Tour model;
 	private View view;
 
+	private boolean demo = true;
+
 	public Controller() throws IOException {
+		Tour t = null;
 
-		URL warehouseGetTour = new URL("http://localhost:8181/cxf/warehouse/tour");
-		URLConnection yc = warehouseGetTour.openConnection();
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(
-						yc.getInputStream()));
-		String inputLine;
+		if(!demo) {
+			URL warehouseGetTour = new URL("http://localhost:8181/cxf/warehouse/tour");
+			URLConnection yc = warehouseGetTour.openConnection();
+			BufferedReader in = new BufferedReader(
+					new InputStreamReader(
+							yc.getInputStream()));
+			String inputLine;
 
-		String res = "";
-		while ((inputLine = in.readLine()) != null) {
-			System.out.println(inputLine);
-			res += inputLine;
+			String res = "";
+			while ((inputLine = in.readLine()) != null) {
+				System.out.println(inputLine);
+				res += inputLine;
+			}
+			in.close();
+
+
+			t = Assembly.getTourFromJson(Assembly.getFile("json/drones-n-deliveries-descriptions.json"), res);
 		}
-		in.close();
 
+		else {
+			List<Drone> drones = new ArrayList<>();
+			Drone packito = new Drone("7", "Packito");
+			Drone geraldo = new Drone("3", "Geraldo");
+			Drone helperado = new Drone("4", "The helper");
 
-		Tour t = Assembly.getTourFromJson(Assembly.getFile("json/drones-n-deliveries-descriptions.json"), res);
+			Delivery delivery1OfPackito = new Delivery(new DeliveryID("d1"), "-82.55N 78.79E");
+			Delivery delivery2OfPackito = new Delivery(new DeliveryID("d2"), "-82.50N 77.19E");
 
+			Delivery delivery1OfGeraldo = new Delivery(new DeliveryID("d3"), "-81.55N 75.79E");
 
-		/*
-		List<Drone> drones = new ArrayList<>();
-		Drone packito = new Drone("7","Packito");
-		Drone geraldo = new Drone("3", "Geraldo");
-		Drone helperado = new Drone("4", "The helper");
+			packito.addDelivery(delivery1OfPackito);
+			packito.addDelivery(delivery2OfPackito);
 
-		Delivery delivery1OfPackito = new Delivery(new DeliveryID("d1"), "-82.55N 78.79E");
-		Delivery delivery2OfPackito = new Delivery(new DeliveryID("d2"), "-82.50N 77.19E");
+			geraldo.addDelivery(delivery1OfGeraldo);
 
-		Delivery delivery1OfGeraldo = new Delivery(new DeliveryID("d3"), "-81.55N 75.79E");
+			drones.add(packito);
+			drones.add(geraldo);
+			drones.add(helperado);
 
-		packito.addDelivery(delivery1OfPackito);
-		packito.addDelivery(delivery2OfPackito);
+			Map<DeliveryID, List<Drone>> altDrones = new HashMap<>();
+			List<Drone> listAltDrones = new ArrayList<>();
+			listAltDrones.add(helperado);
+			altDrones.put(delivery2OfPackito.getID(), listAltDrones);
 
-		geraldo.addDelivery(delivery1OfGeraldo);
+			GoToStep goToStep = new GoToStep("Super U", "-82.5588N 78.787E");
+			Deployment deployment = new Deployment(drones, altDrones);
 
-		drones.add(packito);
-		drones.add(geraldo);
-		drones.add(helperado);
+			DropPoint dp = new DropPoint(goToStep, deployment);
+			List<DropPoint> dps = new ArrayList<>();
+			dps.add(dp);
 
-		Map<DeliveryID, List<Drone>> altDrones = new HashMap<>();
-		List<Drone> listAltDrones = new ArrayList<>();
-		listAltDrones.add(helperado);
-		altDrones.put(delivery2OfPackito.getID(), listAltDrones);
-
-		GoToStep goToStep = new GoToStep("Super U", "-82.5588N 78.787E");
-		Deployment deployment = new Deployment(drones, altDrones);
-
-		DropPoint dp = new DropPoint(goToStep, deployment);
-		List<DropPoint> dps = new ArrayList<>();
-		dps.add(dp);
-		*/
+			t = new Tour(dps);
+		}
 		this.model = t;
 		this.view = new ConsoleView(this);
 		this.getGlobalTourDescription();
