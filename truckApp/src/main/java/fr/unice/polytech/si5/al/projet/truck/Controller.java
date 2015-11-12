@@ -26,7 +26,7 @@ public class Controller {
 	private Tour model;
 	private View view;
 
-	private static boolean DEMO = true;
+	public static boolean DEMO = true;
 
 	public Controller() throws IOException {
 		Tour t = null;
