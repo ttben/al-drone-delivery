@@ -43,13 +43,14 @@ public class TourServiceImpl implements TourService {
      * @return
      */
     public Response getTour() {
-        /**
+
         Tour tour = TourStorage.getLast();
         try {
             return Response.ok(objectMapper.writeValueAsString(tour.getDropPoints())).build();
         } catch (IOException e) {
             return Response.status(Response.Status.NOT_FOUND).build();
-        }**/
+        }
+        /*
         List<PackageToShip> pkts = new ArrayList<>();
 
         PackageToShip pts = new PackageToShip(new Address("here"),new Weight(10),new Dimensions(10,10,19));
@@ -64,6 +65,7 @@ public class TourServiceImpl implements TourService {
             System.out.println(e.getStackTrace());
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
+         */
     }
 
     /**
