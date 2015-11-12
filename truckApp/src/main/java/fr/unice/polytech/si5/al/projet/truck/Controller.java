@@ -35,7 +35,7 @@ public class Controller {
 
 			System.out.println("Recuperation des informations sur la tournee ...");
 
-			URL warehouseGetTour = new URL("http://localhost:8181/cxf/warehouse/tour");
+			URL warehouseGetTour = new URL("http://localhost:8383/tour");
 			URLConnection yc = warehouseGetTour.openConnection();
 			BufferedReader in = new BufferedReader(
 					new InputStreamReader(
@@ -44,7 +44,9 @@ public class Controller {
 
 			String res = "";
 			while ((inputLine = in.readLine()) != null) {
-				System.out.println(inputLine);
+				if(!DEMO) {
+					System.out.println(inputLine);
+				}
 				res += inputLine;
 			}
 			in.close();
@@ -152,7 +154,9 @@ public class Controller {
 	}
 
 	public void declareDroneProblem(String droneID) {
-		System.out.println("DRONE PB");
+		if(!DEMO) {
+			System.out.println("DRONE PB");
+		}
 		this.model.droneDead(new DroneID(droneID));
 		this.getGlobalTourDescription();
 	}

@@ -1,5 +1,6 @@
 package fr.unice.polytech.si5.al.projet.truck.domain;
 
+import fr.unice.polytech.si5.al.projet.truck.Controller;
 import fr.unice.polytech.si5.al.projet.truck.DeliveryToDroneDispatcher;
 import fr.unice.polytech.si5.al.projet.truck.domain.delivery.Delivery;
 import fr.unice.polytech.si5.al.projet.truck.domain.delivery.DeliveryID;
@@ -123,7 +124,10 @@ public class Deployment {
 	 * @return true if done, false otherwise
 	 */
 	public boolean isDone() {
-		System.out.println("Check if deployment is done ...\n" + this.drones);
+		if(!Controller.DEMO) {
+			System.out.println("Check if deployment is done ...\n" + this.drones);
+		}
+
 		for(Drone drone : drones) {
 			if(drone.getRemainingDeliveries().size() > 0) {
 				return false;

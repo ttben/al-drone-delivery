@@ -1,29 +1,29 @@
 {
   "drones": [
     {
-      "droneName": "kakarot",
-      "droneID": "drone1"
+      "droneName": "parrot rouge",
+      "droneID": "d1"
     },
     {
-      "droneName": "derp",
-      "droneID": "droneID2"
+      "droneName": "DYJ jaune",
+      "droneID": "d2"
     },
     {
-      "droneName": "derpina",
-      "droneID": "drone3"
+      "droneName": "PARROT BLEU",
+      "droneID": "d3"
     }
   ],
   "deliveries": [
     {
-      "deliveryID": "package1",
+      "deliveryID": "p1",
       "destination": "the blue house next to the supermarket"
     },
     {
-      "deliveryID": "delivery2",
+      "deliveryID": "p2",
       "destination": "Ikea"
     },
     {
-      "deliveryID": "delivery3",
+      "deliveryID": "p3",
       "destination": "the white house"
     }
   ]

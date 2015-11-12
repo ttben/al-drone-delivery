@@ -111,7 +111,9 @@ public class ConsoleView implements View {
 		System.out.println("\n---------------------------------------------------------");
 		System.out.println("\t\t\t\t\t+ Drones a envoyer +\n");
 		droneDeliveryMap.forEach((drone, delivery) -> {
-			System.out.println("DEBUG : DR/DE : " + drone + " " + delivery );
+			if(!Controller.DEMO) {
+				System.out.println("DEBUG : DR/DE : " + drone + " " + delivery );
+			}
 			System.out.println("\t--> Attachez le drone #" + drone.getID().getValue() + " (" + drone.getName() + ") au paquet #" + delivery.getID().getValue());
 		});
 		System.out.println("\n---------------------------------------------------------");
@@ -160,7 +162,7 @@ public class ConsoleView implements View {
 
 	@Override
 	public void displayTourFinished() {
-		System.out.println("C'est fini !!!!");
+		System.out.println("\n\t+ => Tournee terminee : c'est fini ! Allez on retourne a l'entrepot");
 	}
 
 
