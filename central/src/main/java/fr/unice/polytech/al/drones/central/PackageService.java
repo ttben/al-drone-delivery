@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 // Here we generate JSON data from scratch, one should use a framework instead
 @Produces(MediaType.APPLICATION_JSON)
 public interface PackageService {
+
     @PUT
     @Path("/{id}/status")
     @Consumes(MediaType.APPLICATION_JSON)
