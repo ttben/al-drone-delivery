@@ -24,7 +24,10 @@ public class Vector2D {
 	}
 
 	public double distanceTo(Vector2D point) {
-		return Math.sqrt(this.x * point.x + this.y * point.y);
+		return Math.sqrt(
+				Math.pow(this.x - point.x, 2)
+				+ Math.pow(this.y - point.y, 2)
+		);
 	}
 
 	@Override

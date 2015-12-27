@@ -25,8 +25,8 @@ public class SimpleClusteringTest extends TestCase {
 				new Vector2D(4, 5)
 		);
 
-		List<List<Vector2D>> clusters = stub.process(points, 2.5, 10);
-		System.out.println("Clusters: " + clusters);
+		List<List<Vector2D>> clusters = stub.process(points, 3, 10);
+		System.out.println(clusters.size()+ " clusters:\n" + clusters);
 
 		/*Assert.assertEquals(2, clusters.size());
 		Assert.assertEquals(5, clusters.get(0).size());
