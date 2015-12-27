@@ -23,4 +23,15 @@ public class Vector2D {
 		return y;
 	}
 
+	public double distanceTo(Vector2D point) {
+		return Math.sqrt(this.x * point.x + this.y * point.y);
+	}
+
+	@Override
+	public String toString() {
+		return "Vector2D{" +
+				"x=" + x +
+				", y=" + y +
+				'}';
+	}
 }
