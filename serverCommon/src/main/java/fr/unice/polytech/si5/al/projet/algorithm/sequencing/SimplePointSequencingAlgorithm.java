@@ -26,7 +26,7 @@ public class SimplePointSequencingAlgorithm implements PointSequencingAlgorithm 
 				o1.computeAnchor().distanceTo(startPoint) - o2.computeAnchor().distanceTo(startPoint)
 		));
 
-		System.out.println("Sorted points: " + localPoints);
+		//System.out.println("Sorted points: " + localPoints);
 
 		// This is the list of the sequences that are currently being explored.
 		List<Sequence> activeSequences = new ArrayList<>(minSequencesCount);
