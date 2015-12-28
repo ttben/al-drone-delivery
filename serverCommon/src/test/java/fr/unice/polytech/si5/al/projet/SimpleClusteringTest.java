@@ -1,5 +1,6 @@
 package fr.unice.polytech.si5.al.projet;
 
+import fr.unice.polytech.si5.al.projet.algorithm.clustering.Cluster;
 import fr.unice.polytech.si5.al.projet.algorithm.clustering.ClusteringAlgorithm;
 import fr.unice.polytech.si5.al.projet.algorithm.clustering.SimpleClustering;
 import fr.unice.polytech.si5.al.projet.math.Vector2D;
@@ -25,7 +26,7 @@ public class SimpleClusteringTest extends TestCase {
 				new Vector2D(4, 5)
 		);
 
-		List<List<Vector2D>> clusters = stub.process(points, 3, 10);
+		List<Cluster> clusters = stub.process(points, 3, 10);
 		System.out.println(clusters.size()+ " clusters:\n" + clusters);
 
 		/*Assert.assertEquals(2, clusters.size());

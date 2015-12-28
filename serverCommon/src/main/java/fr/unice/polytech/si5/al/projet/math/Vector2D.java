@@ -32,9 +32,14 @@ public class Vector2D {
 
 	@Override
 	public String toString() {
-		return "Vector2D{" +
+		return toJSON();
+		/*return "Vector2D{" +
 				"x=" + x +
 				", y=" + y +
-				'}';
+				'}';*/
+	}
+
+	public String toJSON() {
+		return "{\"x\":"+x+",\"y\":"+y+"}";
 	}
 }

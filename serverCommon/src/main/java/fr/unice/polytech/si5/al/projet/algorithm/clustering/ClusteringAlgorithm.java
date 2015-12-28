@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class ClusteringAlgorithm {
 
-	public abstract List<List<Vector2D>> process(List<Vector2D> points, double maxClusterRadius,
+	public abstract List<Cluster> process(List<Vector2D> points, double maxClusterRadius,
 												 int maxPointPerCluster);
 
 }

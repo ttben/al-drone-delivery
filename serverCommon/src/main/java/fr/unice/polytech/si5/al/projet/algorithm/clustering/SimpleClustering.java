@@ -9,14 +9,14 @@ import java.util.List;
 public class SimpleClustering extends ClusteringAlgorithm {
 
 	@Override
-	public List<List<Vector2D>> process(List<Vector2D> points, double maxClusterRadius, int maxPointPerCluster) {
-		List<List<Vector2D>> result = new LinkedList<>();
+	public List<Cluster> process(List<Vector2D> points, double maxClusterRadius, int maxPointPerCluster) {
+		List<Cluster> result = new LinkedList<>();
 		List<Vector2D> localPoints = new LinkedList<>(points);
-		List<Vector2D> currentCluster;
+		Cluster currentCluster;
 
 		// On each iteration, we will create a cluster until all the point are assigned to a cluster
 		while (localPoints.size() > 0) {
-			currentCluster = new LinkedList<>();
+			currentCluster = new Cluster();
 			Vector2D rootPoint = localPoints.remove(0);
 			// The point can be added to the cluster
 			currentCluster.add(rootPoint);
