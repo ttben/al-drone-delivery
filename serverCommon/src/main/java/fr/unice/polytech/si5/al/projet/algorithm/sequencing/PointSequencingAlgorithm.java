@@ -1,6 +1,7 @@
 package fr.unice.polytech.si5.al.projet.algorithm.sequencing;
 
 import fr.unice.polytech.si5.al.projet.algorithm.WeightedWaypoint;
+import fr.unice.polytech.si5.al.projet.math.Vector2D;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public interface PointSequencingAlgorithm {
 	 *                          (eg: for shippings, it would match the number of available trucks)
 	 * @param maxWaypointsCost  The maximum number of waypoint a sequence may have, excluding start.
 	 */
-	List<Sequence> process(List<? extends WeightedWaypoint> points, int minSequencesCount, int maxWaypointsCost);
+	List<Sequence> process(List<? extends WeightedWaypoint> points, Vector2D startingPoint,
+						   int minSequencesCount, int maxWaypointsCost);
 
 }

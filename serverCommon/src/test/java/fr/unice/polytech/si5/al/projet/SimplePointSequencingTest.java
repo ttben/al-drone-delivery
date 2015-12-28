@@ -5,6 +5,7 @@ import fr.unice.polytech.si5.al.projet.algorithm.WeightedWaypoint;
 import fr.unice.polytech.si5.al.projet.algorithm.sequencing.PointSequencingAlgorithm;
 import fr.unice.polytech.si5.al.projet.algorithm.sequencing.Sequence;
 import fr.unice.polytech.si5.al.projet.algorithm.sequencing.SimplePointSequencingAlgorithm;
+import fr.unice.polytech.si5.al.projet.math.Vector2D;
 import junit.framework.TestCase;
 
 import java.util.Arrays;
@@ -31,7 +32,7 @@ public class SimplePointSequencingTest extends TestCase {
 
 		System.out.println("Processing " + points.size() + " elements.");
 		PointSequencingAlgorithm algorithm = new SimplePointSequencingAlgorithm();
-		List<Sequence> sequences = algorithm.process(points, 3, 3);
+		List<Sequence> sequences = algorithm.process(points, new Vector2D(0,0), 3, 3);
 		System.out.println("Sequencing result: " + sequences);
 	}
 
@@ -42,7 +43,7 @@ public class SimplePointSequencingTest extends TestCase {
 
 		System.out.println("Processing " + points.size() + " elements.");
 		PointSequencingAlgorithm algorithm = new SimplePointSequencingAlgorithm();
-		List<Sequence> sequences = algorithm.process(points, 3, 6);
+		List<Sequence> sequences = algorithm.process(points, new Vector2D(0, 0), 3, 6);
 		System.out.println("Sequencing result: " + sequences);
 	}
 }

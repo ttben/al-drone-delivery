@@ -1,5 +1,6 @@
 package fr.unice.polytech.si5.al.projet.algorithm.sequencing;
 
+import fr.unice.polytech.si5.al.projet.algorithm.BasicWaypoint;
 import fr.unice.polytech.si5.al.projet.algorithm.WeightedWaypoint;
 import fr.unice.polytech.si5.al.projet.math.Vector2D;
 
@@ -13,17 +14,17 @@ import java.util.List;
 public class SimplePointSequencingAlgorithm implements PointSequencingAlgorithm {
 
 	@Override
-	public List<Sequence> process(List<? extends WeightedWaypoint> points, int minSequencesCount,
-								  int maxWaypointsCost) {
+	public List<Sequence> process(List<? extends WeightedWaypoint> waypoints, Vector2D startingPoint,
+								  int minSequencesCount, int maxWaypointsCost) {
 		// First, sort the points from the start point.
 		//
-		List<WeightedWaypoint> localPoints = new LinkedList<>(points);
-		WeightedWaypoint startWP = localPoints.remove(0);
-		Vector2D startPoint = startWP.computeAnchor();
+		List<WeightedWaypoint> localPoints = new LinkedList<>(waypoints);
+		//WeightedWaypoint startWP = localPoints.remove(0);
+		//Vector2D startPoint = startWP.computeAnchor();
 
 		// Sort the points by distance from the first one.
 		localPoints.sort((o1, o2) -> (int) Math.round(
-				o1.computeAnchor().distanceTo(startPoint) - o2.computeAnchor().distanceTo(startPoint)
+				o1.computeAnchor().distanceTo(startingPoint) - o2.computeAnchor().distanceTo(startingPoint)
 		));
 
 		//System.out.println("Sorted points: " + localPoints);
@@ -40,7 +41,7 @@ public class SimplePointSequencingAlgorithm implements PointSequencingAlgorithm 
 		}
 
 		while (localPoints.size() > 0) {
-			// Iterate over all the active points to complete the sequence
+			// Iterate over all the active sequences to add more waypoints to them
 			for (int iActiveSequence = 0; iActiveSequence < activeSequences.size(); iActiveSequence++) {
 				Sequence activeSequence = activeSequences.get(iActiveSequence);
 
@@ -48,7 +49,7 @@ public class SimplePointSequencingAlgorithm implements PointSequencingAlgorithm 
 				if (activeSequence == null) {
 					// Initialize and store
 					activeSequence = new Sequence(maxWaypointsCost);
-					activeSequence.add(startWP);
+					activeSequence.add(new BasicWaypoint(startingPoint));
 					activeSequences.set(iActiveSequence, activeSequence);
 					// Store the initial point
 					activeSequence.add(localPoints.remove(0));
