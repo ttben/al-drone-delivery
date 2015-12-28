@@ -1,5 +1,7 @@
 package fr.unice.polytech.si5.al.projet.math;
 
+import org.json.JSONObject;
+
 public class Vector2D {
 
 	private double x;
@@ -32,14 +34,17 @@ public class Vector2D {
 
 	@Override
 	public String toString() {
-		return toJSON();
+		return toJSON().toString();
 		/*return "Vector2D{" +
 				"x=" + x +
 				", y=" + y +
 				'}';*/
 	}
 
-	public String toJSON() {
-		return "{\"x\":"+x+",\"y\":"+y+"}";
+	public JSONObject toJSON() {
+		JSONObject json = new JSONObject();
+		json.put("x", this.x);
+		json.put("y", this.y);
+		return json;
 	}
 }

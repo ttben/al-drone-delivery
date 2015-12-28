@@ -2,6 +2,8 @@ package fr.unice.polytech.si5.al.projet.algorithm.clustering;
 
 import fr.unice.polytech.si5.al.projet.algorithm.WeightedWaypoint;
 import fr.unice.polytech.si5.al.projet.math.Vector2D;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.LinkedList;
 
@@ -26,5 +28,15 @@ public class Cluster extends LinkedList<Vector2D> implements WeightedWaypoint {
 	@Override
 	public int computeCost() {
 		return this.size();
+	}
+
+	public JSONArray toJSON() {
+		JSONArray json = new JSONArray();
+
+		for (Vector2D wp: this) {
+			json.put(wp.toJSON());
+		}
+
+		return json;
 	}
 }
