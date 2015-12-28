@@ -18,9 +18,11 @@ public class FullTest extends TestCase {
 		List<Vector2D> points = PointGenerator.generateVector2D(200);
 
 		// First clusterize the points
-		List<Cluster> clusters = new SimpleClustering().process(points, 10000, 50);
+		List<Cluster> clusters = new SimpleClustering().process(points, 50, 50);
 		System.out.println(clusters.size() + " Clusters got: "+ clusters);
 		List<Sequence> clustersSequences = new SimplePointSequencingAlgorithm().process(clusters, 3, 15);
+		System.out.println("\n\n\n");
+		System.out.println("Sequences got "+clustersSequences);
 
 	}
 }
