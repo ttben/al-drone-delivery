@@ -19,6 +19,7 @@
         <module>central</module>
         <module>warehouse</module>
         <module>truckApp</module>
+        <module>newTruckApp</module>
     </modules>
     <build>
         <plugins>
