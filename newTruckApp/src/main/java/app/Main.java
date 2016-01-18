@@ -4,7 +4,9 @@ import app.action.*;
 import app.shipper.BasicShipper;
 import app.shipper.Shipper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,16 +49,24 @@ public class Main {
 
 		System.out.printf("\nTree : \t\t\t%s\n\n", currentNodeForEachDrone);
 
+		List<Node> nodes = new ArrayList<>();
+		nodes.add(firstActionForDroneA);
+		nodes.add(firstActionOfDroneB);
 
+		ForkNode forkNode = new ForkNode(nodes);
+		forkNode.execute();
+
+		/*
 		//	Start process
 		firstActionForDroneA.execute();
 		firstActionOfDroneB.execute();
-
+*/
 		//	Fake drone msg reception
 		droneHasFinishedTask(droneB);
 		droneHasFinishedTask(droneA);
 		droneHasFinishedTask(droneB);
 		droneHasFinishedTask(droneA);
+
 	}
 
 	private void droneHasFinishedTask(Shipper a) {
