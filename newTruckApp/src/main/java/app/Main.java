@@ -5,6 +5,7 @@ import app.demonstrator.DemonstratorSpy;
 import app.shipper.BasicShipper;
 import app.shipper.Shipper;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,9 +30,9 @@ public class Main {
 
 		//	Building list of actions with target
 		Action droneBPick = new Pick(droneB);
-		Action droneBGoToShippingPosition = new GoToShippingPosition(droneB);
+		Action droneBGoToShippingPosition = new GoToShippingPosition(droneB, new Dimension(20, 20));
 		Action droneADrop = new Drop(droneA);
-		Action droneAGoToShippingPosition = new GoToShippingPosition(droneA);
+		Action droneAGoToShippingPosition = new GoToShippingPosition(droneA, new Dimension(50, 40));
 
 
 		//	Bind action to output by O/O

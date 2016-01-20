@@ -15,7 +15,7 @@ public class ActionFactory {
 			case "ship":
 				return new GoToDropPoint(null);
 			case "goto":
-				return new GoToShippingPosition(null);
+				return new GoToShippingPosition(null, null);
 			case "drop":
 				return new Drop(null);
 			case "pick":

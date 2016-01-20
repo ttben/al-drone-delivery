@@ -6,7 +6,6 @@ import app.shipper.CompositeShipper;
 import app.shipper.Shipper;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Observable;
 
 /**
@@ -14,10 +13,14 @@ import java.util.Observable;
  */
 public class DemonstratorSpy implements Output {
 
+    DemonstratorWindow window;
+
+    public DemonstratorSpy(){
+        window = new DemonstratorWindow(800, 600, "Demonstrator");
+    }
+
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println(o.getClass());
-        System.out.println(arg.getClass());
         try {
             CompositeShipper sh = new CompositeShipper();
             this.getClass().getMethod("update", o.getClass(), Shipper.class).invoke(this, o, arg);
@@ -36,6 +39,8 @@ public class DemonstratorSpy implements Output {
         logNotImplementedMethod(goD, shipper);
     }
     public void update(GoToShippingPosition goS, Shipper shipper){
+
+        window.setDrone(shipper.toString(), goS.getLocation(), STATE.FLYING);
         logNotImplementedMethod(goS, shipper);
     }
     public void update(Pick pick, Shipper shipper){
