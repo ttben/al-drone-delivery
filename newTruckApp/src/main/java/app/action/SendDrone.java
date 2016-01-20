@@ -9,6 +9,7 @@ public class SendDrone extends CompositeShipperAction {
 
 	@Override
 	public void execute() {
-
+		setChanged();
+		notifyObservers(getTarget());
 	}
 }

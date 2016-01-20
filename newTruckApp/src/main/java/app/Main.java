@@ -1,6 +1,7 @@
 package app;
 
 import app.action.*;
+import app.demonstrator.DemonstratorSpy;
 import app.shipper.BasicShipper;
 import app.shipper.Shipper;
 
@@ -24,6 +25,7 @@ public class Main {
 		//	Builder different output
 		Output commandLine = new CommandLine();
 		Output droneAPI = new DroneAPI();
+		Output demonstratorOutput = new DemonstratorSpy();
 
 		//	Building list of actions with target
 		Action droneBPick = new Pick(droneB);
@@ -39,6 +41,10 @@ public class Main {
 		droneADrop.addObserver(commandLine);
 		droneAGoToShippingPosition.addObserver(commandLine);
 
+		droneBPick.addObserver(demonstratorOutput);
+		droneBGoToShippingPosition.addObserver(demonstratorOutput);
+		droneADrop.addObserver(demonstratorOutput);
+		droneAGoToShippingPosition.addObserver(demonstratorOutput);
 
 		//	Build nodes that schedules action's execution
 		Node lastActionOfDroneB = new Node(currentNodeForEachDrone, droneBPick, null);

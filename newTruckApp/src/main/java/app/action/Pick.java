@@ -11,5 +11,5 @@ public class Pick extends BasicShipperAction {
 	public void execute() {
 		System.out.printf("--> %s Picking lol\n", getTarget().toString());
 		setChanged();
-		notifyObservers();	}
+		notifyObservers(getTarget());	}
 }

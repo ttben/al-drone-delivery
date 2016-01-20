@@ -9,5 +9,7 @@ public class GoToDropPoint extends CompositeShipperAction {
 
 	@Override
 	public void execute() {
+		setChanged();
+		notifyObservers(getTarget());
 	}
 }

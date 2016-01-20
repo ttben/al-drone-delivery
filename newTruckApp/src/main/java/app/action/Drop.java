@@ -11,6 +11,6 @@ public class Drop extends BasicShipperAction {
 	public void execute() {
 		System.out.printf("--> %s Droping lol\n", getTarget().toString());
 		setChanged();
-		notifyObservers();
+		notifyObservers(getTarget());
 	}
 }

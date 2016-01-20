@@ -11,6 +11,6 @@ public class GoToShippingPosition extends BasicShipperAction {
 	public void execute() {
 		System.out.printf("--> %s GoToLocation lol\n", getTarget().toString());
 		setChanged();
-		notifyObservers();
+		notifyObservers(getTarget());
 	}
 }
