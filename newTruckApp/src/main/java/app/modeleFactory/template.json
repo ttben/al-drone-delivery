@@ -1,0 +1,35 @@
+{
+  "nodes":
+  {
+    "node1":{
+      "action":"pick",
+      "params":"values"
+    },
+    "node2":{
+      "action":"pick",
+      "params":"values"
+    },
+    "node3":{
+      "action":"pick",
+      "params":"values"
+    }
+  },
+  "graph":
+  {
+    "root":"node1",
+    "content":{
+      "node1":{
+        "next":["node2","node3","node4"],
+        "deps":[]
+      },
+      "node2":{
+        "next":["node5"],
+        "deps":[1]
+      },
+      "node5":{
+        "next":["node8"],
+        "deps":["node2","node6"]
+      }
+    }
+  }
+}
