@@ -10,8 +10,7 @@ public class Drone extends BasicShipper {
 	private String name;
 
 	public Drone(String name) {
-
-		this.name = name;
+		super(name);
 	}
 
 	public String getName() {

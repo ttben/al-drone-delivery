@@ -8,4 +8,14 @@ public class CompositeShipper extends Shipper {
 	CompositeShipperAction actions;
 	Shipper drones;
 
+	public CompositeShipper(String name) {
+		super(name);
+	}
+
+	@Override
+	public String toString() {
+		return "CompositeShipper{" +
+				"name='" + name + '\'' +
+				'}';
+	}
 }

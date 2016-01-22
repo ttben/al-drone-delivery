@@ -3,46 +3,64 @@ package app;
 import app.action.Action;
 import app.shipper.Shipper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-/**
- * Created by Benjamin on 16/01/2016.
- */
-public class Node {
+public class Node extends Observable {
 
-	private Map<Shipper, Node> currentNodeForEachDrone;
+	public static Map<Shipper, Node> currentNodeForEachDrone;
 	private Action action;
 
-	private Node next;
+	private List<Node> dependencies;
+	private List<Node> resolvedDependencies;
+	private List<Node> nexts;
 
-	public Node(Map<Shipper, Node> currentNodeForEachDrone,Action actionToDo, Node next) {
-		this.currentNodeForEachDrone = currentNodeForEachDrone;
+	public Node(Action action) {
+		this.action = action;
 
-		this.action = actionToDo;
-		this.next = next;
+		this.nexts = new LinkedList<>();
 
-		this.currentNodeForEachDrone.put(this.action.getTarget(), this);
+		this.dependencies = new LinkedList<>();
+		this.resolvedDependencies = new LinkedList<>();
 	}
 
-	public void execute() {
-		//System.out.printf("Executing node %s\n", this);
+	public void addDependency(Node n) {
+		this.dependencies.add(n);
+		n.nexts.add(this);
+	}
+
+	public void onDependencyResolve(Node n) {
+		if (! this.dependencies.contains(n)) {
+			throw new RuntimeException("Graph build failure: non-dependency node was resolved.");
+		}
+		this.resolvedDependencies.add(n);
+
+		if (this.resolvedDependencies.size() == this.dependencies.size()) {
+			this.onAllDependenciesResolved();
+		}
+	}
+
+	private void onAllDependenciesResolved() {
+		this.queue();
+		//this.start();
+	}
+
+	public void queue() {
+		this.action.getTarget().queueActionNode(this);
+	}
+
+	public void start() {
+		System.out.printf("Executing node %s\n", this);
 		this.action.execute();
 	}
 
-	public void hasFinished() {
-
-		this.currentNodeForEachDrone.put(this.action.getTarget(), this.next);
-		System.out.printf("Node [%s] has finished. remains : \t%s\n", this.action.getTarget(), currentNodeForEachDrone);
-		if(this.next!=null) {
-			System.out.printf("Executing next node ...\n\n");
-			this.next.execute();
+	public void end() {
+		for (Node n: this.nexts) {
+			n.onDependencyResolve(this);
 		}
 	}
 
 	@Override
 	public String toString() {
-		return "[Node:" + this.action.getClass().getSimpleName() + " next: " + this.next + "]";
+		return "[Node:" + this.action.getClass().getSimpleName() + " Target: " + this.action.getTarget().getName()+ "]";
 	}
 }

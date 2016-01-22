@@ -15,7 +15,7 @@ public class ForkNode {
 
 	public void execute() {
 		for(Node n : nodes) {
-			n.execute();
+			n.start();
 		}
 	}
 }
