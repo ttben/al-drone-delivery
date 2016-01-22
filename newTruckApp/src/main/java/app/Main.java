@@ -26,13 +26,17 @@ public class Main {
 		//	Builder different output
 		Output commandLine = new CommandLine();
 		Output droneAPI = new DroneAPI();
-		Output demonstratorOutput = new DemonstratorSpy();
+		DemonstratorSpy demonstratorOutput = new DemonstratorSpy();
+
+		// Giving fake data to the demonstrator
+		demonstratorOutput.createDrone((Drone) droneA, new Dimension(60, 60));
+		demonstratorOutput.createDrone((Drone) droneB, new Dimension(60, 60));
 
 		//	Building list of actions with target
 		Action droneBPick = new Pick(droneB);
-		Action droneBGoToShippingPosition = new GoToShippingPosition(droneB, new Dimension(20, 20));
+		Action droneBGoToShippingPosition = new GoToShippingPosition(droneB, new Dimension(20, 50));
 		Action droneADrop = new Drop(droneA);
-		Action droneAGoToShippingPosition = new GoToShippingPosition(droneA, new Dimension(50, 40));
+		Action droneAGoToShippingPosition = new GoToShippingPosition(droneA, new Dimension(75, 30));
 
 
 		//	Bind action to output by O/O
@@ -63,6 +67,12 @@ public class Main {
 		ForkNode forkNode = new ForkNode(nodes);
 		forkNode.execute();
 
+		try {
+			Thread.currentThread().sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		/*
 		//	Start process
 		firstActionForDroneA.execute();
@@ -74,6 +84,15 @@ public class Main {
 		droneHasFinishedTask(droneB);
 		droneHasFinishedTask(droneA);
 
+
+		try {
+			Thread.currentThread().sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		demonstratorOutput.removeShipper(droneA.toString());
+		demonstratorOutput.removeShipper(droneB.toString());
 	}
 
 	private void droneHasFinishedTask(Shipper a) {

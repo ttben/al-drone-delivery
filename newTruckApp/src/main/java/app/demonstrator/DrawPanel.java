@@ -1,9 +1,10 @@
 package app.demonstrator;
 
+import app.Drone;
+import app.demonstrator.drone.GraphicDrone;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.AbstractMap;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,36 +13,23 @@ import java.util.Map;
  */
 public class DrawPanel extends JPanel {
 
-    private Map<String, Map.Entry<Dimension, STATE>> drones;
+    private Map<String, GraphicEntity> shippers;
 
 
     public DrawPanel(){
-
         this.setBackground(Color.white);
-        drones = new HashMap<>();
-
+        shippers = new HashMap<>();
     }
 
-    public void setDrone(String name, Dimension location, STATE state){
-        if(location == null)
-            drones.remove(name);
-        else
-            drones.put(name, new AbstractMap.SimpleEntry<Dimension, STATE>(location, state));
-        repaint();
+    public void paint(Graphics g) {
+
+        Graphics graphics2D = antiAliasing(g);
+
+        for(Map.Entry<String, GraphicEntity> entry : shippers.entrySet())
+            entry.getValue().paint(graphics2D, entry.getKey());
     }
 
-    public void paintComponent(Graphics g) {
-        removeAll();
-
-        Graphics2D graphics2D = antiAliasing(g);
-
-        // Drones
-        for(Map.Entry<String, Map.Entry<Dimension, STATE>> drone : drones.entrySet()){
-            drawDrone(drone.getKey(), drone.getValue().getKey(), drone.getValue().getValue(), graphics2D);
-        }
-    }
-
-    private Graphics2D antiAliasing(Graphics g) {
+    private Graphics antiAliasing(Graphics g) {
 
         Graphics2D graphics2D = (Graphics2D) g;
 
@@ -53,11 +41,31 @@ public class DrawPanel extends JPanel {
         return graphics2D;
     }
 
-    private void drawDrone(String name, Dimension location, STATE state, Graphics g) {
-        g.setColor(Color.black);
-        g.fillOval(location.width - 1, location.height - 1, state.getSize() + 2, state.getSize() + 2);
-        g.setColor(state.getColor());
-        g.fillOval(location.width, location.height, state.getSize(), state.getSize());
+    public void removeShipper(String name) {
+        shippers.remove(name);
     }
 
+    public void changeShipperLocation(String name, Dimension location) {
+        shippers.get(name).setLocation(location);
+    }
+
+    public void changeShipperTargetLocation(String name, Dimension target) {
+        shippers.get(name).setTargetLocation(target);
+    }
+
+    public void setDroneState(Drone drone, ShipperState state){
+        ((GraphicDrone) shippers.get(drone.getName())).setState(state);
+    }
+
+    public void createShipper(String name, GraphicDrone graphicDrone) {
+        shippers.put(name, graphicDrone);
+    }
+
+    public void changeShipperLocation(String s) {
+        GraphicEntity ge = shippers.get(s);
+        if(ge.getTargetLocation() != null){
+            ge.setLocation(ge.getTargetLocation());
+            ge.setTargetLocation(null);
+        }
+    }
 }

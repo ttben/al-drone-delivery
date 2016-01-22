@@ -13,7 +13,7 @@ public class ActionFactory {
 			case "send":
 				return new SendDrone(null);
 			case "ship":
-				return new GoToDropPoint(null);
+				return new GoToDropPoint(null, null);
 			case "goto":
 				return new GoToShippingPosition(null, null);
 			case "drop":

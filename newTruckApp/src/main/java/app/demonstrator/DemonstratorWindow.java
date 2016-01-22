@@ -1,5 +1,7 @@
 package app.demonstrator;
 
+import app.demonstrator.drone.GraphicDrone;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -31,7 +33,27 @@ public class DemonstratorWindow extends JFrame{
         return new Dimension(reel.width * x / 100, reel.height * y / 100);
     }
 
-    public void setDrone(String s, Dimension location, STATE flying) {
-        drawPanel.setDrone(s, reel2Window(location), flying);
+    public void createDrone(String name, Dimension location){
+        drawPanel.createShipper(name, new GraphicDrone(location, null, ShipperState.IDLE));
+    }
+
+    public void removeShipper(String name){
+        drawPanel.removeShipper(name);
+    }
+
+    public void changeShipperLocation(String name, Dimension location){
+        drawPanel.changeShipperLocation(name, reel2Window(location));
+    }
+
+    public void changeShipperTargetLocation(String name, Dimension target){
+        drawPanel.changeShipperTargetLocation(name, reel2Window(target));
+    }
+
+    public void changeShipperLocation(String s) {
+        drawPanel.changeShipperLocation(s);
+    }
+
+    public void refresh(){
+        this.repaint();
     }
 }

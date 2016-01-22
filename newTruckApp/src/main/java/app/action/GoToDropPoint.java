@@ -2,8 +2,13 @@ package app.action;
 
 import app.shipper.CompositeShipper;
 
+import java.awt.*;
+
 public class GoToDropPoint extends CompositeShipperAction {
-	public GoToDropPoint(CompositeShipper target) {
+
+	private Dimension location;
+
+	public GoToDropPoint(CompositeShipper target, Dimension location) {
 		super(target);
 	}
 
@@ -11,5 +16,9 @@ public class GoToDropPoint extends CompositeShipperAction {
 	public void execute() {
 		setChanged();
 		notifyObservers(getTarget());
+	}
+
+	public Dimension getLocation() {
+		return location;
 	}
 }
