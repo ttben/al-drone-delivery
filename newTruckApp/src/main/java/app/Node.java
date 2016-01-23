@@ -1,13 +1,13 @@
 package app;
 
 import app.action.Action;
+import app.action.ActionEvent;
 import app.shipper.Shipper;
 
 import java.util.*;
 
-public class Node extends Observable {
+public class Node extends Observable implements Observer {
 
-	public static Map<Shipper, Node> currentNodeForEachDrone;
 	private Action action;
 
 	private List<Node> dependencies;
@@ -16,6 +16,7 @@ public class Node extends Observable {
 
 	public Node(Action action) {
 		this.action = action;
+		this.action.addObserver(this);
 
 		this.nexts = new LinkedList<>();
 
@@ -40,17 +41,13 @@ public class Node extends Observable {
 	}
 
 	private void onAllDependenciesResolved() {
-		this.queue();
+		this.queueAction();
 		//this.start();
 	}
 
-	public void queue() {
-		this.action.getTarget().queueActionNode(this);
-	}
-
-	public void start() {
-		System.out.printf("Executing node %s\n", this);
-		this.action.execute();
+	public void queueAction() {
+		System.out.printf("Queuing action from node %s\n", this);
+		this.action.queue();
 	}
 
 	public void end() {
@@ -60,10 +57,23 @@ public class Node extends Observable {
 	}
 
 	@Override
+	public void update(Observable o, Object arg) {
+		if (o == this.action) {
+			this.onActionUpdate((ActionEvent) arg);
+		}
+	}
+
+	private void onActionUpdate(ActionEvent event) {
+		if (event == ActionEvent.STARTED) {
+
+		}
+		else if (event == ActionEvent.ENDED) {
+			this.end();
+		}
+	}
+
+	@Override
 	public String toString() {
-		return "[Node:" + this.action.getClass().getSimpleName()
-				+ ", Target: " + this.action.getTarget().getName()
-				+ ", Params: " + Arrays.asList(this.action.getParams())
-				+ "]";
+		return "Node[" + this.action + "]";
 	}
 }
