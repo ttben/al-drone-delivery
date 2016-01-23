@@ -6,6 +6,7 @@ public class BasicShipper extends Shipper {
 
 	BasicShipperAction actions;
 
-
-
+	public BasicShipper(String name) {
+		super(name);
+	}
 }

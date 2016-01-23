@@ -2,21 +2,22 @@ package app;
 
 import app.action.*;
 import app.shipper.BasicShipper;
+import app.shipper.CompositeShipper;
 import app.shipper.Shipper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Benjamin on 16/01/2016.
  */
 public class Main {
-	Map<Shipper, Node> currentNodeForEachDrone = new HashMap<>();
+	Map<Shipper, Node> currentNodeForEachShipper = new HashMap<>();
+
 
 	Main() {
 
+		CompositeShipper truck = new CompositeShipper("Truck");
 		//	Building shippers
 		BasicShipper droneA = new Drone("DroneA");
 		BasicShipper droneB = new Drone("DroneB");
@@ -25,52 +26,84 @@ public class Main {
 		Output commandLine = new CommandLine();
 		Output droneAPI = new DroneAPI();
 
+		Node.currentNodeForEachDrone = currentNodeForEachShipper;
+
 		//	Building list of actions with target
-		Action droneBPick = new Pick(droneB);
-		Action droneBGoToShippingPosition = new GoToShippingPosition(droneB);
-		Action droneADrop = new Drop(droneA);
+/*		Action truckGo1 = new GoToDropPoint(truck);
+
+		Action droneASend = new SendDrone(truck);
 		Action droneAGoToShippingPosition = new GoToShippingPosition(droneA);
+		Action droneAPick = new Pick(droneA);
 
-
-		//	Bind action to output by O/O
-		droneBPick.addObserver(droneAPI);
-		droneBGoToShippingPosition.addObserver(droneAPI);
-
-		droneADrop.addObserver(commandLine);
-		droneAGoToShippingPosition.addObserver(commandLine);
-
+		Action droneBPick = new Pick(droneB);
+		Action droneBSend = new SendDrone(truck);
+		Action droneBGoToShippingPosition = new GoToShippingPosition(droneB);
+		Action droneBDrop = new Drop(droneB);
+		*/
 
 		//	Build nodes that schedules action's execution
-		Node lastActionOfDroneB = new Node(currentNodeForEachDrone, droneBPick, null);
-		Node firstActionOfDroneB = new Node(currentNodeForEachDrone,droneBGoToShippingPosition, lastActionOfDroneB);
+		Node truckGo1Node = new Node(new GoToDropPoint(truck));
+		Node truckGo2Node = new Node(new GoToDropPoint(truck));
 
-		Node lastActionForDroneA = new Node(currentNodeForEachDrone, droneADrop, null);
-		Node firstActionForDroneA = new Node(currentNodeForEachDrone, droneAGoToShippingPosition, lastActionForDroneA);
+		Node droneASendNode = new Node(new SendDrone(truck, droneA));
+		Node droneAGoToShippingPositionNode = new Node(new GoToShippingPosition(droneA));
+		Node droneAPickNode = new Node(new Pick(droneA));
+		Node droneAGoToTruck = new Node(new GoToShippingPosition(droneA));
+		Node droneACollect = new Node(new CollectDrone(truck, droneA));
 
-		System.out.printf("\nTree : \t\t\t%s\n\n", currentNodeForEachDrone);
+		Node droneBPickNode = new Node(new Pick(droneB));
+		Node droneBSendNode = new Node(new SendDrone(truck, droneB));
+		Node droneBGoToShippingPositionNode = new Node(new GoToShippingPosition(droneB));
+		Node droneBDropNode = new Node(new Drop(droneB));
+		Node droneBGoToTruck = new Node(new GoToShippingPosition(droneB));
+		Node droneBCollect = new Node(new CollectDrone(truck, droneB));
 
-		List<Node> nodes = new ArrayList<>();
-		nodes.add(firstActionForDroneA);
-		nodes.add(firstActionOfDroneB);
+		//	Bind action to output by O/O
+		droneBPickNode.addObserver(droneAPI);
+		droneBGoToShippingPositionNode.addObserver(droneAPI);
 
-		ForkNode forkNode = new ForkNode(nodes);
-		forkNode.execute();
+		droneAPickNode.addObserver(commandLine);
+		droneAGoToShippingPositionNode.addObserver(commandLine);
 
-		/*
-		//	Start process
-		firstActionForDroneA.execute();
-		firstActionOfDroneB.execute();
-*/
+		// Build action dependency graph
+		//
+		droneASendNode.addDependency(truckGo1Node);
+		droneBSendNode.addDependency(truckGo1Node);
+
+		droneAGoToShippingPositionNode.addDependency(droneASendNode);
+		droneBGoToShippingPositionNode.addDependency(droneBSendNode);
+
+		droneAPickNode.addDependency(droneAGoToShippingPositionNode);
+		droneBDropNode.addDependency(droneBGoToShippingPositionNode);
+
+		droneAGoToTruck.addDependency(droneAPickNode);
+		droneBGoToTruck.addDependency(droneBDropNode);
+
+		droneACollect.addDependency(droneAGoToTruck);
+		droneACollect.addDependency(truckGo2Node);
+
+		droneBCollect.addDependency(droneBGoToTruck);
+		droneBCollect.addDependency(truckGo2Node);
+
+		/*Node lastActionForDroneA = new Node(currentNodeForEachShipper, droneAPick, null);
+		Node firstActionForDroneA = new Node(currentNodeForEachShipper, droneAGoToShippingPosition, lastActionForDroneA);
+		*/
+
+		Node root = truckGo1Node;
+		truck.setActiveNode(root);
+		root.start();
+
 		//	Fake drone msg reception
-		droneHasFinishedTask(droneB);
-		droneHasFinishedTask(droneA);
-		droneHasFinishedTask(droneB);
-		droneHasFinishedTask(droneA);
+		truck.endAction();	// finish goto
+		truck.endAction();	// finish first send
+		truck.endAction();  //  finish 2nd send
 
-	}
+		System.out.printf("\nTree : \t\t\t%s\n\n", currentNodeForEachShipper);
+//		makeShipperFinishTask(droneB);
+//		makeShipperFinishTask(droneA);
+//		makeShipperFinishTask(droneB);
+//		makeShipperFinishTask(droneA);
 
-	private void droneHasFinishedTask(Shipper a) {
-		currentNodeForEachDrone.get(a).hasFinished();
 	}
 
 	public static void main(String[] args) {
