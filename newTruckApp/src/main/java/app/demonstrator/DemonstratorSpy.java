@@ -3,11 +3,11 @@ package app.demonstrator;
 import app.Drone;
 import app.Output;
 import app.action.*;
-import app.demonstrator.drone.GraphicDrone;
 import app.shipper.CompositeShipper;
 import app.shipper.Shipper;
 
 import java.awt.*;
+import java.util.List;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
 
@@ -36,6 +36,10 @@ public class DemonstratorSpy implements Output {
     public void createDrone(Drone drone, Dimension location){
         window.createDrone(drone.toString(), location);
         window.refresh();
+    }
+
+    public void createTruck(CompositeShipper truck, Dimension location, List<String> shippers){
+        window.createTruck(truck.toString(), location, shippers);
     }
 
     public void update(CollectDrone collect, Shipper shipper){

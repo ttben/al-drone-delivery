@@ -1,9 +1,8 @@
 package app.demonstrator;
 
-import app.demonstrator.drone.GraphicDrone;
-
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 /**
  * Created by Sébastien on 20/01/2016.
@@ -35,6 +34,10 @@ public class DemonstratorWindow extends JFrame{
 
     public void createDrone(String name, Dimension location){
         drawPanel.createShipper(name, new GraphicDrone(location, null, ShipperState.IDLE));
+    }
+
+    public void createTruck(String s, Dimension location, List<String> shippers) {
+        drawPanel.createShipper(s, new GraphicTruck(location, null, ShipperState.IDLE, shippers));
     }
 
     public void removeShipper(String name){

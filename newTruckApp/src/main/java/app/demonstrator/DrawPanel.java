@@ -1,12 +1,11 @@
 package app.demonstrator;
 
 import app.Drone;
-import app.demonstrator.drone.GraphicDrone;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by Sébastien on 20/01/2016.
