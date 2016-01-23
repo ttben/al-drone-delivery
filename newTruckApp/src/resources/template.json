@@ -12,6 +12,14 @@
     "node3":{
       "action":"pick",
       "params":"values"
+    },
+    "node4":{
+      "action":"pick",
+      "params":"values"
+    },
+    "node5":{
+      "action":"pick",
+      "params":"values"
     }
   },
   "graph":
