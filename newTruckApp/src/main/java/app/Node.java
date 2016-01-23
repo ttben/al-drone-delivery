@@ -61,6 +61,9 @@ public class Node extends Observable {
 
 	@Override
 	public String toString() {
-		return "[Node:" + this.action.getClass().getSimpleName() + " Target: " + this.action.getTarget().getName()+ "]";
+		return "[Node:" + this.action.getClass().getSimpleName()
+				+ ", Target: " + this.action.getTarget().getName()
+				+ ", Params: " + Arrays.asList(this.action.getParams())
+				+ "]";
 	}
 }

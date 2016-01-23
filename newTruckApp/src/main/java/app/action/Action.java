@@ -10,8 +10,18 @@ public abstract class Action extends Observable {
 
 	public abstract Shipper getTarget();
 
+	private Object[] params;
+
+	public Action(Object[] params) {
+		this.params = params;
+	}
+
 	@Override
 	public String toString() {
 		return "Action["+this.getClass().getSimpleName()+"]";
+	}
+
+	public Object[] getParams() {
+		return params;
 	}
 }

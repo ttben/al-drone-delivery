@@ -45,18 +45,18 @@ public class Main {
 		Node truckGo1Node = new Node(new GoToDropPoint(truck));
 		Node truckGo2Node = new Node(new GoToDropPoint(truck));
 
-		Node droneASendNode = new Node(new SendDrone(truck));
+		Node droneASendNode = new Node(new SendDrone(truck, droneA));
 		Node droneAGoToShippingPositionNode = new Node(new GoToShippingPosition(droneA));
 		Node droneAPickNode = new Node(new Pick(droneA));
 		Node droneAGoToTruck = new Node(new GoToShippingPosition(droneA));
-		Node droneACollect = new Node(new CollectDrone(truck));
+		Node droneACollect = new Node(new CollectDrone(truck, droneA));
 
 		Node droneBPickNode = new Node(new Pick(droneB));
-		Node droneBSendNode = new Node(new SendDrone(truck));
+		Node droneBSendNode = new Node(new SendDrone(truck, droneB));
 		Node droneBGoToShippingPositionNode = new Node(new GoToShippingPosition(droneB));
 		Node droneBDropNode = new Node(new Drop(droneB));
 		Node droneBGoToTruck = new Node(new GoToShippingPosition(droneB));
-		Node droneBCollect = new Node(new CollectDrone(truck));
+		Node droneBCollect = new Node(new CollectDrone(truck, droneB));
 
 		//	Bind action to output by O/O
 		droneBPickNode.addObserver(droneAPI);
