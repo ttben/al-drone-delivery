@@ -20,6 +20,18 @@
     "node5":{
       "action":"pick",
       "params":"values"
+    },
+    "node6": {
+      "action": "pick",
+      "params": "values"
+    },
+    "node7": {
+      "action": "pick",
+      "params": "values"
+    },
+    "node8": {
+      "action": "pick",
+      "params": "values"
     }
   },
   "graph":
