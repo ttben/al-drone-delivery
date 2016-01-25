@@ -12,8 +12,8 @@ public class Shipper {
 	String name;
 	Output output;
 
-	private Node activeNode;
-	private Queue<Node> actionsQueue;
+	private Action currentAction;
+	private Queue<Action> actionsQueue;
 
 	public Shipper(String name) {
 		this.name = name;
@@ -29,28 +29,40 @@ public class Shipper {
 		throw new UnsupportedOperationException();
 	}
 
-	public void queueActionNode(Node actionNode) {
-		boolean doStart = this.actionsQueue.size() == 0;
-		this.actionsQueue.add(actionNode);
+	public void queueAction(Action action) {
+		boolean doStart = this.currentAction == null && this.actionsQueue.size() == 0;
+		this.actionsQueue.add(action);
 		if (doStart) {
 			this.startNextAction();
 		}
 	}
 
-	public void setActiveNode(Node activeNode) {
-		this.activeNode = activeNode;
+	public void setCurrentAction(Action currentAction) {
+		this.currentAction = currentAction;
 	}
 
 	public void startNextAction() {
-		this.activeNode = this.actionsQueue.poll();
-		this.activeNode.start();
+		if (this.currentAction != null) {
+			throw new RuntimeException("An action is still active for "+this);
+		}
+
+		this.currentAction = this.actionsQueue.poll();
+		if (this.currentAction != null) {
+			this.currentAction.start();
+		}
 	}
 
 	public void endAction() {
-		System.out.println("Finished: "+this.activeNode);
-		this.activeNode.end();
+		System.out.println("Ending action of "+this.getName()+": "+this.currentAction);
+		if (this.currentAction == null) {
+			throw new RuntimeException("The Shipper does not have any current action to end. (Shipper: "+this+")");
+		}
+		Action theCurrentAction = this.currentAction;
+		this.currentAction = null;
+		theCurrentAction.end();
 
-		if (this.actionsQueue.size() > 0) {
+		// An action might be queued by the call to theCurrentAction.end()
+		if (this.currentAction == null) {
 			this.startNextAction();
 		}
 	}

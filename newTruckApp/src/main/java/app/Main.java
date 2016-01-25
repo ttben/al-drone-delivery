@@ -8,12 +8,7 @@ import app.shipper.Shipper;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Benjamin on 16/01/2016.
- */
 public class Main {
-	Map<Shipper, Node> currentNodeForEachShipper = new HashMap<>();
-
 
 	Main() {
 
@@ -26,24 +21,10 @@ public class Main {
 		Output commandLine = new CommandLine();
 		Output droneAPI = new DroneAPI();
 
-		Node.currentNodeForEachDrone = currentNodeForEachShipper;
-
-		//	Building list of actions with target
-/*		Action truckGo1 = new GoToDropPoint(truck);
-
-		Action droneASend = new SendDrone(truck);
-		Action droneAGoToShippingPosition = new GoToShippingPosition(droneA);
-		Action droneAPick = new Pick(droneA);
-
-		Action droneBPick = new Pick(droneB);
-		Action droneBSend = new SendDrone(truck);
-		Action droneBGoToShippingPosition = new GoToShippingPosition(droneB);
-		Action droneBDrop = new Drop(droneB);
-		*/
-
 		//	Build nodes that schedules action's execution
 		Node truckGo1Node = new Node(new GoToDropPoint(truck));
 		Node truckGo2Node = new Node(new GoToDropPoint(truck));
+		Node truckGo3Node = new Node(new GoToDropPoint(truck));
 
 		Node droneASendNode = new Node(new SendDrone(truck, droneA));
 		Node droneAGoToShippingPositionNode = new Node(new GoToShippingPosition(droneA));
@@ -69,6 +50,7 @@ public class Main {
 		//
 		droneASendNode.addDependency(truckGo1Node);
 		droneBSendNode.addDependency(truckGo1Node);
+		truckGo2Node.addDependency(truckGo1Node);
 
 		droneAGoToShippingPositionNode.addDependency(droneASendNode);
 		droneBGoToShippingPositionNode.addDependency(droneBSendNode);
@@ -85,25 +67,48 @@ public class Main {
 		droneBCollect.addDependency(droneBGoToTruck);
 		droneBCollect.addDependency(truckGo2Node);
 
+		truckGo3Node.addDependency(droneACollect);
+		truckGo3Node.addDependency(droneBCollect);
+
 		/*Node lastActionForDroneA = new Node(currentNodeForEachShipper, droneAPick, null);
 		Node firstActionForDroneA = new Node(currentNodeForEachShipper, droneAGoToShippingPosition, lastActionForDroneA);
 		*/
 
 		Node root = truckGo1Node;
-		truck.setActiveNode(root);
-		root.start();
+		//truck.setCurrentAction(root);
+		root.queueAction();
 
 		//	Fake drone msg reception
+		System.out.println();
 		truck.endAction();	// finish goto
+		System.out.println();
 		truck.endAction();	// finish first send
+		System.out.println();
 		truck.endAction();  //  finish 2nd send
 
-		System.out.printf("\nTree : \t\t\t%s\n\n", currentNodeForEachShipper);
-//		makeShipperFinishTask(droneB);
-//		makeShipperFinishTask(droneA);
-//		makeShipperFinishTask(droneB);
-//		makeShipperFinishTask(droneA);
+		System.out.println();
+		droneA.endAction(); // end of goto location
+		System.out.println();
+		droneA.endAction();	// end of pick
+		System.out.println();
+		droneA.endAction();	// end of goto meeting point
 
+		System.out.println();
+		System.out.println("==== TRUCK REACHES MEETING POINT ====");
+		truck.endAction(); // end of truck go to meeting point. Should queue CollectA in truck
+
+		System.out.println();
+		droneB.endAction(); // end of goto location
+		System.out.println();
+		droneB.endAction();    // end of drop
+		System.out.println();
+		droneB.endAction();    // end of goto meeting point. Should queue CollectB in truck
+
+		truck.endAction(); // end of collect A
+		truck.endAction(); // end of collect B
+
+		System.out.println();
+		truck.endAction(); // end of goto away
 	}
 
 	public static void main(String[] args) {
