@@ -51,8 +51,8 @@
     "node8": {
       "action": "collect",
       "params": [
-        "droneA",
-        "Truck"
+        "Truck",
+        "DroneA"
       ]
     },
     "node9": {
@@ -90,8 +90,8 @@
     "node14": {
       "action": "collect",
       "params": [
-        "DroneB",
-        "Truck"
+        "Truck",
+        "DroneB"
       ]
     }
   },

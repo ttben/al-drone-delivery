@@ -1,8 +1,13 @@
 package app.modeleFactory;
 
+import app.CommandLine;
+import app.DroneAPI;
 import app.Node;
+import app.Output;
 import app.action.Action;
 import app.action.ActionFactory;
+import app.shipper.BasicShipper;
+import app.shipper.CompositeShipper;
 import app.shipper.Shipper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -11,6 +16,7 @@ import org.json.simple.parser.JSONParser;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -54,9 +60,41 @@ public class ModelFactory {
 
     }
 
+    private static Map<String, Shipper> buildShippers(String json) throws Exception {
+        JSONParser parser = new JSONParser();
+        String s = getFile(json);
+        Object obj = parser.parse(s);
+        Map<String, Shipper> result = new HashMap<>();
+
+        JSONObject root = (JSONObject) obj;
+
+        JSONArray shippers = (JSONArray) root.get("shippers");
+        Iterator shipperIterator = shippers.iterator();
+
+        while (shipperIterator.hasNext()) {
+            JSONObject shipperJSON = (JSONObject) shipperIterator.next();
+            String name = (String) shipperJSON.get("name");
+            if (name == null) {
+                throw new NoNameDefinedException();
+            }
+            String type = (String) shipperJSON.get("type");
+            if (type == null) {
+                throw new NoTypeDefinedException();
+            }
+            if (type.equals("composite")) {
+                result.put(name, new CompositeShipper(name));
+            } else if (type.equals("basic")) {
+                result.put(name, new BasicShipper(name));
+            } else {
+                throw new ShipperTypeNotDefinedException();
+            }
+
+        }
+        return result;
+    }
+
     public static Node parseJson(String json) throws Exception {
-        Map<String, Node> tempHashMapOfNodes = new HashMap<>();
-        Map<String, Shipper> shipperList = new HashMap<>();
+        Map<String, Node> tempHashMapOfNodes;
         JSONParser parser =new JSONParser();
         String s = getFile(json);
         Object obj=parser.parse(s);
@@ -105,12 +143,16 @@ public class ModelFactory {
             /*
             Creating parameter to create the action (the shipper)
              */
-            Map<String, Object> shipperMap = new HashMap<>();
+            Map<String, Object> paramMap = new HashMap<>();
             String shipperName = (String) paramsString.get(0);
-            Shipper chipeur = arreteDeChiper(shipperName);
-            shipperMap.put("shipper", chipeur);
+            paramMap.put("shipper", shipperMap.get(shipperName));
+            if (paramsString.size() > 1) {
+                String secondParamName = (String) paramsString.get(1);
+                Object secondParam = shipperMap.get(secondParamName);
+                paramMap.put("second", secondParam);
+            }
 
-            Action nodeAction = actionFactory.buildAction(actionString, shipperMap);
+            Action nodeAction = actionFactory.buildAction(actionString, paramMap);
             Node nodeToCreate = new Node(nodeAction);
             result.put("node" + i, nodeToCreate);
         }
@@ -157,26 +199,58 @@ public class ModelFactory {
     }
 
 
-    /**
-     * Try to find an exiting shipper in the static map
-     * if not, create one
-     * Dora L'exploratrice, all right reserved
-     *
-     * @param shipperName
-     * @return the shipper needed of course
-     */
-    private static Shipper arreteDeChiper(String shipperName) {
-        //TODO define a JSON file containing needed information to construct shippers
-        if (!shipperMap.containsKey(shipperName)) {
-            shipperMap.put(shipperName, new Shipper(shipperName));
-        }
-        return shipperMap.get(shipperName);
-    }
-
     public static void main(String[] args) {
         try {
+
+
+            //	Building shippers
+            shipperMap = buildShippers("shippers.json");
+            CompositeShipper truck = (CompositeShipper) shipperMap.get("Truck");
+            BasicShipper droneA = (BasicShipper) shipperMap.get("DroneA");
+            BasicShipper droneB = (BasicShipper) shipperMap.get("DroneB");
+
+            //	Builder different output
+            Output commandLine = new CommandLine();
+            Output droneAPI = new DroneAPI();
+
+            //	Build nodes that schedules action's execution
             Node root = parseJson("template_main.json");
-            System.out.println(1);
+
+
+            //truck.setCurrentAction(root);
+            root.queueAction();
+
+            //	Fake drone msg reception
+            System.out.println();
+            truck.endAction();    // finish goto
+            System.out.println();
+            truck.endAction();    // finish first send
+            System.out.println();
+            truck.endAction();  //  finish 2nd send
+
+            System.out.println();
+            droneA.endAction(); // end of goto location
+            System.out.println();
+            droneA.endAction();    // end of pick
+            System.out.println();
+            droneA.endAction();    // end of goto meeting point
+
+            System.out.println();
+            System.out.println("==== TRUCK REACHES MEETING POINT ====");
+            truck.endAction(); // end of truck go to meeting point. Should queue CollectA in truck
+
+            System.out.println();
+            droneB.endAction(); // end of goto location
+            System.out.println();
+            droneB.endAction();    // end of drop
+            System.out.println();
+            droneB.endAction();    // end of goto meeting point. Should queue CollectB in truck
+
+            truck.endAction(); // end of collect A
+            truck.endAction(); // end of collect B
+
+            System.out.println();
+            truck.endAction(); // end of goto away
         } catch (org.json.simple.parser.ParseException | NoActionDefinedException | NodeNotDefinedException e) {
             e.printStackTrace();
         } catch (Exception e) {

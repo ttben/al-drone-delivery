@@ -1,5 +1,8 @@
 package app.action;
 
+import app.shipper.BasicShipper;
+import app.shipper.CompositeShipper;
+
 import java.util.Map;
 
 /**
@@ -7,19 +10,29 @@ import java.util.Map;
  */
 public class ActionFactory {
 	public Action buildAction(String name, Map<String, Object> actionParams) {
+		CompositeShipper compositeShipper;
+		BasicShipper basicShipper;
 		switch(name) {
 			case "collect":
-				return new CollectDrone(null);
+				compositeShipper = (CompositeShipper) actionParams.get("shipper");
+				basicShipper = (BasicShipper) actionParams.get("second");
+				return new CollectDrone(compositeShipper, basicShipper);
 			case "send":
-				return new SendDrone(null);
+				compositeShipper = (CompositeShipper) actionParams.get("shipper");
+				basicShipper = (BasicShipper) actionParams.get("second");
+				return new SendDrone(compositeShipper, basicShipper);
 			case "ship":
-				return new GoToDropPoint(null);
+				compositeShipper = (CompositeShipper) actionParams.get("shipper");
+				return new GoToDropPoint(compositeShipper);
 			case "goto":
-				return new GoToShippingPosition(null);
+				basicShipper = (BasicShipper) actionParams.get("shipper");
+				return new GoToShippingPosition(basicShipper);
 			case "drop":
-				return new Drop(null);
+				basicShipper = (BasicShipper) actionParams.get("shipper");
+				return new Drop(basicShipper);
 			case "pick":
-				return new Pick(null);
+				basicShipper = (BasicShipper) actionParams.get("shipper");
+				return new Pick(basicShipper);
 			default:
 				throw new IllegalArgumentException("Can not build an Action from given description : " + name);
 		}
