@@ -2,36 +2,70 @@
   "nodes":
   {
     "node1":{
-      "action":"pick",
-      "params":"values"
+      "action": "ship",
+      "params": [
+        "driver",
+        "location1"
+      ]
     },
     "node2":{
-      "action":"pick",
-      "params":"values"
+      "action": "send",
+      "params": [
+        "driver",
+        "droneA"
+      ]
     },
     "node3":{
-      "action":"pick",
-      "params":"values"
+      "action": "send",
+      "params": [
+        "driver",
+        "droneB"
+      ]
     },
     "node4":{
-      "action":"pick",
-      "params":"values"
+      "action": "goto",
+      "params": [
+        "driver",
+        "location2"
+      ]
     },
     "node5":{
-      "action":"pick",
-      "params":"values"
+      "action": "goto",
+      "params": [
+        "droneA",
+        "location2"
+      ]
     },
     "node6": {
-      "action": "pick",
-      "params": "values"
+      "action": "goto",
+      "params": [
+        "droneB",
+        "location2"
+      ]
     },
     "node7": {
-      "action": "pick",
-      "params": "values"
+      "action": "drop",
+      "params": [
+        "driver"
+      ]
     },
     "node8": {
-      "action": "pick",
-      "params": "values"
+      "action": "collect",
+      "params": [
+        "droneA"
+      ]
+    },
+    "node9": {
+      "action": "collect",
+      "params": [
+        "droneB"
+      ]
+    },
+    "node10": {
+      "action": "collect",
+      "params": [
+        "droneA"
+      ]
     }
   },
   "graph":
