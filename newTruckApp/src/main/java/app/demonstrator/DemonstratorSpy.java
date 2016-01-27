@@ -1,13 +1,10 @@
 package app.demonstrator;
 
-import app.Drone;
 import app.Output;
 import app.action.*;
 import app.shipper.CompositeShipper;
 import app.shipper.Shipper;
 
-import java.awt.*;
-import java.util.List;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
 
@@ -26,56 +23,59 @@ public class DemonstratorSpy implements Output {
 
     @Override
     public void set(Shipper shipper) {
-        window.createDrone(shipper.toString());
+        window.createDrone(shipper.getName());
     }
 
     @Override
     public void set(CompositeShipper shipper){
-        window.createTruck(shipper.toString());
+        window.createTruck(shipper.getName());
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("O : " + o);
-        System.out.println("ARG : " + arg);
-        if((arg instanceof ActionEvent) && arg.equals(ActionEvent.ENDED)) {
+
+        if(!(arg instanceof ActionEvent))
+            return;
+
         try {
-            this.getClass().getMethod("update", o.getClass(), Shipper.class).invoke(this, o, ((Action)o).getTarget());
+            this.getClass().getMethod("update", o.getClass(), Shipper.class, ActionEvent.class).invoke(this, o, ((Action)o).getTarget(), arg);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
         window.refresh();
-        }
     }
 
-    public void update(GoToDropPoint goD, Shipper shipper){
-        logNotImplementedMethod(goD, shipper);
-        //window.changeShipperTargetLocation(shipper.toString(), goD.getLocation());
+    public void update(GoToDropPoint goD, Shipper shipper, ActionEvent event){
+        if(event.equals(ActionEvent.STARTED)){
+            window.changeShipperTargetLocation(shipper.getName(), goD.getLocation());
+        } else {
+            window.changeShipperLocation(shipper.toString());
+        }
     }
-    public void update(GoToShippingPosition goS, Shipper shipper){
+    public void update(GoToShippingPosition goS, Shipper shipper, ActionEvent event){
         logNotImplementedMethod(goS, shipper);
-        //window.changeShipperTargetLocation(shipper.toString(), goS.getLocation());
+        //window.changeShipperTargetLocation(shipper.getName(), goS.getLocation());
     }
-    public void update(Pick pick, Shipper shipper){
+    public void update(Pick pick, Shipper shipper, ActionEvent event){
         logNotImplementedMethod(pick, shipper);
-        //window.changeShipperLocation(shipper.toString());
+        //window.changeShipperLocation(shipper.getName());
     }
-    public void update(Drop drop, Shipper shipper){
+    public void update(Drop drop, Shipper shipper, ActionEvent event){
         logNotImplementedMethod(drop, shipper);
-        //window.changeShipperLocation(shipper.toString());
+        //window.changeShipperLocation(shipper.getName());
     }
-    public void update(SendDrone send, Shipper shipper){
+    public void update(SendDrone send, Shipper shipper, ActionEvent event){
         logNotImplementedMethod(send, shipper);
     }
-    public void update(CollectDrone collect, Shipper shipper){
+    public void update(CollectDrone collect, Shipper shipper, ActionEvent event){
         logNotImplementedMethod(collect, shipper);
-        //window.changeShipperLocation(shipper.toString());
+        //window.changeShipperLocation(shipper.getName());
     }
 
     private void logNotImplementedMethod(Action a, Shipper s){
         String lastMethodCalled = Thread.currentThread().getStackTrace()[2].getMethodName();
         System.out.println("/!\\ TO IMPLEMENT : " + lastMethodCalled
-            + " with " + a.getClass() + " on " + s.getClass());
+                + " with " + a.getClass() + " on " + s.getClass());
     }
 
     public void removeShipper(String s) {

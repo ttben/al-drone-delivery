@@ -30,6 +30,7 @@ public class DemonstratorWindow extends JFrame{
 
     // Implemented with 0 to 100 inputs
     private Dimension reel2Window(Dimension reel){
+        if(reel == null) return null;
         return new Dimension(reel.width * x / 100, reel.height * y / 100);
     }
 
@@ -51,6 +52,10 @@ public class DemonstratorWindow extends JFrame{
 
     public void changeShipperTargetLocation(String name, Dimension target){
         drawPanel.changeShipperTargetLocation(name, reel2Window(target));
+    }
+
+    public void changeShipperState(String name, ShipperState state){
+        drawPanel.setShipperState(name, state);
     }
 
     public void changeShipperLocation(String s) {

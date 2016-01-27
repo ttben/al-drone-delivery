@@ -10,6 +10,7 @@ public class GoToDropPoint extends CompositeShipperAction {
 
 	public GoToDropPoint(CompositeShipper target, Dimension location) {
 		super(target);
+		this.location = location;
 	}
 
 	@Override

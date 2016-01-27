@@ -25,6 +25,7 @@ public abstract class GraphicEntity {
     }
 
     public void setTargetLocation(Dimension location){
+        System.out.println("CHANGE : " + location);
         this.nextPosition = location;
     }
 
@@ -38,4 +39,12 @@ public abstract class GraphicEntity {
 
     public abstract List<GraphicEntity> getComposites();
 
+    @Override
+    public String toString() {
+        return "\n ################ GraphicEntity{" +
+                "actualPosition=" + actualPosition +
+                ", nextPosition=" + nextPosition +
+                ", state=" + state +
+                '}';
+    }
 }

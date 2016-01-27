@@ -29,7 +29,8 @@ public class GraphicTruck extends GraphicEntity{
 
     @Override
     public void paint(Graphics g, String name) {
-        if(actualPosition == null) return;
+        if(actualPosition == null)
+            return;
 
         g.setColor(Color.black);
         g.fillOval(actualPosition.width - 1, actualPosition.height - 1, getSize() + 2, getSize() + 2);
@@ -67,5 +68,11 @@ public class GraphicTruck extends GraphicEntity{
 
     private int getSize(){
         return 25;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", composites=" + composites +
+                '}';
     }
 }

@@ -4,9 +4,8 @@ import app.action.*;
 import app.demonstrator.DemonstratorSpy;
 import app.shipper.BasicShipper;
 import app.shipper.CompositeShipper;
-import app.shipper.Shipper;
+
 import java.awt.*;
-import java.util.*;
 
 public class Main {
 
@@ -30,7 +29,6 @@ public class Main {
 		Node droneAGoToTruck = new Node(new GoToShippingPosition(droneA, new Dimension(55, 20)));
 		Node droneACollect = new Node(new CollectDrone(truck, droneA));
 
-		Node droneBPickNode = new Node(new Pick(droneB));
 		Node droneBSendNode = new Node(new SendDrone(truck, droneB));
 		Node droneBGoToShippingPositionNode = new Node(new GoToShippingPosition(droneB, new Dimension(30, 40)));
 		Node droneBDropNode = new Node(new Drop(droneB));
@@ -70,39 +68,48 @@ public class Main {
 		root.queueAction();
 
 		//	Fake drone msg reception
-		System.out.println();
+		waitForDemo();
 		truck.endAction();	// finish goto
-		System.out.println();
+		waitForDemo();
 		truck.endAction();	// finish first send
-		System.out.println();
+		waitForDemo();
 		truck.endAction();  //  finish 2nd send
 
-		System.out.println();
+		waitForDemo();
 		droneA.endAction(); // end of goto location
-		System.out.println();
+		waitForDemo();
 		droneA.endAction();	// end of pick
-		System.out.println();
+		waitForDemo();
 		droneA.endAction();	// end of goto meeting point
 
-		System.out.println();
+		waitForDemo();
 		System.out.println("==== TRUCK REACHES MEETING POINT ====");
 		truck.endAction(); // end of truck go to meeting point. Should queue CollectA in truck
 
-		System.out.println();
+		waitForDemo();
 		droneB.endAction(); // end of goto location
-		System.out.println();
+		waitForDemo();
 		droneB.endAction();    // end of drop
-		System.out.println();
+		waitForDemo();
 		droneB.endAction();    // end of goto meeting point. Should queue CollectB in truck
 
 		truck.endAction(); // end of collect A
 		truck.endAction(); // end of collect B
 
-		System.out.println();
+		waitForDemo();
 		truck.endAction(); // end of goto away
 	}
 
 	public static void main(String[] args) {
 		new Main();
+	}
+
+	private void waitForDemo(){
+		System.out.println();
+		try {
+			Thread.currentThread().sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }

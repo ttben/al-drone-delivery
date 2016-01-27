@@ -1,11 +1,9 @@
 package app.demonstrator;
 
-import app.Drone;
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Sébastien on 20/01/2016.
@@ -49,26 +47,31 @@ public class DrawPanel extends JPanel {
     }
 
     public void changeShipperTargetLocation(String name, Dimension target) {
+        System.out.println(name);
         shippers.get(name).setTargetLocation(target);
+        setShipperState(name, ShipperState.MOVING);
+        System.out.println(shippers);
     }
 
-    public void setDroneState(Drone drone, ShipperState state){
-        ((GraphicDrone) shippers.get(drone.getName())).setState(state);
+    public void setShipperState(String name, ShipperState state){
+        shippers.get(name).setState(state);
     }
 
     public void createShipper(String name, GraphicEntity graphic) {
         shippers.put(name, graphic);
     }
 
-    public void changeShipperLocation(String s) {
-        GraphicEntity ge = shippers.get(s);
+    public void changeShipperLocation(String name) {
+        GraphicEntity ge = shippers.get(name);
         if(ge.getTargetLocation() != null){
             ge.setLocation(ge.getTargetLocation());
             ge.setTargetLocation(null);
         }
+        System.out.println(shippers);
     }
 
     GraphicEntity getShipper(String name) {
         return shippers.get(name);
     }
+
 }

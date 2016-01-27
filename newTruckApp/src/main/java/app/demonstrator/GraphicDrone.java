@@ -58,4 +58,9 @@ public class GraphicDrone extends GraphicEntity {
     private int getSize(){
         return 10;
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

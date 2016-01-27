@@ -11,12 +11,11 @@ public class CompositeShipper extends Shipper {
 
 	public CompositeShipper(String name, Output output) {
 		super(name, output);
+		output.set(this);
 	}
 
 	@Override
 	public String toString() {
-		return "CompositeShipper{" +
-				"name='" + name + '\'' +
-				'}';
+		return name;
 	}
 }
