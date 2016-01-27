@@ -16,6 +16,7 @@ public class DrawPanel extends JPanel {
     public DrawPanel(){
         this.setBackground(Color.white);
         shippers = new HashMap<>();
+        this.setBackground(Color.white);
     }
 
     public void paint(Graphics g) {

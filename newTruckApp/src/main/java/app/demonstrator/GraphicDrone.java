@@ -4,6 +4,7 @@ import app.Drone;
 import app.demonstrator.GraphicEntity;
 import app.demonstrator.ShipperState;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -18,31 +19,11 @@ public class GraphicDrone extends GraphicEntity {
     }
 
     @Override
-    public void paint(Graphics g, String name) {
-        if(actualPosition == null) return;
-
-        if(nextPosition != null){
-            g.drawLine(actualPosition.width + getSize()/2, actualPosition.height + getSize()/2, nextPosition.width + getSize()/2, nextPosition.height + getSize()/2);
-
-            Color actual = getColor();
-            Color fadeOut = new Color(actual.getRed(), actual.getGreen(), actual.getBlue(), 100);
-            g.setColor(fadeOut);
-            g.fillOval(nextPosition.width, nextPosition.height, getSize(), getSize());
-        }
-
-        g.setColor(Color.black);
-        g.fillOval(actualPosition.width - 1, actualPosition.height - 1, getSize() + 2, getSize() + 2);
-        g.setColor(getColor());
-        g.fillOval(actualPosition.width, actualPosition.height, getSize(), getSize());
-        
-    }
-
-    @Override
     public List<GraphicEntity> getComposites() {
         return new ArrayList<>();
     }
 
-    private Color getColor(){
+    protected Color getColor(){
         switch (state){
             case IDLE:
                 return new Color(80,80,140,255);
@@ -56,7 +37,12 @@ public class GraphicDrone extends GraphicEntity {
         return Color.black;
     }
 
-    private int getSize(){
+    @Override
+    protected Image getIcon(ShipperState state) {
+        return new ImageIcon(this.getClass().getResource("/drone-" + state.toString() + ".png")).getImage();
+    }
+
+    protected int getSize(){
         return 10;
     }
 
