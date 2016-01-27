@@ -112,6 +112,14 @@ public class Main {
 
 	private void waitForDemo(){
 		System.out.println();
-		new Scanner(System.in).nextLine();
+
+		// To allow control
+		// new Scanner(System.in).nextLine();
+
+		try {
+			Thread.currentThread().sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }

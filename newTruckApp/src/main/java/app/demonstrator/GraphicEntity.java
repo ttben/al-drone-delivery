@@ -1,7 +1,9 @@
 package app.demonstrator;
 
 import java.awt.*;
+import java.util.AbstractMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Sébastien on 22/01/2016.
@@ -11,6 +13,7 @@ public abstract class GraphicEntity {
     protected Dimension actualPosition;
     protected Dimension nextPosition;
     protected ShipperState state;
+    protected Map<Map.Entry<Dimension, Dimension>, Color> oldPaths;
 
     public GraphicEntity(Dimension actualPosition, Dimension nextPosition, ShipperState state) {
         this.nextPosition = nextPosition;
@@ -26,6 +29,18 @@ public abstract class GraphicEntity {
         this.nextPosition = location;
     }
 
+    public Dimension getTargetLocation() {
+        return nextPosition;
+    }
+
+    public void setState(ShipperState state) {
+        this.state = state;
+    }
+
+    public void giveOldPaths(Map<Map.Entry<Dimension, Dimension>, Color> oldPaths){
+        this.oldPaths = oldPaths;
+    }
+
     public void paint(Graphics g, String name) {
         if(actualPosition == null)
             return;
@@ -33,10 +48,17 @@ public abstract class GraphicEntity {
         Dimension whereToDraw = actualPosition;
 
         if(nextPosition != null){
-            g.drawLine(actualPosition.width + getSize()/2, actualPosition.height + getSize()/2, nextPosition.width + getSize()/2, nextPosition.height + getSize()/2);
 
             Color actual = getColor();
             Color fadeOut = new Color(actual.getRed(), actual.getGreen(), actual.getBlue(), 100);
+
+            g.drawLine(actualPosition.width + getSize()/2, actualPosition.height + getSize()/2, nextPosition.width + getSize()/2, nextPosition.height + getSize()/2);
+            oldPaths.put(new AbstractMap.SimpleEntry<Dimension, Dimension>(
+                            new Dimension(actualPosition.width + getSize()/2, actualPosition.height + getSize()/2),
+                            new Dimension(nextPosition.width + getSize()/2, nextPosition.height + getSize()/2)),
+                    fadeOut
+            );
+
             g.setColor(fadeOut);
             g.fillOval(nextPosition.width, nextPosition.height, getSize(), getSize());
 
@@ -51,24 +73,7 @@ public abstract class GraphicEntity {
         }
     }
 
-    public Dimension getTargetLocation() {
-        return nextPosition;
-    }
-
-    public void setState(ShipperState state) {
-        this.state = state;
-    }
-
     public abstract List<GraphicEntity> getComposites();
-
-    @Override
-    public String toString() {
-        return "\n ################ GraphicEntity{" +
-                "actualPosition=" + actualPosition +
-                ", nextPosition=" + nextPosition +
-                ", state=" + state +
-                '}';
-    }
 
     protected abstract Color getColor();
 

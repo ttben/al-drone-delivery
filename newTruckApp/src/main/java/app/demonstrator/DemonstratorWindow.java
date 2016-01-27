@@ -44,24 +44,16 @@ public class DemonstratorWindow extends JFrame{
         drawPanel.removeShipper(name);
     }
 
-    public void changeShipperLocation(String name, Dimension location){
-        drawPanel.changeShipperLocation(name, reel2Window(location));
-    }
-
     public void changeShipperTargetLocation(String name, Dimension target){
         drawPanel.changeShipperTargetLocation(name, reel2Window(target));
-    }
-
-    public void changeShipperState(String name, ShipperState state){
-        drawPanel.setShipperState(name, state);
     }
 
     public void changeShipperLocation(String s) {
         drawPanel.changeShipperLocation(s);
     }
 
-    public void refresh(){
-        this.repaint();
+    public void changeShipperState(String name, ShipperState state){
+        drawPanel.setShipperState(name, state);
     }
 
     public void shipperDrop(String composite, String name) {
@@ -76,5 +68,9 @@ public class DemonstratorWindow extends JFrame{
         shipper.removeQuitComposite(name);
         shipper.addComposite(drawPanel.getShipper(name));
         drawPanel.getShipper(name).setLocation(null);
+    }
+
+    public void refresh(){
+        this.repaint();
     }
 }

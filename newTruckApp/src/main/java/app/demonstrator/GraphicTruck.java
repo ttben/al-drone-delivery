@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Sébastien on 22/01/2016.
@@ -66,6 +67,7 @@ public class GraphicTruck extends GraphicEntity{
     protected int getSize(){
         return 10;
     }
+
 
     public Dimension getActualPosition() {
         return actualPosition;

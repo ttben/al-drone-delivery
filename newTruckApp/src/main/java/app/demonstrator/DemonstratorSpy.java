@@ -6,7 +6,6 @@ import app.shipper.CompositeShipper;
 import app.shipper.Shipper;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Objects;
 import java.util.Observable;
 
 /**
@@ -20,8 +19,6 @@ public class DemonstratorSpy implements Output {
         window = new DemonstratorWindow(800, 600, "Demonstrator");
     }
 
-
-
     @Override
     public void set(Shipper shipper) {
         window.createDrone(shipper.getName());
@@ -34,7 +31,6 @@ public class DemonstratorSpy implements Output {
 
     @Override
     public void update(Observable o, Object arg) {
-
         if(!(arg instanceof ActionEvent))
             return;
 
@@ -53,6 +49,7 @@ public class DemonstratorSpy implements Output {
             window.changeShipperLocation(shipper.toString());
         }
     }
+
     public void update(GoToShippingPosition goS, Shipper shipper, ActionEvent event){
         if(event.equals(ActionEvent.STARTED)){
             window.changeShipperTargetLocation(shipper.getName(), goS.getLocation());
@@ -68,6 +65,7 @@ public class DemonstratorSpy implements Output {
             window.changeShipperState(shipper.getName(), ShipperState.IDLE);
         }
     }
+
     public void update(Drop drop, Shipper shipper, ActionEvent event){
         if(event.equals(ActionEvent.STARTED)){
             window.changeShipperState(shipper.getName(), ShipperState.DROPPING);
@@ -75,17 +73,19 @@ public class DemonstratorSpy implements Output {
             window.changeShipperState(shipper.getName(), ShipperState.IDLE);
         }
     }
+
     public void update(SendDrone send, Shipper shipper, ActionEvent event){
         if(event.equals(ActionEvent.STARTED)){
             window.changeShipperState(shipper.getName(), ShipperState.DROPPING);
-        }
-        else {
             for (Object o : send.getParams()) {
                 window.shipperDrop(shipper.getName(), o.toString());
             }
+        }
+        else {
             window.changeShipperState(shipper.getName(), ShipperState.IDLE);
         }
     }
+
     public void update(CollectDrone collect, Shipper shipper, ActionEvent event){
         if(event.equals(ActionEvent.STARTED)){
             window.changeShipperState(shipper.getName(), ShipperState.PICKING);
@@ -95,17 +95,6 @@ public class DemonstratorSpy implements Output {
             }
             window.changeShipperState(shipper.getName(), ShipperState.IDLE);
         }
-    }
-
-    private void logNotImplementedMethod(Action a, Shipper s){
-        String lastMethodCalled = Thread.currentThread().getStackTrace()[2].getMethodName();
-        System.out.println("/!\\ TO IMPLEMENT : " + lastMethodCalled
-                + " with " + a.getClass() + " on " + s.getClass());
-    }
-
-    public void removeShipper(String s) {
-        window.removeShipper(s);
-        window.refresh();
     }
 
 }

@@ -46,8 +46,4 @@ public class GraphicDrone extends GraphicEntity {
         return 10;
     }
 
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }
