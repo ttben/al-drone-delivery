@@ -1,7 +1,7 @@
 package app.demonstrator;
 
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,10 +9,22 @@ import java.util.List;
  */
 public class GraphicTruck extends GraphicEntity{
 
-    private List<>
+    private List<GraphicEntity> composites;
 
-    public GraphicTruck(Dimension location, Dimension nextLocation, ShipperState state, List<String> shippers) {
+    public GraphicTruck(Dimension location, Dimension nextLocation, ShipperState state) {
         super(location, nextLocation, state);
+        composites = new ArrayList<>();
+    }
+
+    public void addComposite(GraphicEntity composite){
+        composites.add(composite);
+    }
+
+    public void removeComposite(String name) {
+        for (int i = 0; i < composites.size(); i++) {
+            if (composites.get(i).toString().equals(name))
+                composites.remove(i);
+        }
     }
 
     @Override
@@ -32,6 +44,11 @@ public class GraphicTruck extends GraphicEntity{
             g.setColor(fadeOut);
             g.fillOval(nextPosition.width, nextPosition.height, getSize(), getSize());
         }
+    }
+
+    @Override
+    public List<GraphicEntity> getComposites() {
+        return composites;
     }
 
     private Color getColor(){

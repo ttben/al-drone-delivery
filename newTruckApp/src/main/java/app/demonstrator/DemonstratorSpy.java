@@ -22,42 +22,55 @@ public class DemonstratorSpy implements Output {
         window = new DemonstratorWindow(800, 600, "Demonstrator");
     }
 
+
+
+    @Override
+    public void set(Shipper shipper) {
+        window.createDrone(shipper.toString());
+    }
+
+    @Override
+    public void set(CompositeShipper shipper){
+        window.createTruck(shipper.toString());
+    }
+
     @Override
     public void update(Observable o, Object arg) {
+        System.out.println("O : " + o);
+        System.out.println("ARG : " + arg);
+        if((arg instanceof ActionEvent) && arg.equals(ActionEvent.ENDED)) {
         try {
-            CompositeShipper sh = new CompositeShipper();
-            this.getClass().getMethod("update", o.getClass(), Shipper.class).invoke(this, o, arg);
+            this.getClass().getMethod("update", o.getClass(), Shipper.class).invoke(this, o, ((Action)o).getTarget());
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         window.refresh();
+        }
     }
 
-    public void createDrone(Drone drone, Dimension location){
-        window.createDrone(drone.toString(), location);
-        window.refresh();
-    }
-
-    public void createTruck(CompositeShipper truck, Dimension location, List<String> shippers){
-        window.createTruck(truck.toString(), location, shippers);
-    }
-
-    public void update(CollectDrone collect, Shipper shipper){
-        window.changeShipperLocation(shipper.toString());
-    }
-    public void update(Drop drop, Shipper shipper){
-        window.changeShipperLocation(shipper.toString());
-    }
     public void update(GoToDropPoint goD, Shipper shipper){
-        window.changeShipperTargetLocation(shipper.toString(), goD.getLocation());
+        logNotImplementedMethod(goD, shipper);
+        //window.changeShipperTargetLocation(shipper.toString(), goD.getLocation());
     }
     public void update(GoToShippingPosition goS, Shipper shipper){
-        window.changeShipperTargetLocation(shipper.toString(), goS.getLocation());
+        logNotImplementedMethod(goS, shipper);
+        //window.changeShipperTargetLocation(shipper.toString(), goS.getLocation());
     }
     public void update(Pick pick, Shipper shipper){
-        window.changeShipperLocation(shipper.toString());
+        logNotImplementedMethod(pick, shipper);
+        //window.changeShipperLocation(shipper.toString());
     }
-    public void update(SendDrone send, Shipper shipper){logNotImplementedMethod(send, shipper);}
+    public void update(Drop drop, Shipper shipper){
+        logNotImplementedMethod(drop, shipper);
+        //window.changeShipperLocation(shipper.toString());
+    }
+    public void update(SendDrone send, Shipper shipper){
+        logNotImplementedMethod(send, shipper);
+    }
+    public void update(CollectDrone collect, Shipper shipper){
+        logNotImplementedMethod(collect, shipper);
+        //window.changeShipperLocation(shipper.toString());
+    }
 
     private void logNotImplementedMethod(Action a, Shipper s){
         String lastMethodCalled = Thread.currentThread().getStackTrace()[2].getMethodName();
@@ -69,4 +82,5 @@ public class DemonstratorSpy implements Output {
         window.removeShipper(s);
         window.refresh();
     }
+
 }

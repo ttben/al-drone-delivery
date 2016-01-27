@@ -36,6 +36,6 @@ public abstract class GraphicEntity {
         this.state = state;
     }
 
-    public abstract List<String> getComposites();
+    public abstract List<GraphicEntity> getComposites();
 
 }

@@ -4,9 +4,11 @@ import app.action.Action;
 import app.shipper.BasicShipper;
 
 public abstract class BasicShipperAction extends Action {
+
 	private BasicShipper target;
 
-	public BasicShipperAction(BasicShipper target) {
+	public BasicShipperAction(BasicShipper target, Object[] ...params) {
+		super(params);
 		this.target = target;
 	}
 

@@ -5,6 +5,8 @@ import app.demonstrator.GraphicEntity;
 import app.demonstrator.ShipperState;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by Sébastien on 22/01/2016.
@@ -32,6 +34,11 @@ public class GraphicDrone extends GraphicEntity {
             g.setColor(fadeOut);
             g.fillOval(nextPosition.width, nextPosition.height, getSize(), getSize());
         }
+    }
+
+    @Override
+    public List<GraphicEntity> getComposites() {
+        return new ArrayList<>();
     }
 
     private Color getColor(){

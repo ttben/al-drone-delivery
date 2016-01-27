@@ -56,8 +56,8 @@ public class DrawPanel extends JPanel {
         ((GraphicDrone) shippers.get(drone.getName())).setState(state);
     }
 
-    public void createShipper(String name, GraphicDrone graphicDrone) {
-        shippers.put(name, graphicDrone);
+    public void createShipper(String name, GraphicEntity graphic) {
+        shippers.put(name, graphic);
     }
 
     public void changeShipperLocation(String s) {
@@ -66,5 +66,9 @@ public class DrawPanel extends JPanel {
             ge.setLocation(ge.getTargetLocation());
             ge.setTargetLocation(null);
         }
+    }
+
+    GraphicEntity getShipper(String name) {
+        return shippers.get(name);
     }
 }

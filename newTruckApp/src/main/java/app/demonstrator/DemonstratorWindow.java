@@ -2,6 +2,7 @@ package app.demonstrator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,12 +33,12 @@ public class DemonstratorWindow extends JFrame{
         return new Dimension(reel.width * x / 100, reel.height * y / 100);
     }
 
-    public void createDrone(String name, Dimension location){
-        drawPanel.createShipper(name, new GraphicDrone(location, null, ShipperState.IDLE));
+    public void createDrone(String name){
+        drawPanel.createShipper(name, new GraphicDrone(null, null, ShipperState.IDLE));
     }
 
-    public void createTruck(String s, Dimension location, List<String> shippers) {
-        drawPanel.createShipper(s, new GraphicTruck(location, null, ShipperState.IDLE, shippers));
+    public void createTruck(String name) {
+        drawPanel.createShipper(name, new GraphicTruck(null, null, ShipperState.IDLE));
     }
 
     public void removeShipper(String name){
