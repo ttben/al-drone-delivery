@@ -21,19 +21,20 @@ public class GraphicDrone extends GraphicEntity {
     public void paint(Graphics g, String name) {
         if(actualPosition == null) return;
 
-        g.setColor(Color.black);
-        g.fillOval(actualPosition.width - 1, actualPosition.height - 1, getSize() + 2, getSize() + 2);
-        g.setColor(getColor());
-        g.fillOval(actualPosition.width, actualPosition.height, getSize(), getSize());
-
         if(nextPosition != null){
-            g.drawLine(actualPosition.width, actualPosition.height, nextPosition.width, nextPosition.height);
+            g.drawLine(actualPosition.width + getSize()/2, actualPosition.height + getSize()/2, nextPosition.width + getSize()/2, nextPosition.height + getSize()/2);
 
             Color actual = getColor();
             Color fadeOut = new Color(actual.getRed(), actual.getGreen(), actual.getBlue(), 100);
             g.setColor(fadeOut);
             g.fillOval(nextPosition.width, nextPosition.height, getSize(), getSize());
         }
+
+        g.setColor(Color.black);
+        g.fillOval(actualPosition.width - 1, actualPosition.height - 1, getSize() + 2, getSize() + 2);
+        g.setColor(getColor());
+        g.fillOval(actualPosition.width, actualPosition.height, getSize(), getSize());
+        
     }
 
     @Override

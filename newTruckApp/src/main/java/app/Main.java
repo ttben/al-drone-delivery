@@ -6,6 +6,8 @@ import app.shipper.BasicShipper;
 import app.shipper.CompositeShipper;
 
 import java.awt.*;
+import java.io.Console;
+import java.util.Scanner;
 
 public class Main {
 
@@ -20,19 +22,19 @@ public class Main {
 
 		//	Build nodes that schedules action's execution
 		Node truckGo1Node = new Node(new GoToDropPoint(truck, new Dimension(80, 20)));
-		Node truckGo2Node = new Node(new GoToDropPoint(truck, new Dimension(30, 60)));
-		Node truckGo3Node = new Node(new GoToDropPoint(truck ,new Dimension(75, 30)));
+		Node truckGo2Node = new Node(new GoToDropPoint(truck, new Dimension(40, 22)));
+		Node truckGo3Node = new Node(new GoToDropPoint(truck ,new Dimension(20, 80)));
 
 		Node droneASendNode = new Node(new SendDrone(truck, droneA));
-		Node droneAGoToShippingPositionNode = new Node(new GoToShippingPosition(droneA, new Dimension(75, 30)));
+		Node droneAGoToShippingPositionNode = new Node(new GoToShippingPosition(droneA, new Dimension(20, 30)));
 		Node droneAPickNode = new Node(new Pick(droneA));
-		Node droneAGoToTruck = new Node(new GoToShippingPosition(droneA, new Dimension(55, 20)));
+		Node droneAGoToTruck = new Node(new GoToShippingPosition(droneA, new Dimension(40, 22)));
 		Node droneACollect = new Node(new CollectDrone(truck, droneA));
 
 		Node droneBSendNode = new Node(new SendDrone(truck, droneB));
-		Node droneBGoToShippingPositionNode = new Node(new GoToShippingPosition(droneB, new Dimension(30, 40)));
+		Node droneBGoToShippingPositionNode = new Node(new GoToShippingPosition(droneB, new Dimension(60, 15)));
 		Node droneBDropNode = new Node(new Drop(droneB));
-		Node droneBGoToTruck = new Node(new GoToShippingPosition(droneB, new Dimension(44, 60)));
+		Node droneBGoToTruck = new Node(new GoToShippingPosition(droneB, new Dimension(40, 22)));
 		Node droneBCollect = new Node(new CollectDrone(truck, droneB));
 
 		// Build action dependency graph
@@ -93,11 +95,15 @@ public class Main {
 		waitForDemo();
 		droneB.endAction();    // end of goto meeting point. Should queue CollectB in truck
 
+		waitForDemo();
+
 		truck.endAction(); // end of collect A
+		waitForDemo();
 		truck.endAction(); // end of collect B
 
 		waitForDemo();
 		truck.endAction(); // end of goto away
+		waitForDemo();
 	}
 
 	public static void main(String[] args) {
@@ -106,10 +112,6 @@ public class Main {
 
 	private void waitForDemo(){
 		System.out.println();
-		try {
-			Thread.currentThread().sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		new Scanner(System.in).nextLine();
 	}
 }

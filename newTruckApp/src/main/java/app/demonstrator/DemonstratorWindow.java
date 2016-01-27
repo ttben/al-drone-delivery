@@ -2,8 +2,6 @@ package app.demonstrator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Sébastien on 20/01/2016.
@@ -64,5 +62,19 @@ public class DemonstratorWindow extends JFrame{
 
     public void refresh(){
         this.repaint();
+    }
+
+    public void shipperDrop(String composite, String name) {
+        GraphicTruck shipper = (GraphicTruck) drawPanel.getShipper(composite);
+        shipper.removeComposite(name);
+        shipper.addQuitComposite(drawPanel.getShipper(name));
+        drawPanel.getShipper(name).setLocation(shipper.getActualPosition());
+    }
+
+    public void shipperCollect(String composite, String name) {
+        GraphicTruck shipper = (GraphicTruck) drawPanel.getShipper(composite);
+        shipper.removeQuitComposite(name);
+        shipper.addComposite(drawPanel.getShipper(name));
+        drawPanel.getShipper(name).setLocation(null);
     }
 }

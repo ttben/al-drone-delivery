@@ -6,6 +6,7 @@ import app.shipper.CompositeShipper;
 import app.shipper.Shipper;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Objects;
 import java.util.Observable;
 
 /**
@@ -53,23 +54,47 @@ public class DemonstratorSpy implements Output {
         }
     }
     public void update(GoToShippingPosition goS, Shipper shipper, ActionEvent event){
-        logNotImplementedMethod(goS, shipper);
-        //window.changeShipperTargetLocation(shipper.getName(), goS.getLocation());
+        if(event.equals(ActionEvent.STARTED)){
+            window.changeShipperTargetLocation(shipper.getName(), goS.getLocation());
+        } else {
+            window.changeShipperLocation(shipper.toString());
+        }
     }
+
     public void update(Pick pick, Shipper shipper, ActionEvent event){
-        logNotImplementedMethod(pick, shipper);
-        //window.changeShipperLocation(shipper.getName());
+        if(event.equals(ActionEvent.STARTED)){
+            window.changeShipperState(shipper.getName(), ShipperState.PICKING);
+        } else {
+            window.changeShipperState(shipper.getName(), ShipperState.IDLE);
+        }
     }
     public void update(Drop drop, Shipper shipper, ActionEvent event){
-        logNotImplementedMethod(drop, shipper);
-        //window.changeShipperLocation(shipper.getName());
+        if(event.equals(ActionEvent.STARTED)){
+            window.changeShipperState(shipper.getName(), ShipperState.DROPPING);
+        } else {
+            window.changeShipperState(shipper.getName(), ShipperState.IDLE);
+        }
     }
     public void update(SendDrone send, Shipper shipper, ActionEvent event){
-        logNotImplementedMethod(send, shipper);
+        if(event.equals(ActionEvent.STARTED)){
+            window.changeShipperState(shipper.getName(), ShipperState.DROPPING);
+        }
+        else {
+            for (Object o : send.getParams()) {
+                window.shipperDrop(shipper.getName(), o.toString());
+            }
+            window.changeShipperState(shipper.getName(), ShipperState.IDLE);
+        }
     }
     public void update(CollectDrone collect, Shipper shipper, ActionEvent event){
-        logNotImplementedMethod(collect, shipper);
-        //window.changeShipperLocation(shipper.getName());
+        if(event.equals(ActionEvent.STARTED)){
+            window.changeShipperState(shipper.getName(), ShipperState.PICKING);
+        } else {
+            for (Object o : collect.getParams()) {
+                window.shipperCollect(shipper.getName(), o.toString());
+            }
+            window.changeShipperState(shipper.getName(), ShipperState.IDLE);
+        }
     }
 
     private void logNotImplementedMethod(Action a, Shipper s){

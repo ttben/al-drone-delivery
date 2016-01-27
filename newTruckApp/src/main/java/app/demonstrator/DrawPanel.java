@@ -50,7 +50,6 @@ public class DrawPanel extends JPanel {
         System.out.println(name);
         shippers.get(name).setTargetLocation(target);
         setShipperState(name, ShipperState.MOVING);
-        System.out.println(shippers);
     }
 
     public void setShipperState(String name, ShipperState state){
@@ -67,7 +66,7 @@ public class DrawPanel extends JPanel {
             ge.setLocation(ge.getTargetLocation());
             ge.setTargetLocation(null);
         }
-        System.out.println(shippers);
+        setShipperState(name, ShipperState.IDLE);
     }
 
     GraphicEntity getShipper(String name) {
