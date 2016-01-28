@@ -8,8 +8,4 @@ public class CollectDrone extends CompositeShipperAction {
 		super(target, params);
 	}
 
-	@Override
-	public void execute() {
-
-	}
 }
