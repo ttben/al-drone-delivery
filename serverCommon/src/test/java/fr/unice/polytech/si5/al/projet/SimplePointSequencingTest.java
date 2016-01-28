@@ -30,10 +30,10 @@ public class SimplePointSequencingTest extends TestCase {
 				new BasicWaypoint(0.5, 0.5)
 		);
 
-		System.out.println("Processing " + points.size() + " elements.");
+		// System.out.println("Processing " + points.size() + " elements.");
 		PointSequencingAlgorithm algorithm = new SimplePointSequencingAlgorithm();
 		List<Sequence> sequences = algorithm.process(points, new Vector2D(0,0), 3, 3);
-		System.out.println("Sequencing result: " + sequences);
+		// System.out.println("Sequencing result: " + sequences);
 	}
 
 	public void testRandomPointSequencing() {
@@ -41,9 +41,9 @@ public class SimplePointSequencingTest extends TestCase {
 
 		List<? extends WeightedWaypoint> points = PointGenerator.generateBasicWaypoints(pointsToGenerate);
 
-		System.out.println("Processing " + points.size() + " elements.");
+		// System.out.println("Processing " + points.size() + " elements.");
 		PointSequencingAlgorithm algorithm = new SimplePointSequencingAlgorithm();
 		List<Sequence> sequences = algorithm.process(points, new Vector2D(0, 0), 3, 6);
-		System.out.println("Sequencing result: " + sequences);
+		// System.out.println("Sequencing result: " + sequences);
 	}
 }

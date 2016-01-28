@@ -34,7 +34,7 @@ public class FullTest extends TestCase {
 			json.put(clusterSeq.toJSON());
 		}
 
-		System.out.println(json.toString());
+		// System.out.println(json.toString());
 
 	}
 }
