@@ -1,6 +1,7 @@
 package app;
 
 import app.action.*;
+import app.shipper.CompositeShipper;
 import app.shipper.Shipper;
 
 import java.util.Observable;
@@ -71,5 +72,15 @@ public class CommandLine implements Output {
 	@Override
 	public void update(Observable o, Object arg) {
 		System.out.printf("CommandLine : Observable %s has raised an event with %s\n\n", o, arg);
+	}
+
+	@Override
+	public void set(Shipper shipper) {
+
+	}
+
+	@Override
+	public void set(CompositeShipper shipper) {
+
 	}
 }

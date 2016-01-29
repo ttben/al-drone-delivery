@@ -20,6 +20,12 @@ public class Shipper {
 
 	private Queue<Action> actionsQueue;
 
+	public Shipper(String name, Output output) {
+		this.name = name;
+		this.output = output;
+		output.set(this);
+		this.actionsQueue = new LinkedList<>();
+	}
 	public Action getCurrentAction() {
 		return currentAction;
 	}
@@ -33,6 +39,8 @@ public class Shipper {
 		this.actionsQueue = new LinkedList<>();
 	}
 
+
+
 	/**
 	 * 
 	 * @param action
@@ -44,6 +52,7 @@ public class Shipper {
 
 	public void queueAction(Action action) {
 		boolean doStart = this.currentAction == null && this.actionsQueue.size() == 0;
+		if(output != null) action.addObserver(output);
 		this.actionsQueue.add(action);
 		if (doStart) {
 			this.startNextAction();

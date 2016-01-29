@@ -1,5 +1,6 @@
 package app.shipper;
 
+import app.Output;
 import app.action.CompositeShipperAction;
 
 public class CompositeShipper extends Shipper {
@@ -8,14 +9,13 @@ public class CompositeShipper extends Shipper {
 	CompositeShipperAction actions;
 	Shipper drones;
 
-	public CompositeShipper(String name) {
-		super(name);
+	public CompositeShipper(String name, Output output) {
+		super(name, output);
+		output.set(this);
 	}
 
 	@Override
 	public String toString() {
-		return "CompositeShipper{" +
-				"name='" + name + '\'' +
-				'}';
+		return name;
 	}
 }
