@@ -1,6 +1,6 @@
 # al-drone-delivery
 
-![Build status](https://magnum.travis-ci.com/ttben/al-drone-delivery.svg?token=D7XPF1dxYZp4r2uX7U6o&branch=master)
+![Build status](https://travis-ci.org/ttben/al-drone-delivery.svg?branch=master)
 
 # Team
 

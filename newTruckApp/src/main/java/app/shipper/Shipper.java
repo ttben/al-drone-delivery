@@ -13,12 +13,29 @@ public class Shipper {
 	Output output;
 
 	private Action currentAction;
+
+	public void setActionsQueue(Queue<Action> actionsQueue) {
+		this.actionsQueue = actionsQueue;
+	}
+
 	private Queue<Action> actionsQueue;
 
 	public Shipper(String name, Output output) {
 		this.name = name;
 		this.output = output;
 		output.set(this);
+		this.actionsQueue = new LinkedList<>();
+	}
+	public Action getCurrentAction() {
+		return currentAction;
+	}
+
+	public Queue<Action> getActionsQueue() {
+		return actionsQueue;
+	}
+
+	public Shipper(String name) {
+		this.name = name;
 		this.actionsQueue = new LinkedList<>();
 	}
 

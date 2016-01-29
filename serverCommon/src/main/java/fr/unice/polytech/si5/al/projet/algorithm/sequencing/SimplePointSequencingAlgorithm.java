@@ -58,7 +58,7 @@ public class SimplePointSequencingAlgorithm implements PointSequencingAlgorithm 
 				}
 
 				if (localPoints.isEmpty()) {
-					System.out.println("Empty after getting first point of sequence!");
+					// System.out.println("Empty after getting first point of sequence!");
 					break;
 				}
 
@@ -87,14 +87,14 @@ public class SimplePointSequencingAlgorithm implements PointSequencingAlgorithm 
 				// Flush the sequence to the result buffer if it has reached its maximum length
 				// Note: as we exclude the start point, we decrement the value by 1
 				if (activeSequence.computeCost() >= maxWaypointsCost) {
-					System.out.println("Flushing sequence " + iActiveSequence);
+					// System.out.println("Flushing sequence " + iActiveSequence);
 					// Store to result buffer
 					allSequences.add(activeSequence);
 					// Flag the list as uninitialized
 					activeSequences.set(iActiveSequence, null);
 				}
 
-				System.out.println("Local points remaining: " + localPoints.size());
+				// System.out.println("Local points remaining: " + localPoints.size());
 
 				// Prevent further iteration over sequences if there are no more points to process.
 				if (localPoints.isEmpty()) {

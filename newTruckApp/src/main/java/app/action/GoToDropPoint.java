@@ -13,13 +13,8 @@ public class GoToDropPoint extends CompositeShipperAction {
 		this.location = location;
 	}
 
-	@Override
-	public void execute() {
-		setChanged();
-		notifyObservers(getTarget());
-	}
-
 	public Dimension getLocation() {
 		return location;
 	}
+
 }

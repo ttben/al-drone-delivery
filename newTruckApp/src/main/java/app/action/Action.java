@@ -7,7 +7,11 @@ import java.util.Observable;
 
 public abstract class Action extends Observable {
 
-	protected abstract void execute();
+
+
+	protected void execute() {
+		System.out.println("Executing action : " + this.getClass().getSimpleName());
+	}
 
 	public abstract Shipper getTarget();
 

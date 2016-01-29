@@ -19,7 +19,7 @@ public class SimpleClustering extends ClusteringAlgorithm {
 		while (localPoints.size() > 0) {
 			currentCluster = new Cluster();
 			Vector2D rootPoint = localPoints.remove(0);
-			System.out.println("Creating a cluster anchored at "+rootPoint);
+			// System.out.println("Creating a cluster anchored at "+rootPoint);
 			// The point can be added to the cluster
 			currentCluster.add(rootPoint);
 
@@ -32,7 +32,7 @@ public class SimpleClustering extends ClusteringAlgorithm {
 				//System.out.println("Vect["+iPoint+"]:" +currentPoint);
 				//System.out.println("Distance : "+currentPoint.distanceTo(rootPoint));
 				if (currentPoint.distanceTo(rootPoint) > maxClusterRadius) {
-					System.out.println("Skipping because of cluster radius");
+					// System.out.println("Skipping because of cluster radius");
 					continue;
 				}
 
@@ -43,7 +43,7 @@ public class SimpleClustering extends ClusteringAlgorithm {
 
 				// If the cluster has reached its maximum size
 				if (currentCluster.size() >= maxPointPerCluster) {
-					System.out.println("Cluster size limit of "+maxPointPerCluster+" reached!");
+					// System.out.println("Cluster size limit of "+maxPointPerCluster+" reached!");
 					break;
 				}
 			}

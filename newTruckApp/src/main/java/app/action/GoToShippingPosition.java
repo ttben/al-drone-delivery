@@ -12,14 +12,9 @@ public class GoToShippingPosition extends BasicShipperAction {
 		this.location = location;
 	}
 
-	@Override
-	public void execute() {
-		System.out.printf("--> %s GoToLocation lol\n", getTarget().toString());
-		setChanged();
-		notifyObservers(getTarget());
-	}
 
 	public Dimension getLocation() {
 		return location;
 	}
+
 }
