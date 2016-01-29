@@ -1,5 +1,6 @@
 package app.demonstrator;
 
+import app.Drone;
 import app.Output;
 import app.action.*;
 import app.shipper.CompositeShipper;
@@ -21,7 +22,12 @@ public class DemonstratorSpy implements Output {
 
     @Override
     public void set(Shipper shipper) {
-        window.createDrone(shipper.getName());
+        if(shipper instanceof Drone) {
+            window.createDrone(shipper.getName());
+        }
+        else {
+            window.createHumanShipper(shipper.getName());
+        }
     }
 
     @Override

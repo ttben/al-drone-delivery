@@ -18,7 +18,7 @@ public class Main {
 		CompositeShipper truck = new CompositeShipper("Truck", output);
 		//	Building shippers
 		BasicShipper droneA = new Drone("DroneA", output);
-		BasicShipper droneB = new Drone("DroneB", output);
+		BasicShipper droneB = new HumanShipper("DroneB", output);
 
 		//	Build nodes that schedules action's execution
 		Node truckGo1Node = new Node(new GoToDropPoint(truck, new Dimension(80, 20)));

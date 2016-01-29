@@ -36,6 +36,10 @@ public class DemonstratorWindow extends JFrame{
         drawPanel.createShipper(name, new GraphicDrone(null, null, ShipperState.IDLE));
     }
 
+    public void createHumanShipper(String name) {
+        drawPanel.createShipper(name, new GraphicHumanShipper(null, null, ShipperState.IDLE));
+    }
+
     public void createTruck(String name) {
         drawPanel.createShipper(name, new GraphicTruck(null, null, ShipperState.IDLE));
     }
@@ -73,4 +77,6 @@ public class DemonstratorWindow extends JFrame{
     public void refresh(){
         this.repaint();
     }
+
+
 }
