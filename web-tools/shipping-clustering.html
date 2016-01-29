@@ -1,4 +1,7 @@
 <html>
+<head>
+	<script src="jquery.js"></script>
+</head>
 
 <body>
 
@@ -120,7 +123,11 @@ var clusterColors = {};
 		}
 	}
 
-	drawAll(sequences);
+	$.get(":8282/shipping/demo", function(response) {
+		var sequences = JSON.parse(response);
+		drawAll(sequences);
+	});
+
 
 </script>
 

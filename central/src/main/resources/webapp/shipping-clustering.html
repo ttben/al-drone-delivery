@@ -1,0 +1,116 @@
+<html>
+<head>
+	<script src="jquery.js"></script>
+</head>
+
+<body>
+
+<canvas id="view" width="800" height="800" style="border: 1px solid grey"/>
+
+<script>
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+var canvas = document.getElementById('view');
+var ctx = canvas.getContext('2d');
+
+var offset = {x: 100, y: 100};
+var scale = 1.25;
+
+var clusterColors = {};
+
+	function drawAll(sequences) {
+
+		for (var iSequence in sequences) {
+			var  sequence = sequences[iSequence];
+
+			var color = getRandomColor();
+			ctx.strokeStyle = color;
+			ctx.fillStyle = color;
+
+			
+			var startPoint = sequence.startingPoint;
+			console.log("seqStartPoint=", startPoint);
+			ctx.beginPath();
+			ctx.moveTo(
+				startPoint.x * scale + offset.x,
+				startPoint.y * scale + offset.y
+			);
+
+			// Draw waypoints (= cluster anchors)
+			for (var iWaypoint in sequence.points) {
+				var waypoint = sequence.points[iWaypoint].anchor;
+				console.log("Waypoint = ", waypoint);
+				ctx.lineTo(
+					waypoint.x * scale + offset.x,
+					waypoint.y * scale + offset.y
+				);
+			}
+			ctx.lineWidth = 3; // 3
+			ctx.stroke();
+
+			ctx.lineWidth = 1;
+			// Draw clusters content
+			for (var iWaypoint in sequence.points) {
+				var cluster = sequence.points[iWaypoint];
+
+				// Draw point rect
+				var anchorX =  cluster.anchor.x * scale + offset.x,
+					anchorY =  cluster.anchor.y * scale + offset.y;
+
+				ctx.fillRect(anchorX - 3, anchorY - 3, 6, 6);
+
+				// Draw cluster points and link to cluster center
+				for (var iClusterPoint in cluster.points) {
+					var clusterPoint = cluster.points[iClusterPoint];
+					// Draw point rect
+					var pointX =  clusterPoint.x * scale + offset.x,
+						pointY =  clusterPoint.y * scale + offset.y;
+					ctx.fillRect(pointX - 3, pointY - 3, 6, 6);
+
+					// Draw dashed line 
+					ctx.beginPath();
+					ctx.moveTo(anchorX, anchorY);
+					ctx.setLineDash([5, 2]);
+					ctx.lineTo(pointX, pointY);
+					ctx.stroke();
+					ctx.setLineDash([0]);
+				}
+
+				// Draw cluster circle
+				var radius = 50 * scale;
+				console.log("Cluster anchor: ", cluster.anchor);
+				var anchor = cluster.anchor;
+				var x = anchor.x * scale + offset.x,
+					y = anchor.y * scale + offset.y;
+				
+	            ctx.beginPath();
+	            ctx.setLineDash([3, 1]);
+	            ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
+	            ctx.stroke();
+	            ctx.setLineDash([0]);
+	            ctx.beginPath();
+	            ctx.arc(x, y, 6, 0, 2 * Math.PI, false);
+	            ctx.stroke();
+			}
+		}
+	}
+
+	$.get("/shipping/demo", function(sequences) {
+        console.log("RESPONSE:"+sequences);
+		drawAll(sequences);
+	});
+
+
+</script>
+
+</body>
+
+</html>

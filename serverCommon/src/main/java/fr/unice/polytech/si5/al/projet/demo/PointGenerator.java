@@ -1,4 +1,4 @@
-package fr.unice.polytech.si5.al.projet;
+package fr.unice.polytech.si5.al.projet.demo;
 
 import fr.unice.polytech.si5.al.projet.algorithm.BasicWaypoint;
 import fr.unice.polytech.si5.al.projet.math.Vector2D;
