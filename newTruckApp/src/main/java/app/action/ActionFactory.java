@@ -1,5 +1,8 @@
 package app.action;
 
+import app.shipper.BasicShipper;
+import app.shipper.CompositeShipper;
+
 import java.util.Map;
 
 /**
@@ -19,11 +22,13 @@ public class ActionFactory {
 				basicShipper = (BasicShipper) actionParams.get("second");
 				return new SendDrone(compositeShipper, basicShipper);
 			case "ship":
+				//TODO add location
 				compositeShipper = (CompositeShipper) actionParams.get("shipper");
-				return new GoToDropPoint(compositeShipper);
+				return new GoToDropPoint(compositeShipper,null);
 			case "goto":
+				//TODO add location
 				basicShipper = (BasicShipper) actionParams.get("shipper");
-				return new GoToShippingPosition(basicShipper);
+				return new GoToShippingPosition(basicShipper,null);
 			case "drop":
 				basicShipper = (BasicShipper) actionParams.get("shipper");
 				return new Drop(basicShipper);

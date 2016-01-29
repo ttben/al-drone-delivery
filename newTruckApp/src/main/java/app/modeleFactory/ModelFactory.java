@@ -6,6 +6,7 @@ import app.Node;
 import app.Output;
 import app.action.Action;
 import app.action.ActionFactory;
+import app.demonstrator.DemonstratorSpy;
 import app.shipper.BasicShipper;
 import app.shipper.CompositeShipper;
 import app.shipper.Shipper;
@@ -61,6 +62,7 @@ public class ModelFactory {
     }
 
     private static Map<String, Shipper> buildShippers(String json) throws Exception {
+        DemonstratorSpy output = new DemonstratorSpy();
         JSONParser parser = new JSONParser();
         String s = getFile(json);
         Object obj = parser.parse(s);
@@ -82,9 +84,9 @@ public class ModelFactory {
                 throw new NoTypeDefinedException();
             }
             if (type.equals("composite")) {
-                result.put(name, new CompositeShipper(name));
+                result.put(name, new CompositeShipper(name,output));
             } else if (type.equals("basic")) {
-                result.put(name, new BasicShipper(name));
+                result.put(name, new BasicShipper(name,output));
             } else {
                 throw new ShipperTypeNotDefinedException();
             }
@@ -212,6 +214,7 @@ public class ModelFactory {
             //	Builder different output
             Output commandLine = new CommandLine();
             Output droneAPI = new DroneAPI();
+
 
             //	Build nodes that schedules action's execution
             Node root = parseJson("template_main.json");
