@@ -26,7 +26,7 @@ public class SimpleClustering extends ClusteringAlgorithm {
 			} catch (IllegalArgumentException e) {
 				System.out.println("Failed to sort points");
 				for (Vector2D p: localPoints) {
-					System.out.println("\t"+p.toString());
+					System.out.println("\t"+p.toString()+" / "+p.distanceTo(rootPoint));
 				}
 			}
 
