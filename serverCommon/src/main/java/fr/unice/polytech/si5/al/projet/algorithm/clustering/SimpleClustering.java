@@ -2,10 +2,7 @@ package fr.unice.polytech.si5.al.projet.algorithm.clustering;
 
 import fr.unice.polytech.si5.al.projet.math.Vector2D;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class SimpleClustering extends ClusteringAlgorithm {
 
@@ -23,7 +20,15 @@ public class SimpleClustering extends ClusteringAlgorithm {
 			// The point can be added to the cluster
 			currentCluster.add(rootPoint);
 
-			localPoints.sort((o1, o2) -> (int) (o1.distanceTo(rootPoint) - o2.distanceTo(rootPoint)));
+			System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
+			try {
+				localPoints.sort((o1, o2) -> (int) (o1.distanceTo(rootPoint) - o2.distanceTo(rootPoint)));
+			} catch (IllegalArgumentException e) {
+				System.out.println("Failed to sort points");
+				for (Vector2D p: localPoints) {
+					System.out.println("\t"+p.toString());
+				}
+			}
 
 			for (int iPoint = 0; iPoint < localPoints.size(); iPoint++) {
 				Vector2D currentPoint = localPoints.get(iPoint);
