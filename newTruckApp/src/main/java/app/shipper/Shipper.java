@@ -13,7 +13,20 @@ public class Shipper {
 	Output output;
 
 	private Action currentAction;
+
+	public void setActionsQueue(Queue<Action> actionsQueue) {
+		this.actionsQueue = actionsQueue;
+	}
+
 	private Queue<Action> actionsQueue;
+
+	public Action getCurrentAction() {
+		return currentAction;
+	}
+
+	public Queue<Action> getActionsQueue() {
+		return actionsQueue;
+	}
 
 	public Shipper(String name) {
 		this.name = name;

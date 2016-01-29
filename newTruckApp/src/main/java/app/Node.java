@@ -24,9 +24,9 @@ public class Node extends Observable implements Observer {
 		this.resolvedDependencies = new LinkedList<>();
 	}
 
-	public void addDependency(Node n) {
-		this.dependencies.add(n);
-		n.nexts.add(this);
+	public void addDependency(Node parentNode) {
+		this.dependencies.add(parentNode);
+		parentNode.nexts.add(this);
 	}
 
 	public void onDependencyResolve(Node n) {

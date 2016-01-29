@@ -6,8 +6,4 @@ public class GoToDropPoint extends CompositeShipperAction {
 	public GoToDropPoint(CompositeShipper target) {
 		super(target);
 	}
-
-	@Override
-	public void execute() {
-	}
 }

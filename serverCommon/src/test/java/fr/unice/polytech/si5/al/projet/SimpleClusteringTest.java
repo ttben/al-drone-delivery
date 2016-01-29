@@ -27,7 +27,7 @@ public class SimpleClusteringTest extends TestCase {
 		);
 
 		List<Cluster> clusters = stub.process(points, 3, 10);
-		System.out.println(clusters.size()+ " clusters:\n" + clusters);
+		// System.out.println(clusters.size()+ " clusters:\n" + clusters);
 
 		/*Assert.assertEquals(2, clusters.size());
 		Assert.assertEquals(5, clusters.get(0).size());
