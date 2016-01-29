@@ -4,6 +4,7 @@ import app.action.Drop;
 import app.action.GoToShippingPosition;
 import app.action.Pick;
 import app.shipper.BasicShipper;
+import app.shipper.CompositeShipper;
 import app.shipper.Shipper;
 
 import java.util.Observable;
@@ -43,5 +44,15 @@ public class DroneAPI implements Output {
 	@Override
 	public void update(Observable o, Object arg) {
 		System.out.printf("DroneAPI : Observable %s has raised an event with %s\n\n", o, arg);
+	}
+
+	@Override
+	public void set(Shipper shipper) {
+
+	}
+
+	@Override
+	public void set(CompositeShipper shipper) {
+
 	}
 }

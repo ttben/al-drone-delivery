@@ -24,6 +24,11 @@ public class Node extends Observable implements Observer {
 		this.resolvedDependencies = new LinkedList<>();
 	}
 
+	public Node(Action action, Output output){
+		this(action);
+		action.addObserver(output);
+	}
+
 	public void addDependency(Node parentNode) {
 		this.dependencies.add(parentNode);
 		parentNode.nexts.add(this);
@@ -58,7 +63,7 @@ public class Node extends Observable implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if (o == this.action) {
+		if (o == this.action && arg instanceof ActionEvent) {
 			this.onActionUpdate((ActionEvent) arg);
 		}
 	}
