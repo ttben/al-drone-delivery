@@ -1,0 +1,20 @@
+{
+  "shippers": [
+    {
+      "name": "Truck",
+      "type": "composite"
+    },
+    {
+      "name": "DroneA",
+      "type": "drone"
+    },
+    {
+      "name": "DroneB",
+      "ype": "drone"
+    },
+    {
+      "name": "Mr. Jones",
+      "type": "human"
+    }
+  ]
+}

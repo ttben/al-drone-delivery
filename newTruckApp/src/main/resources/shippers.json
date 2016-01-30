@@ -6,11 +6,16 @@
     },
     {
       "name": "DroneA",
-      "type": "basic"
+      "type": "drone"
     },
     {
       "name": "DroneB",
-      "type": "basic"
+      "type": "drone"
+    },
+    {
+      "name": "Mr. Jones",
+      "type": "human"
     }
+
   ]
 }

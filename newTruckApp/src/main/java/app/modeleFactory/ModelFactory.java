@@ -1,12 +1,10 @@
 package app.modeleFactory;
 
-import app.CommandLine;
-import app.DroneAPI;
-import app.Node;
-import app.Output;
+import app.*;
 import app.action.Action;
 import app.action.ActionFactory;
 import app.demonstrator.DemonstratorSpy;
+import app.modeleFactory.exceptions.*;
 import app.shipper.BasicShipper;
 import app.shipper.CompositeShipper;
 import app.shipper.Shipper;
@@ -61,16 +59,21 @@ public class ModelFactory {
 
     }
 
-    private static Map<String, Shipper> buildShippers(String json) throws Exception {
+    static Map<String, Shipper> buildShippers(String filePathToJsonDescription) throws Exception {
         DemonstratorSpy output = new DemonstratorSpy();
         JSONParser parser = new JSONParser();
-        String s = getFile(json);
+        String s = getFile(filePathToJsonDescription);
         Object obj = parser.parse(s);
         Map<String, Shipper> result = new HashMap<>();
 
         JSONObject root = (JSONObject) obj;
 
         JSONArray shippers = (JSONArray) root.get("shippers");
+
+        if(shippers == null) {
+            throw new ShippersRootElementNotFoundException();
+        }
+
         Iterator shipperIterator = shippers.iterator();
 
         while (shipperIterator.hasNext()) {
@@ -83,14 +86,20 @@ public class ModelFactory {
             if (type == null) {
                 throw new NoTypeDefinedException();
             }
-            if (type.equals("composite")) {
-                result.put(name, new CompositeShipper(name,output));
-            } else if (type.equals("basic")) {
-                result.put(name, new BasicShipper(name,output));
-            } else {
-                throw new ShipperTypeNotDefinedException();
-            }
 
+            switch (type) {
+                case "composite":
+                    result.put(name, new CompositeShipper(name,output));
+                    break;
+                case "drone":
+                    result.put(name, new Drone(name,output));
+                    break;
+                case "human":
+                    result.put(name, new HumanShipper(name,output));
+                    break;
+                default:
+                    throw new ShipperTypeNotDefinedException();
+            }
         }
         return result;
     }
@@ -126,8 +135,9 @@ public class ModelFactory {
      * @param nodes the JSONObject describing all the nodes
      * @return
      */
-    private static Map<String, Node> buildNodes(JSONObject nodes) throws Exception {
+    static Map<String, Node> buildNodes(JSONObject nodes) throws Exception {
         Map<String, Node> result = new HashMap<>();
+
         for (int i = 1; ; i++) {
             JSONObject nodei = (JSONObject) nodes.get("node" + i);
             if (nodei == null) {
@@ -220,6 +230,7 @@ public class ModelFactory {
             Node root = parseJson("template_main.json");
 
 
+
             //truck.setCurrentAction(root);
             root.queueAction();
 
@@ -230,7 +241,7 @@ public class ModelFactory {
             truck.endAction();    // finish first send
             System.out.println();
             truck.endAction();  //  finish 2nd send
-
+ /*
             System.out.println();
             droneA.endAction(); // end of goto location
             System.out.println();
@@ -254,6 +265,7 @@ public class ModelFactory {
 
             System.out.println();
             truck.endAction(); // end of goto away
+            */
         } catch (org.json.simple.parser.ParseException | NoActionDefinedException | NodeNotDefinedException e) {
             e.printStackTrace();
         } catch (Exception e) {
