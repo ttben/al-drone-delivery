@@ -1,9 +1,8 @@
-package app.modeleFactory;
+package app.modelFactory;
 
 import app.Node;
 import app.action.GoToDropPoint;
 import app.shipper.CompositeShipper;
-import com.sun.org.apache.bcel.internal.generic.GOTO;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -16,7 +15,7 @@ public class ModelFactoryBuildNodeTest {
 
 	@Test
 	public void aFactory_WhenBuildNodes_ShouldHaveProperRootNode() throws Exception {
-		Node root = ModelFactory.buildAll(SHIPPER_FILE_LOCATION, GRAPH_FILE_LOCAITON);
+		Node root = ModelFactory.parseJson(SHIPPER_FILE_LOCATION, GRAPH_FILE_LOCAITON);
 		boolean rootEmbedAGotoAction = root.getAction() instanceof GoToDropPoint;
 		assertTrue(rootEmbedAGotoAction);
 		System.out.println(Arrays.asList(root.getAction().getParams()));
@@ -24,7 +23,7 @@ public class ModelFactoryBuildNodeTest {
 
 	@Test
 	public void aFactory_WhenBuildNodes_ShouldHaveProperRootNodeTarget() throws Exception {
-		Node root = ModelFactory.buildAll(SHIPPER_FILE_LOCATION, GRAPH_FILE_LOCAITON);
+		Node root = ModelFactory.parseJson(SHIPPER_FILE_LOCATION, GRAPH_FILE_LOCAITON);
 		boolean rootTargetTruck = root.getAction().getTarget() instanceof CompositeShipper;
 		assertTrue(rootTargetTruck);
 	}

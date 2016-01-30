@@ -1,13 +1,12 @@
 package app.demonstrator;
 
-import app.shipper.Drone;
+import app.shipper.*;
 import app.output.Output;
 import app.action.*;
-import app.shipper.CompositeShipper;
-import app.shipper.Shipper;
 
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.Observable;
 
 /**
@@ -21,19 +20,36 @@ public class DemonstratorSpy implements Output {
         window = new DemonstratorWindow(800, 600, "Demonstrator");
     }
 
+
     @Override
-    public void set(Shipper shipper) {
+    public void register(CompositeShipper shipper){
+        window.createTruck(shipper.getName());
+    }
+
+    public void register(Drone shipper) {
+        window.createDrone(shipper.getName());
+    }
+
+    public void register(HumanShipper shipper) {
+        window.createHumanShipper(shipper.getName());
+    }
+
+        @Override
+    public void register(BasicShipper shipper) {
+
         if(shipper instanceof Drone) {
             window.createDrone(shipper.getName());
         }
-        else {
+        else if (shipper instanceof HumanShipper) {
             window.createHumanShipper(shipper.getName());
+        } else {
+            System.out.println("Oups LOL !");
         }
-    }
+     }
 
     @Override
-    public void set(CompositeShipper shipper){
-        window.createTruck(shipper.getName());
+    public void register(Shipper shipper){
+        System.out.println("Oups registering a thing not basic nor composite !");
     }
 
     @Override

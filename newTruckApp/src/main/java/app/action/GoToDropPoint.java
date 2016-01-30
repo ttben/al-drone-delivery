@@ -3,6 +3,7 @@ package app.action;
 import app.shipper.CompositeShipper;
 
 import java.awt.*;
+import java.util.Arrays;
 
 public class GoToDropPoint extends CompositeShipperAction {
 
@@ -17,4 +18,8 @@ public class GoToDropPoint extends CompositeShipperAction {
 		return location;
 	}
 
+	@Override
+	public Object[] getParams() {
+		return Arrays.asList(this.location).toArray();
+	}
 }

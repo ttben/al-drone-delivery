@@ -1,11 +1,11 @@
-package app.modeleFactory;
+package app.modelFactory;
 
 import app.shipper.Drone;
 import app.shipper.HumanShipper;
-import app.modeleFactory.exceptions.NoNameDefinedException;
-import app.modeleFactory.exceptions.NoTypeDefinedException;
-import app.modeleFactory.exceptions.ShipperTypeNotDefinedException;
-import app.modeleFactory.exceptions.ShippersRootElementNotFoundException;
+import app.modelFactory.exceptions.NoNameDefinedException;
+import app.modelFactory.exceptions.NoTypeDefinedException;
+import app.modelFactory.exceptions.ShipperTypeNotDefinedException;
+import app.modelFactory.exceptions.ShippersRootElementNotFoundException;
 import app.shipper.Shipper;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class ModelFactoryBuildShippersTest {
 	public static final String KEY_TRUCK = "Truck";
 	public static final String DRONEA_KEY = "DroneA";
 	public static final String DRONEB_KEY = "DroneB";
-	public static final String HUMAN_KEY = "Mr. Jones";
+	public static final String HUMAN_KEY = "Human";
 	public static final int NUMBER_OF_ENTITIES = 4;
 
 	@Test

@@ -1,4 +1,4 @@
-package app.modeleFactory.exceptions;
+package app.modelFactory.exceptions;
 
 /**
  * Created by Benjamin on 30/01/2016.

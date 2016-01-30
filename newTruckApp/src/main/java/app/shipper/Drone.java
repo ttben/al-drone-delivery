@@ -5,8 +5,8 @@ import app.shipper.BasicShipper;
 
 public class Drone extends BasicShipper {
 
-	public Drone(String name, Output output) {
-		super(name, output);
+	public Drone(String name) {
+		super(name);
 	}
 
 	@Override

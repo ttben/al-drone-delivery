@@ -29,6 +29,10 @@ public class Node extends Observable implements Observer {
 		action.addObserver(output);
 	}
 
+	public void addSpy(Observer o) {
+		this.action.addObserver(o);
+	}
+
 	public Action getAction() {
 		return action;
 	}

@@ -1,24 +1,18 @@
-package app.modeleFactory;
+package app.modelFactory;
 
 import app.*;
 import app.action.Action;
-import app.action.ActionFactory;
-import app.demonstrator.DemonstratorSpy;
-import app.modeleFactory.exceptions.*;
-import app.output.CommandLine;
-import app.output.DroneAPI;
+import app.modelFactory.exceptions.*;
 import app.output.Output;
 import app.shipper.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 
 /**
@@ -27,9 +21,32 @@ import java.util.Scanner;
 public class ModelFactory {
 
 	private static ActionFactory actionFactory = new ActionFactory();
-	private static Map<String, Shipper> shipperMap = new HashMap<>();
 
-	private static String getFile(String fileName) {
+	public static Node parseJson(String pathToShipperJsonFile, String pathToNodeJsonFile) throws Exception {
+		Map<String, Node> tempHashMapOfNodes;
+		JSONParser parser = new JSONParser();
+
+		Map<String, Shipper> shipperMap = buildShippers(pathToShipperJsonFile);
+
+		String nodeJsonDescription = getFile(pathToNodeJsonFile);
+		Object objNodeJson = parser.parse(nodeJsonDescription);
+
+		JSONObject root = (JSONObject) objNodeJson;
+		/*
+        Parsing nodes
+         */
+		JSONObject nodes = (JSONObject) root.get("nodes");
+		tempHashMapOfNodes = buildNodes(shipperMap, nodes);
+
+        /*
+        Parsing graph
+         */
+		JSONObject graph = (JSONObject) root.get("graph");
+		Node rootNode = buildDependencies(graph, tempHashMapOfNodes);
+		return rootNode;
+	}
+
+	public static String getFile(String fileName) {
 
 		StringBuilder result = new StringBuilder("");
 
@@ -59,75 +76,54 @@ public class ModelFactory {
 
 	}
 
-	static Map<String, Shipper> buildShippers(String filePathToJsonDescription) throws Exception {
-		DemonstratorSpy output = new DemonstratorSpy();
+	public static JSONObject getJSONFromFile(String filePathToJsonDescription) throws ParseException {
 		JSONParser parser = new JSONParser();
 		String s = getFile(filePathToJsonDescription);
 		Object obj = parser.parse(s);
-		Map<String, Shipper> result = new HashMap<>();
-
 		JSONObject root = (JSONObject) obj;
+		return root;
+	}
 
+	public static Map<String, Shipper> buildShippers(String filePathToJsonDescription) throws Exception {
+		JSONObject root = getJSONFromFile(filePathToJsonDescription);
+
+		Map<String, Shipper> result = new HashMap<>();
 		JSONArray shippers = (JSONArray) root.get("shippers");
 
 		if (shippers == null) {
 			throw new ShippersRootElementNotFoundException();
 		}
 
-		Iterator shipperIterator = shippers.iterator();
-
-		while (shipperIterator.hasNext()) {
-			JSONObject shipperJSON = (JSONObject) shipperIterator.next();
-			String name = (String) shipperJSON.get("name");
-			if (name == null) {
-				throw new NoNameDefinedException();
-			}
-			String type = (String) shipperJSON.get("type");
-			if (type == null) {
-				throw new NoTypeDefinedException();
-			}
-
-			switch (type) {
-				case "composite":
-					result.put(name, new CompositeShipper(name, output));
-					break;
-				case "drone":
-					result.put(name, new Drone(name, output));
-					break;
-				case "human":
-					result.put(name, new HumanShipper(name, output));
-					break;
-				default:
-					throw new ShipperTypeNotDefinedException();
-			}
+		for(Object currentShipperObject : shippers) {
+			JSONObject currentShipperJSONObject = (JSONObject) currentShipperObject;
+			Shipper shipper = buildAShipper(currentShipperJSONObject);
+			result.put(shipper.getName(), shipper);
 		}
+
 		return result;
 	}
 
-	public static Node parseJson(String filePathToJsonDescription) throws Exception {
-		Map<String, Node> tempHashMapOfNodes;
-		JSONParser parser = new JSONParser();
-		String s = getFile(filePathToJsonDescription);
-		Object obj = parser.parse(s);
+	public static Shipper buildAShipper(JSONObject shipperJSON) throws ShipperTypeNotDefinedException, NoTypeDefinedException, NoNameDefinedException {
+		String name = (String) shipperJSON.get("name");
+		if (name == null) {
+			throw new NoNameDefinedException();
+		}
+		String type = (String) shipperJSON.get("type");
+		if (type == null) {
+			throw new NoTypeDefinedException();
+		}
 
-
-		JSONObject root = (JSONObject) obj;
-		/*
-        Parsing nodes
-         */
-		JSONObject nodes = (JSONObject) root.get("nodes");
-		tempHashMapOfNodes = buildNodes(nodes);
-
-        /*
-        Parsing graph
-         */
-
-		JSONObject graph = (JSONObject) root.get("graph");
-		Node rootNode = buildDependencies(graph, tempHashMapOfNodes);
-		return rootNode;
-
+		switch (type) {
+			case "composite":
+				return new CompositeShipper(name);
+			case "drone":
+				return  new Drone(name);
+			case "human":
+				 return new HumanShipper(name);
+			default:
+				throw new ShipperTypeNotDefinedException();
+		}
 	}
-
 
 	/**
 	 * Build all nodes object necessary (including action and shipper associated)
@@ -135,36 +131,26 @@ public class ModelFactory {
 	 * @param nodes the JSONObject describing all the nodes
 	 * @return
 	 */
-	static Map<String, Node> buildNodes(JSONObject nodes) throws Exception {
+	public static Map<String, Node> buildNodes(Map<String, Shipper> shipperMap, JSONObject nodes) throws Exception {
 		Map<String, Node> result = new HashMap<>();
 
 		for (int i = 1; ; i++) {
-			JSONObject nodei = (JSONObject) nodes.get("node" + i);
-			if (nodei == null) {
+			JSONObject currentNode = (JSONObject) nodes.get("node" + i);
+			if (currentNode == null) {
 				break;
 			}
 			// building node
-			String actionString = (String) nodei.get("action");
-			JSONArray paramsString = (JSONArray) nodei.get("params");
+			String actionString = (String) currentNode.get("action");
+			JSONObject paramJsonObject = (JSONObject) currentNode.get("params");
 			if (actionString == null) {
 				throw new NoActionDefinedException();
 			}
-			if (paramsString == null) {
+			if (paramJsonObject == null) {
 				throw new NoParamsDefinedException();
 			}
-            /*
-            Creating parameter to create the action (the shipper)
-             */
-			Map<String, Object> paramMap = new HashMap<>();
-			String shipperName = (String) paramsString.get(0);
-			paramMap.put("shipper", shipperMap.get(shipperName));
-			if (paramsString.size() > 1) {
-				String secondParamName = (String) paramsString.get(1);
-				Object secondParam = shipperMap.get(secondParamName);
-				paramMap.put("second", secondParam);
-			}
 
-			Action nodeAction = actionFactory.buildAction(actionString, paramMap);
+			Action nodeAction = actionFactory.buildAction(shipperMap, actionString, paramJsonObject);
+
 			Node nodeToCreate = new Node(nodeAction);
 			result.put("node" + i, nodeToCreate);
 		}
@@ -180,7 +166,7 @@ public class ModelFactory {
 	 * @return the root of the graph
 	 * @throws Exception
 	 */
-	private static Node buildDependencies(JSONObject graph, Map<String, Node> nodes) throws Exception {
+	public static Node buildDependencies(JSONObject graph, Map<String, Node> nodes) throws Exception {
 		String idRoot = (String) graph.get("root");
 		Node rootNode = nodes.get(idRoot);
 		if (rootNode == null) {
@@ -210,30 +196,37 @@ public class ModelFactory {
 		return rootNode;
 	}
 
-	static Node buildAll(String pathToShipperDescription, String pathToGraphDescription) throws Exception {
-		shipperMap = buildShippers(pathToShipperDescription);
-
-		//	Build nodes that schedules action's execution
-		Node root = parseJson(pathToGraphDescription);
- 		return root;
-	}
-
 	public static void main(String[] args) {
 		try {
 
-			//	Building shippers
-			shipperMap = buildShippers("shippers.json");
-			CompositeShipper truck = (CompositeShipper) shipperMap.get("Truck");
-			BasicShipper droneA = (BasicShipper) shipperMap.get("DroneA");
-			BasicShipper droneB = (BasicShipper) shipperMap.get("DroneB");
 
-			//	Builder different output
-			Output commandLine = new CommandLine();
-			Output droneAPI = new DroneAPI();
+			Map<String, Node> tempHashMapOfNodes;
+			JSONParser parser = new JSONParser();
+
+			String nodeJsonDescription = getFile("template_main.json");
+			Object objNodeJson = parser.parse(nodeJsonDescription);
+			JSONObject rootJsonObject = (JSONObject) objNodeJson;
+			JSONObject nodes = (JSONObject) rootJsonObject.get("nodes");
+
+			Map<String, Shipper> shipperMap = buildShippers("shippers.json");
+			tempHashMapOfNodes = buildNodes(shipperMap, nodes);
+			/*
+			Parsing nodes
+			 */
 
 
 			//	Build nodes that schedules action's execution
-			Node root = parseJson("template_main.json");
+			/*
+			Parsing graph
+			 */
+			JSONObject graph = (JSONObject) rootJsonObject.get("graph");
+			Node root = buildDependencies(graph, tempHashMapOfNodes);
+
+
+			//	Building shippers
+			CompositeShipper truck = (CompositeShipper) shipperMap.get("Truck");
+			BasicShipper droneA = (BasicShipper) shipperMap.get("DroneA");
+			BasicShipper droneB = (BasicShipper) shipperMap.get("DroneB");
 
 			//truck.setCurrentAction(root);
 			root.queueAction();

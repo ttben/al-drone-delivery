@@ -2,9 +2,7 @@ package app;
 
 import app.action.*;
 import app.demonstrator.DemonstratorSpy;
-import app.shipper.BasicShipper;
-import app.shipper.CompositeShipper;
-import app.shipper.Shipper;
+import app.shipper.*;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -23,11 +21,12 @@ public class DemoScenario {
 	DemoScenario() {
 
 		output = new DemonstratorSpy();
-		truck = new CompositeShipper("Truck", output);
-		droneA = new Drone("DroneA", output);
-		droneB = new Drone("DroneB", output);
-		droneC = new Drone("DroneC", output);
-		driver = new HumanShipper("Driver", output);
+
+		truck = new CompositeShipper("Truck");
+		droneA = new Drone("DroneA");
+		droneB = new Drone("DroneB");
+		droneC = new Drone("DroneC");
+		driver = new HumanShipper("Driver");
 
 		// Positions
 		Dimension dropPoint0 = new Dimension(150, 20);

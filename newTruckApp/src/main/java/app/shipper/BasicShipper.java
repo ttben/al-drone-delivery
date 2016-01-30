@@ -7,7 +7,7 @@ public class BasicShipper extends Shipper {
 
 	BasicShipperAction actions;
 
-	public BasicShipper(String name, Output output) {
-		super(name, output);
+	public BasicShipper(String name) {
+		super(name);
 	}
 }

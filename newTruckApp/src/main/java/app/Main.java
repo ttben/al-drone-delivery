@@ -15,20 +15,40 @@ public class Main {
 
 		DemonstratorSpy output = new DemonstratorSpy();
 
-		CompositeShipper truck = new CompositeShipper("Truck", output);
 		//	Building shippers
-		BasicShipper droneA = new Drone("DroneA", output);
-		BasicShipper droneB = new HumanShipper("DroneB", output);
+		CompositeShipper truck = new CompositeShipper("Truck");
+		BasicShipper droneA = new Drone("DroneA");
+		BasicShipper droneB = new HumanShipper("DroneB");
+
+		output.register(truck);
+		output.register(droneA);
+		output.register(droneB);
+
 
 		//	Build nodes that schedules action's execution
-		Node truckGo1Node = new Node(new GoToDropPoint(truck, new Dimension(80, 20)));
-		Node truckGo2Node = new Node(new GoToDropPoint(truck, new Dimension(40, 22)));
-		Node truckGo3Node = new Node(new GoToDropPoint(truck ,new Dimension(20, 80)));
+		Action gotoDropPointTruck1 = new GoToDropPoint(truck, new Dimension(80, 20));
+		Action gotoDropPointTruck2 = new GoToDropPoint(truck, new Dimension(40, 22));
+		Action gotoDropPointTruck3 = new GoToDropPoint(truck ,new Dimension(20, 80));
+		gotoDropPointTruck1.addObserver(output);
+		gotoDropPointTruck2.addObserver(output);
+		gotoDropPointTruck3.addObserver(output);
+		Node truckGo1Node = new Node(gotoDropPointTruck1);
+		Node truckGo2Node = new Node(gotoDropPointTruck2);
+		Node truckGo3Node = new Node(gotoDropPointTruck3);
 
-		Node droneASendNode = new Node(new SendDrone(truck, droneA));
-		Node droneAGoToShippingPositionNode = new Node(new GoToShippingPosition(droneA, new Dimension(20, 30)));
-		Node droneAPickNode = new Node(new Pick(droneA));
-		Node droneAGoToTruck = new Node(new GoToShippingPosition(droneA, new Dimension(40, 22)));
+
+		Action sendDroneA = new SendDrone(truck, droneA);
+		Action gotoDroneA = new GoToShippingPosition(droneA, new Dimension(20, 30));
+		Action pickDroneA = new Pick(droneA);
+		Action gotoTruckDroneA =new GoToShippingPosition(droneA, new Dimension(40, 22));
+		sendDroneA.addObserver(output);
+		gotoDroneA.addObserver(output);
+		pickDroneA.addObserver(output);
+		gotoTruckDroneA.addObserver(output);
+		Node droneASendNode = new Node(sendDroneA);
+		Node droneAGoToShippingPositionNode = new Node(gotoDroneA);
+		Node droneAPickNode = new Node(pickDroneA);
+		Node droneAGoToTruck = new Node(gotoTruckDroneA);
 		Node droneACollect = new Node(new CollectDrone(truck, droneA));
 
 		Node droneBSendNode = new Node(new SendDrone(truck, droneB));

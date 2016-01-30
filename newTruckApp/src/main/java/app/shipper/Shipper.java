@@ -19,10 +19,8 @@ public class Shipper {
 
 	private Queue<Action> actionsQueue;
 
-	public Shipper(String name, Output output) {
+	public Shipper(String name) {
 		this.name = name;
-		this.output = output;
-		output.set(this);
 		this.actionsQueue = new LinkedList<>();
 	}
 	public Action getCurrentAction() {
@@ -31,11 +29,6 @@ public class Shipper {
 
 	public Queue<Action> getActionsQueue() {
 		return actionsQueue;
-	}
-
-	public Shipper(String name) {
-		this.name = name;
-		this.actionsQueue = new LinkedList<>();
 	}
 
 
