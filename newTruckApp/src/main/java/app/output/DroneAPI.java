@@ -1,9 +1,8 @@
-package app;
+package app.output;
 
 import app.action.Drop;
 import app.action.GoToShippingPosition;
 import app.action.Pick;
-import app.shipper.BasicShipper;
 import app.shipper.CompositeShipper;
 import app.shipper.Shipper;
 

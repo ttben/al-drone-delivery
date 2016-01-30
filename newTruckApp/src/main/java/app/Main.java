@@ -4,10 +4,10 @@ import app.action.*;
 import app.demonstrator.DemonstratorSpy;
 import app.shipper.BasicShipper;
 import app.shipper.CompositeShipper;
+import app.shipper.Drone;
+import app.shipper.HumanShipper;
 
 import java.awt.*;
-import java.io.Console;
-import java.util.Scanner;
 
 public class Main {
 

@@ -1,4 +1,4 @@
-package app;
+package app.output;
 
 import app.action.*;
 import app.shipper.CompositeShipper;

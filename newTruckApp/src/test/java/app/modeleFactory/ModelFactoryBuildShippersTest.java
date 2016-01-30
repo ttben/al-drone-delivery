@@ -1,7 +1,7 @@
 package app.modeleFactory;
 
-import app.Drone;
-import app.HumanShipper;
+import app.shipper.Drone;
+import app.shipper.HumanShipper;
 import app.modeleFactory.exceptions.NoNameDefinedException;
 import app.modeleFactory.exceptions.NoTypeDefinedException;
 import app.modeleFactory.exceptions.ShipperTypeNotDefinedException;

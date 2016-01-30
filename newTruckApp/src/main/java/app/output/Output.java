@@ -1,4 +1,4 @@
-package app;
+package app.output;
 
 import app.shipper.CompositeShipper;
 import app.shipper.Shipper;

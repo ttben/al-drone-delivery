@@ -1,5 +1,6 @@
-package app;
+package app.shipper;
 
+import app.output.Output;
 import app.shipper.BasicShipper;
 
 /**

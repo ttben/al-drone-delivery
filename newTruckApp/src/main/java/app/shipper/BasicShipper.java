@@ -1,6 +1,6 @@
 package app.shipper;
 
-import app.Output;
+import app.output.Output;
 import app.action.BasicShipperAction;
 
 public class BasicShipper extends Shipper {

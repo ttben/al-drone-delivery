@@ -1,16 +1,13 @@
 package app.action;
 
-import app.Output;
+import app.output.Output;
 import app.shipper.CompositeShipper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import static org.mockito.Mockito.*;
-
-import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ActionTest {

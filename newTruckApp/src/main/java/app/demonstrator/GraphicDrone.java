@@ -1,9 +1,5 @@
 package app.demonstrator;
 
-import app.Drone;
-import app.demonstrator.GraphicEntity;
-import app.demonstrator.ShipperState;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;

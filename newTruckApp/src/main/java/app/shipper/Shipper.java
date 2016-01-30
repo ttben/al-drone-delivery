@@ -1,7 +1,6 @@
 package app.shipper;
 
-import app.Node;
-import app.Output;
+import app.output.Output;
 import app.action.Action;
 
 import java.util.LinkedList;

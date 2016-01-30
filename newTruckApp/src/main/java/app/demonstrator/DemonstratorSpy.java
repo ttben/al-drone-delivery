@@ -1,7 +1,7 @@
 package app.demonstrator;
 
-import app.Drone;
-import app.Output;
+import app.shipper.Drone;
+import app.output.Output;
 import app.action.*;
 import app.shipper.CompositeShipper;
 import app.shipper.Shipper;
