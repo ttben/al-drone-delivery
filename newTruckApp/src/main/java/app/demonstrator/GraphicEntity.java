@@ -1,5 +1,6 @@
 package app.demonstrator;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.AbstractMap;
 import java.util.List;
@@ -70,6 +71,10 @@ public abstract class GraphicEntity {
         if (icon != null) {
             Dimension whereToDrawWithImageSize = new Dimension(whereToDraw.width - icon.getWidth(null)/2, whereToDraw.height - icon.getHeight(null)/2);
             g.drawImage(icon, whereToDrawWithImageSize.width, whereToDrawWithImageSize.height, null);
+            Color old = g.getColor();
+            g.setColor(Color.black);
+            g.drawString(name, whereToDraw.width - icon.getWidth(null)/2, whereToDraw.height - icon.getHeight(null)/2);
+            g.setColor(old);
         }
     }
 

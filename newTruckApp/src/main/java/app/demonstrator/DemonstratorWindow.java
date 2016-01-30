@@ -2,6 +2,9 @@ package app.demonstrator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Sébastien on 20/01/2016.
@@ -79,4 +82,7 @@ public class DemonstratorWindow extends JFrame{
     }
 
 
+    public void init(java.util.List<Dimension> placesToDraw) {
+        drawPanel.setHouses(placesToDraw.stream().map(this::reel2Window).collect(Collectors.toList()));
+    }
 }
