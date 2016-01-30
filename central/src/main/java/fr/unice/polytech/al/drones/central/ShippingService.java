@@ -14,4 +14,8 @@ public interface ShippingService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     Response addAShipping(String description);
+
+	@GET
+	@Path("/demo")
+	Response getShippingDemoData();
 }

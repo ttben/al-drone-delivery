@@ -4,6 +4,7 @@ import fr.unice.polytech.si5.al.projet.algorithm.clustering.Cluster;
 import fr.unice.polytech.si5.al.projet.algorithm.clustering.SimpleClustering;
 import fr.unice.polytech.si5.al.projet.algorithm.sequencing.Sequence;
 import fr.unice.polytech.si5.al.projet.algorithm.sequencing.SimplePointSequencingAlgorithm;
+import fr.unice.polytech.si5.al.projet.demo.PointGenerator;
 import fr.unice.polytech.si5.al.projet.math.Vector2D;
 import junit.framework.TestCase;
 import org.json.JSONArray;

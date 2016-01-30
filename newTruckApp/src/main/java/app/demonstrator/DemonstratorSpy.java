@@ -6,6 +6,7 @@ import app.action.*;
 import app.shipper.CompositeShipper;
 import app.shipper.Shipper;
 
+import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
 
@@ -103,4 +104,7 @@ public class DemonstratorSpy implements Output {
         }
     }
 
+    public void init(java.util.List<Dimension> placesToDraw) {
+        window.init(placesToDraw);
+    }
 }

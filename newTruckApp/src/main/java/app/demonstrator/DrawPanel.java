@@ -2,8 +2,8 @@ package app.demonstrator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by Sébastien on 20/01/2016.
@@ -14,12 +14,17 @@ public class DrawPanel extends JPanel {
 
     private Map<String, GraphicEntity> shippers;
     private Map<Map.Entry<Dimension, Dimension>, Color> oldPaths;
+    private java.util.List<Dimension> houses;
 
     public DrawPanel(){
         shippers = new HashMap<>();
         oldPaths = new HashMap<>();
         this.setOpaque(true);
         this.setBackground(Color.white);
+    }
+
+    public void setHouses(List<Dimension> houses) {
+        this.houses = houses;
     }
 
     public void createShipper(String name, GraphicEntity graphic) {
@@ -58,6 +63,15 @@ public class DrawPanel extends JPanel {
         super.paintComponent(g);
 
         Graphics graphics2D = antiAliasing(g);
+
+        // Draw houses
+        Image houseIcon = new ImageIcon(this.getClass().getResource("/house.png")).getImage();
+        if(houses != null) {
+            for (Dimension d : houses) {
+                Dimension correct = new Dimension(d.width - (houseIcon.getWidth(null) / 2), d.height - (houseIcon.getHeight(null) / 2));
+                g.drawImage(houseIcon, correct.width, correct.height, null);
+            }
+        }
 
         // Draw old traces
         if(drawOldLines) {
