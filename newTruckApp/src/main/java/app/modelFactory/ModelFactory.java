@@ -1,9 +1,8 @@
 package app.modelFactory;
 
-import app.*;
+import app.Node;
 import app.action.Action;
 import app.modelFactory.exceptions.*;
-import app.output.Output;
 import app.shipper.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -12,7 +11,9 @@ import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 
 /**
@@ -20,9 +21,9 @@ import java.util.*;
  */
 public class ModelFactory {
 
-	private static ActionFactory actionFactory = new ActionFactory();
+	private ActionFactory actionFactory = new ActionFactory();
 
-	public static Node parseJson(String pathToShipperJsonFile, String pathToNodeJsonFile) throws Exception {
+	public Node parseJson(String pathToShipperJsonFile, String pathToNodeJsonFile) throws Exception {
 		Map<String, Node> tempHashMapOfNodes;
 		JSONParser parser = new JSONParser();
 
@@ -33,7 +34,7 @@ public class ModelFactory {
 
 		JSONObject root = (JSONObject) objNodeJson;
 		/*
-        Parsing nodes
+		Parsing nodes
          */
 		JSONObject nodes = (JSONObject) root.get("nodes");
 		tempHashMapOfNodes = buildNodes(shipperMap, nodes);
@@ -46,7 +47,7 @@ public class ModelFactory {
 		return rootNode;
 	}
 
-	public static String getFile(String fileName) {
+	public String getFile(String fileName) {
 
 		StringBuilder result = new StringBuilder("");
 
@@ -76,7 +77,7 @@ public class ModelFactory {
 
 	}
 
-	public static JSONObject getJSONFromFile(String filePathToJsonDescription) throws ParseException {
+	public JSONObject getJSONFromFile(String filePathToJsonDescription) throws ParseException {
 		JSONParser parser = new JSONParser();
 		String s = getFile(filePathToJsonDescription);
 		Object obj = parser.parse(s);
@@ -84,7 +85,7 @@ public class ModelFactory {
 		return root;
 	}
 
-	public static Map<String, Shipper> buildShippers(String filePathToJsonDescription) throws Exception {
+	public Map<String, Shipper> buildShippers(String filePathToJsonDescription) throws Exception {
 		JSONObject root = getJSONFromFile(filePathToJsonDescription);
 
 		Map<String, Shipper> result = new HashMap<>();
@@ -94,7 +95,7 @@ public class ModelFactory {
 			throw new ShippersRootElementNotFoundException();
 		}
 
-		for(Object currentShipperObject : shippers) {
+		for (Object currentShipperObject : shippers) {
 			JSONObject currentShipperJSONObject = (JSONObject) currentShipperObject;
 			Shipper shipper = buildAShipper(currentShipperJSONObject);
 			result.put(shipper.getName(), shipper);
@@ -103,7 +104,7 @@ public class ModelFactory {
 		return result;
 	}
 
-	public static Shipper buildAShipper(JSONObject shipperJSON) throws ShipperTypeNotDefinedException, NoTypeDefinedException, NoNameDefinedException {
+	public Shipper buildAShipper(JSONObject shipperJSON) throws ShipperTypeNotDefinedException, NoTypeDefinedException, NoNameDefinedException {
 		String name = (String) shipperJSON.get("name");
 		if (name == null) {
 			throw new NoNameDefinedException();
@@ -117,9 +118,9 @@ public class ModelFactory {
 			case "composite":
 				return new CompositeShipper(name);
 			case "drone":
-				return  new Drone(name);
+				return new Drone(name);
 			case "human":
-				 return new HumanShipper(name);
+				return new HumanShipper(name);
 			default:
 				throw new ShipperTypeNotDefinedException();
 		}
@@ -131,7 +132,7 @@ public class ModelFactory {
 	 * @param nodes the JSONObject describing all the nodes
 	 * @return
 	 */
-	public static Map<String, Node> buildNodes(Map<String, Shipper> shipperMap, JSONObject nodes) throws Exception {
+	public Map<String, Node> buildNodes(Map<String, Shipper> shipperMap, JSONObject nodes) throws Exception {
 		Map<String, Node> result = new HashMap<>();
 
 		for (int i = 1; ; i++) {
@@ -166,7 +167,7 @@ public class ModelFactory {
 	 * @return the root of the graph
 	 * @throws Exception
 	 */
-	public static Node buildDependencies(JSONObject graph, Map<String, Node> nodes) throws Exception {
+	public Node buildDependencies(JSONObject graph, Map<String, Node> nodes) throws Exception {
 		String idRoot = (String) graph.get("root");
 		Node rootNode = nodes.get(idRoot);
 		if (rootNode == null) {
@@ -198,18 +199,18 @@ public class ModelFactory {
 
 	public static void main(String[] args) {
 		try {
-
+			ModelFactory modelFactory = new ModelFactory();
 
 			Map<String, Node> tempHashMapOfNodes;
 			JSONParser parser = new JSONParser();
 
-			String nodeJsonDescription = getFile("template_main.json");
+			String nodeJsonDescription = modelFactory.getFile("template_main.json");
 			Object objNodeJson = parser.parse(nodeJsonDescription);
 			JSONObject rootJsonObject = (JSONObject) objNodeJson;
 			JSONObject nodes = (JSONObject) rootJsonObject.get("nodes");
 
-			Map<String, Shipper> shipperMap = buildShippers("shippers.json");
-			tempHashMapOfNodes = buildNodes(shipperMap, nodes);
+			Map<String, Shipper> shipperMap = modelFactory.buildShippers("shippers.json");
+			tempHashMapOfNodes = modelFactory.buildNodes(shipperMap, nodes);
 			/*
 			Parsing nodes
 			 */
@@ -220,7 +221,7 @@ public class ModelFactory {
 			Parsing graph
 			 */
 			JSONObject graph = (JSONObject) rootJsonObject.get("graph");
-			Node root = buildDependencies(graph, tempHashMapOfNodes);
+			Node root = modelFactory.buildDependencies(graph, tempHashMapOfNodes);
 
 
 			//	Building shippers
@@ -239,29 +240,29 @@ public class ModelFactory {
 			System.out.println();
 			truck.endAction();  //  finish 2nd send
 
-            System.out.println();
-            droneA.endAction(); // end of goto location
-            System.out.println();
-            droneA.endAction();    // end of pick
-            System.out.println();
-            droneA.endAction();    // end of goto meeting point
+			System.out.println();
+			droneA.endAction(); // end of goto location
+			System.out.println();
+			droneA.endAction();    // end of pick
+			System.out.println();
+			droneA.endAction();    // end of goto meeting point
 
-            System.out.println();
-            System.out.println("==== TRUCK REACHES MEETING POINT ====");
-            truck.endAction(); // end of truck go to meeting point. Should queue CollectA in truck
+			System.out.println();
+			System.out.println("==== TRUCK REACHES MEETING POINT ====");
+			truck.endAction(); // end of truck go to meeting point. Should queue CollectA in truck
 
-            System.out.println();
-            droneB.endAction(); // end of goto location
-            System.out.println();
-            droneB.endAction();    // end of drop
-            System.out.println();
-            droneB.endAction();    // end of goto meeting point. Should queue CollectB in truck
+			System.out.println();
+			droneB.endAction(); // end of goto location
+			System.out.println();
+			droneB.endAction();    // end of drop
+			System.out.println();
+			droneB.endAction();    // end of goto meeting point. Should queue CollectB in truck
 
-            truck.endAction(); // end of collect A
-            truck.endAction(); // end of collect B
+			truck.endAction(); // end of collect A
+			truck.endAction(); // end of collect B
 
-            System.out.println();
-            truck.endAction(); // end of goto away
+			System.out.println();
+			truck.endAction(); // end of goto away
 
 		} catch (org.json.simple.parser.ParseException | NoActionDefinedException | NodeNotDefinedException e) {
 			e.printStackTrace();

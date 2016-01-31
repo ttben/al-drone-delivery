@@ -18,18 +18,20 @@ public class App {
 	public List<Action> listActions = new ArrayList<>();
 	public Node root;
 
+	private ModelFactory modelFactory = new ModelFactory();
+	
 	public App() throws Exception {
 		JSONParser parser = new JSONParser();
-		String nodeJsonDescription = ModelFactory.getFile("template_main.json");
+		String nodeJsonDescription = modelFactory.getFile("template_main.json");
 		Object objNodeJson = parser.parse(nodeJsonDescription);
 		JSONObject rootJsonObject = (JSONObject) objNodeJson;
 		JSONObject nodes = (JSONObject) rootJsonObject.get("nodes");
 
-		shipperMap = ModelFactory.buildShippers("shippers.json");
-		Map<String, Node> tempHashMapOfNodes = ModelFactory.buildNodes(shipperMap, nodes);
+		shipperMap = modelFactory.buildShippers("shippers.json");
+		Map<String, Node> tempHashMapOfNodes = modelFactory.buildNodes(shipperMap, nodes);
 
 		JSONObject graph = (JSONObject) rootJsonObject.get("graph");
-		root = ModelFactory.buildDependencies(graph, tempHashMapOfNodes);
+		root = modelFactory.buildDependencies(graph, tempHashMapOfNodes);
 
 		for (Node currentNode : tempHashMapOfNodes.values()) {
 			Action currentAction = currentNode.getAction();

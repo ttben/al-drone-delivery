@@ -7,6 +7,7 @@ import app.modelFactory.exceptions.NoTypeDefinedException;
 import app.modelFactory.exceptions.ShipperTypeNotDefinedException;
 import app.modelFactory.exceptions.ShippersRootElementNotFoundException;
 import app.shipper.Shipper;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Map;
@@ -20,16 +21,23 @@ public class ModelFactoryBuildShippersTest {
 	public static final String HUMAN_KEY = "Human";
 	public static final int NUMBER_OF_ENTITIES = 4;
 
+	private ModelFactory modelFactory;
+
+	@Before
+	public void setUp() {
+		modelFactory = new ModelFactory();
+	}
+
 	@Test
 	public void aFactory_WhenBuildShipper_ShouldHaveNonEmptyResult() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers.json");
 		boolean isEmpty = actualResult.isEmpty();
 		assertFalse(isEmpty);
 	}
 
 	@Test
 	public void aFactory_WhenBuildShipper_ShouldHaveBuiltRightNumberOfShipper() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers.json");
 
 		int expectedSize = NUMBER_OF_ENTITIES;
 		int actualSize = actualResult.size();
@@ -39,21 +47,21 @@ public class ModelFactoryBuildShippersTest {
 
 	@Test
 	public void aFactory_WhenBuildShipper_ShouldHaveBuiltTruck() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers.json");
 		boolean containsTruck = actualResult.containsKey(KEY_TRUCK);
 		assertTrue(containsTruck);
 	}
 
 	@Test
 	public void aFactory_WhenBuildShipper_ShouldHaveBuiltDroneA() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers.json");
 		boolean containsDroneA = actualResult.containsKey(DRONEA_KEY);
 		assertTrue(containsDroneA);
 	}
 
 	@Test
 	public void aFactory_WhenBuildShipper_ShouldHaveBuiltDroneAWithProperType() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers.json");
 		Object droneA = actualResult.get(DRONEA_KEY);
 
 		boolean droneAIsADroneObject = droneA instanceof Drone;
@@ -63,14 +71,14 @@ public class ModelFactoryBuildShippersTest {
 
 	@Test
 	public void aFactory_WhenBuildShipper_ShouldHaveBuiltDroneB() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers.json");
 		boolean containsDroneB = actualResult.containsKey(DRONEB_KEY);
 		assertTrue(containsDroneB);
 	}
 
 	@Test
 	public void aFactory_WhenBuildShipper_ShouldHaveBuiltDroneBWithProperType() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers.json");
 		Object droneB = actualResult.get(DRONEB_KEY);
 
 		boolean droneAIsBDroneObject = droneB instanceof Drone;
@@ -80,14 +88,14 @@ public class ModelFactoryBuildShippersTest {
 
 	@Test
 	public void aFactory_WhenBuildShipper_ShouldHaveBuiltHumanShipper() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers.json");
 		boolean containsHumanShipper = actualResult.containsKey(HUMAN_KEY);
 		assertTrue(containsHumanShipper);
 	}
 
 	@Test
 	public void aFactory_WhenBuildShipper_ShouldHaveBuiltHumanShipperWithProperType() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers.json");
 		Object humanShipper = actualResult.get(HUMAN_KEY);
 
 		boolean humanShipperIsAHumanShipperObject = humanShipper instanceof HumanShipper;
@@ -97,51 +105,51 @@ public class ModelFactoryBuildShippersTest {
 
 	@Test(expected = ShippersRootElementNotFoundException.class)
 	public void aFactory_WhenRootKeyShippersIsMalformed_ShouldThrowException() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers-malformed-rootElement.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers-malformed-rootElement.json");
 	}
 
 	@Test(expected = ShipperTypeNotDefinedException.class)
 	public void aFactory_WhenCompositeShipperKeyIsMalformed_ShouldThrowException() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers-key-malformed-composite.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers-key-malformed-composite.json");
 	}
 
 	@Test(expected = ShipperTypeNotDefinedException.class)
 	public void aFactory_WhenDroneShipperKeyIsMalformed_ShouldThrowException() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers-key-malformed-drone.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers-key-malformed-drone.json");
 	}
 
 	@Test(expected = ShipperTypeNotDefinedException.class)
 	public void aFactory_WhenHumanShipperKeyIsMalformed_ShouldThrowException() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers-key-malformed-human.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers-key-malformed-human.json");
 	}
 
 	@Test(expected = NoNameDefinedException.class)
 	public void aFactory_WhenCompositeShipperNameIsMalformed_ShouldThrowException() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers-name-malformed-composite.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers-name-malformed-composite.json");
 	}
 
 	@Test(expected = NoNameDefinedException.class)
 	public void aFactory_WhenDroneShipperNameIsMalformed_ShouldThrowException() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers-name-malformed-drone.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers-name-malformed-drone.json");
 	}
 
 	@Test(expected = NoNameDefinedException.class)
 	public void aFactory_WhenHumanShipperNameIsMalformed_ShouldThrowException() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers-name-malformed-human.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers-name-malformed-human.json");
 	}
 
 	@Test(expected = NoTypeDefinedException.class)
 	public void aFactory_WhenCompositeShipperTypeIsMalformed_ShouldThrowException() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers-type-malformed-composite.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers-type-malformed-composite.json");
 	}
 
 	@Test(expected = NoTypeDefinedException.class)
 	public void aFactory_WhenDroneShipperTypeIsMalformed_ShouldThrowException() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers-type-malformed-drone.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers-type-malformed-drone.json");
 	}
 
 	@Test(expected = NoTypeDefinedException.class)
 	public void aFactory_WhenHumanShipperTypeIsMalformed_ShouldThrowException() throws Exception {
-		Map<String, Shipper> actualResult = ModelFactory.buildShippers("shippers-type-malformed-human.json");
+		Map<String, Shipper> actualResult = modelFactory.buildShippers("shippers-type-malformed-human.json");
 	}
 }
