@@ -4,6 +4,7 @@ import app.Node;
 import app.action.Action;
 import app.modelFactory.exceptions.*;
 import app.shipper.*;
+import com.sun.javafx.sg.prism.NGShape;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,7 +22,15 @@ import java.util.Scanner;
  */
 public class ModelFactory {
 
-	private ActionFactory actionFactory = new ActionFactory();
+	private ActionFactory actionFactory;
+
+	public ModelFactory() {
+		actionFactory = new ActionFactory();
+	}
+
+	public ModelFactory(ActionFactory actionFactory) {
+		this.actionFactory = actionFactory;
+	}
 
 	public Node parseJson(String pathToShipperJsonFile, String pathToNodeJsonFile) throws Exception {
 		Map<String, Node> tempHashMapOfNodes;
