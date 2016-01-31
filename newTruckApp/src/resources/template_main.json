@@ -1,32 +1,32 @@
 {
-  "nodes": {
-    "node1": {
-      "action": "ship",
-      "params": [
-        "Truck",
-        "location1"
-      ]
-    },
-    "node2": {
-      "action": "ship",
-      "params": [
-        "Truck",
-        "location2"
-      ]
-    },
-    "node3": {
-      "action": "ship",
-      "params": [
-        "Truck",
-        "location3"
-      ]
-    },
-    "node4": {
-      "action": "send",
-      "params": [
-        "Truck",
-        "DroneA"
-      ]
+      "nodes": {
+        "node1": {
+          "action": "ship",
+          "params": [
+            "Truck",
+            "location1"
+          ]
+        },
+        "node2": {
+          "action": "ship",
+          "params": [
+            "Truck",
+            "location2"
+          ]
+        },
+        "node3": {
+          "action": "ship",
+          "params": [
+            "Truck",
+            "location3"
+          ]
+        },
+        "node4": {
+          "action": "send",
+          "params": [
+            "Truck",
+            "DroneA"
+          ]
     },
     "node5": {
       "action": "goto",
