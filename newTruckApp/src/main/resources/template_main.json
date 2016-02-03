@@ -5,8 +5,8 @@
       "params": {
         "target": "Truck",
         "location": {
-          "X": 10,
-          "Y": 10
+          "X": 45,
+          "Y": 55
         }
       }
     },
@@ -29,8 +29,8 @@
       "params": {
         "target": "Truck",
         "location": {
-          "X": 55,
-          "Y": 55
+          "X": 65,
+          "Y": 75
         }
       }
     },
@@ -39,8 +39,8 @@
       "params": {
         "target": "DroneA",
         "location": {
-          "X": 60,
-          "Y": 20
+          "X": 70,
+          "Y": 15
         }
       }
     },
@@ -49,8 +49,8 @@
       "params": {
         "target": "DroneB",
         "location": {
-          "X": 55,
-          "Y": 30
+          "X": 85,
+          "Y": 20
         }
       }
     },
@@ -85,7 +85,7 @@
         "target": "DroneA",
         "location": {
           "X": 40,
-          "Y": 40
+          "Y": 30
         }
       }
     },
@@ -95,7 +95,7 @@
         "target": "DroneB",
         "location": {
           "X": 40,
-          "Y": 40
+          "Y": 30
         }
       }
     },
@@ -126,7 +126,7 @@
         "target": "Truck",
         "location": {
           "X": 40,
-          "Y": 40
+          "Y": 30
         }
       }
     },
@@ -145,8 +145,8 @@
       "params": {
         "target": "Human",
         "location": {
-          "X": 50,
-          "Y": 55
+          "X": 80,
+          "Y": 75
         }
       }
     },
@@ -155,8 +155,8 @@
       "params": {
         "target": "Human",
         "location": {
-          "X": 40,
-          "Y": 40
+          "X": 65,
+          "Y": 75
         }
       }
     },
