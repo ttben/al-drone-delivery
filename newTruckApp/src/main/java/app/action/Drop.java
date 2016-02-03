@@ -13,9 +13,13 @@ public class Drop extends BasicShipperAction {
 
 		if(target.getPack() == null || target.getPack().isEmpty()) {
 			throw new IllegalStateException("Can not drop a package. I DONT HAVE ONE");
-		} else {
-			target.setPack(null);
 		}
 		super.start();
+	}
+
+	@Override
+	public void end() {
+		super.end();
+		target.setPack(null);
 	}
 }
