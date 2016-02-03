@@ -8,7 +8,7 @@ import java.awt.*;
 public class BasicShipper extends Shipper {
 
 	private Dimension location;
-	private Package pack;
+	private String pack;
 
 	public BasicShipper(String name) {
 		super(name);
@@ -22,11 +22,11 @@ public class BasicShipper extends Shipper {
 		this.location = location;
 	}
 
-	public Package getPack() {
+	public String getPack() {
 		return pack;
 	}
 
-	public void setPack(Package pack) {
+	public void setPack(String pack) {
 		this.pack = pack;
 	}
 }

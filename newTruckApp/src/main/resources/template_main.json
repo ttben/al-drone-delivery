@@ -14,14 +14,16 @@
       "action": "send",
       "params": {
         "target": "Truck",
-        "element": "DroneA"
+        "element": "DroneA",
+        "packageID":"packageA"
       }
     },
     "node3": {
       "action": "send",
       "params": {
         "target": "Truck",
-        "element": "DroneB"
+        "element": "DroneB",
+        "packageID":"packageB"
       }
     },
     "node4": {
@@ -58,7 +60,8 @@
       "action": "send",
       "params": {
         "target": "Truck",
-        "element": "Human"
+        "element": "Human",
+        "packageID":"packageH"
       }
     },
     "node8": {
