@@ -22,7 +22,7 @@ public class ActionTest {
 
 	@Before
 	public void setUp() {
-		collectDrone = new CollectDrone(compositeShipperMocked);
+		collectDrone = new Collect(compositeShipperMocked);
 		collectDrone.addObserver(outputMock);
 		when(compositeShipperMocked.getName()).thenReturn("compositeShipperMocked");
 	}

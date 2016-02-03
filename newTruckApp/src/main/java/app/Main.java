@@ -49,13 +49,13 @@ public class Main {
 		Node droneAGoToShippingPositionNode = new Node(gotoDroneA);
 		Node droneAPickNode = new Node(pickDroneA);
 		Node droneAGoToTruck = new Node(gotoTruckDroneA);
-		Node droneACollect = new Node(new CollectDrone(truck, droneA));
+		Node droneACollect = new Node(new Collect(truck, droneA));
 
 		Node droneBSendNode = new Node(new SendDrone(truck, droneB));
 		Node droneBGoToShippingPositionNode = new Node(new GoToShippingPosition(droneB, new Dimension(60, 15)));
 		Node droneBDropNode = new Node(new Drop(droneB));
 		Node droneBGoToTruck = new Node(new GoToShippingPosition(droneB, new Dimension(40, 22)));
-		Node droneBCollect = new Node(new CollectDrone(truck, droneB));
+		Node droneBCollect = new Node(new Collect(truck, droneB));
 
 		// Build action dependency graph
 		//

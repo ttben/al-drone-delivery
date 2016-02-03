@@ -85,6 +85,6 @@ public class ActionFactory {
 		String basicShipperName = (String) actionParams.get("element");
 		BasicShipper basicShipper = (BasicShipper) shipperMap.get(basicShipperName);
 
-		return new CollectDrone(compositeShipper, basicShipper);
+		return new Collect(compositeShipper, basicShipper);
 	}
 }

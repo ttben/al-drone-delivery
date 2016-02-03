@@ -6,7 +6,6 @@ import app.action.*;
 
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.Observable;
 
 /**
@@ -109,7 +108,7 @@ public class DemonstratorSpy implements Output {
         }
     }
 
-    public void update(CollectDrone collect, Shipper shipper, ActionEvent event){
+    public void update(Collect collect, Shipper shipper, ActionEvent event){
         if(event.equals(ActionEvent.STARTED)){
             window.changeShipperState(shipper.getName(), ShipperState.PICKING);
         } else {
