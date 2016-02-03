@@ -24,7 +24,11 @@ public class ShippingTrackerObserver implements Observer {
 
 			Drop action = (Drop) o;
 			System.out.printf("\n\t[DELIVERY DONE] %s has performed package %s\n", action.getTarget().getName(), action.getTarget().getPack());
-			
+			achievedDeliveries.add(action.getTarget().getPack());
 		}
+	}
+
+	public void sendToServer(String packageDelivered) {
+		// TODO: 03/02/2016 do http call 
 	}
 }
