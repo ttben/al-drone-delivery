@@ -1,6 +1,5 @@
 package app.action;
 
-import app.shipper.CompositeShipper;
 import app.shipper.Shipper;
 
 import java.awt.*;
