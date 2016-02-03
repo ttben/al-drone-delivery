@@ -84,6 +84,7 @@ public class App {
 			try{
 				s.endAction();
 			} catch (Throwable t){
+				t.printStackTrace();
 				System.err.println("Waiting a dependency");
 			}
 		}
