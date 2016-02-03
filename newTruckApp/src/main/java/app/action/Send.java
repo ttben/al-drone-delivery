@@ -9,7 +9,5 @@ public class Send extends CompositeShipperAction {
 		super(target, (BasicShipper) params[0], params);
 		String packageID = (String) params[1];
 		element.setPack(packageID);
-		System.out.println("element  " + element);
-		System.out.println("packageID  " + packageID);
 	}
 }
