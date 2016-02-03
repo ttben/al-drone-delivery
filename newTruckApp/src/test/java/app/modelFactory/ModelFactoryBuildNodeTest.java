@@ -2,7 +2,7 @@ package app.modelFactory;
 
 import app.Node;
 import app.action.Action;
-import app.action.GoToDropPoint;
+import app.action.Goto;
 import app.modelFactory.exceptions.NoActionDefinedException;
 import app.modelFactory.exceptions.NoParamsDefinedException;
 import app.shipper.CompositeShipper;
@@ -58,7 +58,7 @@ public class ModelFactoryBuildNodeTest {
 		modelFactory = new ModelFactory();
 		Node root = modelFactory.parseJson(SHIPPER_FILE_LOCATION, GRAPH_FILE_LOCATION);
 
-		boolean rootEmbedAGotoAction = root.getAction() instanceof GoToDropPoint;
+		boolean rootEmbedAGotoAction = root.getAction() instanceof Goto;
 
 		assertTrue(rootEmbedAGotoAction);
 	}

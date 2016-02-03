@@ -27,7 +27,7 @@ public class DroneAPI implements Output {
 	 * @param shipper
 	 * @param action
 	 */
-	public void execute(Shipper shipper, GoToShippingPosition action) {
+	public void execute(Shipper shipper, Goto action) {
 		// TODO - implement DroneAPI.execute
 		throw new UnsupportedOperationException();
 	}

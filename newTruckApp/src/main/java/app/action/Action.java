@@ -17,7 +17,7 @@ public abstract class Action extends Observable {
 
 	private Object[] params;
 
-	public Action(Object[] params) {
+	public Action(Object... params) {
 		this.params = params;
 	}
 

@@ -21,8 +21,6 @@ public class ActionFactory {
 				return buildSendAction(shipperMap, actionParams);
 			case "goto":
 				return buildGotoAction(shipperMap, actionParams);
-			case "ship":
-				return buildGotoShippingAction(shipperMap, actionParams);
 			case "drop":
 				return buildDropAction(shipperMap, actionParams);
 			case "pick":
@@ -44,27 +42,15 @@ public class ActionFactory {
 		return new Drop(basicShipper);
 	}
 
-	private Action buildGotoShippingAction(Map<String, Shipper> shipperMap, JSONObject actionParams) {
-		String targetShipperName = (String) actionParams.get("target");
-		BasicShipper basicShipper = (BasicShipper) shipperMap.get(targetShipperName);
-
-		JSONObject locationJsonObject = (JSONObject) actionParams.get("location");
-		int xDimension = ((Long) locationJsonObject.get("X")).intValue();
-		int yDimension = ((Long) locationJsonObject.get("Y")).intValue();
-		Dimension dimension = new Dimension(xDimension, yDimension);
-
-		return new GoToShippingPosition(basicShipper, dimension);
-	}
-
 	private Action buildGotoAction(Map<String, Shipper> shipperMap, JSONObject actionParams) {
 		String targetShipperName = (String) actionParams.get("target");
-		CompositeShipper compositeShipper = (CompositeShipper) shipperMap.get(targetShipperName);
+		Shipper compositeShipper = (Shipper) shipperMap.get(targetShipperName);
 
 		JSONObject locationJsonObject = (JSONObject) actionParams.get("location");
 		int xDimension = ((Long) locationJsonObject.get("X")).intValue();
 		int yDimension = ((Long) locationJsonObject.get("Y")).intValue();
 		Dimension dimension = new Dimension(xDimension, yDimension);
-		return new GoToDropPoint(compositeShipper, dimension);
+		return new Goto(compositeShipper, dimension);
 	}
 
 	private Action buildSendAction(Map<String, Shipper> shipperMap, JSONObject actionParams) {

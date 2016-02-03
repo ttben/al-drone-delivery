@@ -1,7 +1,7 @@
 {
   "nodes": {
     "node1": {
-      "action": "ship",
+      "action": "goto",
       "params": [
         "driver",
         "location1"

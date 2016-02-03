@@ -64,17 +64,9 @@ public class DemonstratorSpy implements Output {
         window.refresh();
     }
 
-    public void update(GoToDropPoint goD, Shipper shipper, ActionEvent event){
+    public void update(Goto goD, Shipper shipper, ActionEvent event){
         if(event.equals(ActionEvent.STARTED)){
             window.changeShipperTargetLocation(shipper.getName(), goD.getLocation());
-        } else {
-            window.changeShipperLocation(shipper.toString());
-        }
-    }
-
-    public void update(GoToShippingPosition goS, Shipper shipper, ActionEvent event){
-        if(event.equals(ActionEvent.STARTED)){
-            window.changeShipperTargetLocation(shipper.getName(), goS.getLocation());
         } else {
             window.changeShipperLocation(shipper.toString());
         }

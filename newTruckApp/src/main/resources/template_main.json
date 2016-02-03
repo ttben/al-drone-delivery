@@ -35,22 +35,22 @@
       }
     },
     "node5": {
-      "action": "ship",
+      "action": "goto",
       "params": {
         "target": "DroneA",
         "location": {
           "X": 60,
-          "Y": 31
+          "Y": 20
         }
       }
     },
     "node6": {
-      "action": "ship",
+      "action": "goto",
       "params": {
         "target": "DroneB",
         "location": {
-          "X": 45,
-          "Y": 28
+          "X": 55,
+          "Y": 30
         }
       }
     },
@@ -80,7 +80,7 @@
       }
     },
     "node11": {
-      "action": "ship",
+      "action": "goto",
       "params": {
         "target": "DroneA",
         "location": {
@@ -90,7 +90,7 @@
       }
     },
     "node12": {
-      "action": "ship",
+      "action": "goto",
       "params": {
         "target": "DroneB",
         "location": {
@@ -141,7 +141,7 @@
       }
     },
     "node18": {
-      "action": "ship",
+      "action": "goto",
       "params": {
         "target": "Human",
         "location": {
@@ -151,7 +151,7 @@
       }
     },
     "node19": {
-      "action": "ship",
+      "action": "goto",
       "params": {
         "target": "Human",
         "location": {

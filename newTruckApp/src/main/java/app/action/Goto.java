@@ -1,21 +1,30 @@
 package app.action;
 
 import app.shipper.CompositeShipper;
+import app.shipper.Shipper;
 
 import java.awt.*;
 import java.util.Arrays;
 
-public class GoToDropPoint extends CompositeShipperAction {
+public class Goto extends Action {
 
 	private Dimension location;
 
-	public GoToDropPoint(CompositeShipper target, Dimension location) {
-		super(target);
+	private Shipper target;
+
+	public Goto(Shipper target, Dimension location) {
+		super(target, location);
+		this.target = target;
 		this.location = location;
 	}
 
 	public Dimension getLocation() {
 		return location;
+	}
+
+	@Override
+	public Shipper getTarget() {
+		return target;
 	}
 
 	@Override
