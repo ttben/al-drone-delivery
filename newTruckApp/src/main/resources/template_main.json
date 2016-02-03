@@ -64,7 +64,7 @@
     "node8": {
       "action": "drop",
       "params": {
-        "target": "DroneB"
+        "target": "DroneA"
       }
     },
     "node9": {
@@ -139,13 +139,46 @@
           "Y": 12
         }
       }
+    },
+    "node18": {
+      "action": "ship",
+      "params": {
+        "target": "Human",
+        "location": {
+          "X": 50,
+          "Y": 55
+        }
+      }
+    },
+    "node19": {
+      "action": "ship",
+      "params": {
+        "target": "Human",
+        "location": {
+          "X": 40,
+          "Y": 40
+        }
+      }
+    },
+    "node20":{
+      "action":"goto",
+      "params": {
+        "target":"Truck",
+        "location": {
+          "X":5,
+          "Y":5
+        }
+      }
     }
   },
   "graph": {
-    "root": "node1",
+    "root": "node20",
     "content": {
-      "node1": {
+      "node20": {
         "dependencies": []
+      },
+      "node1": {
+        "dependencies": ["node20"]
       },
       "node2": {
         "dependencies": [
@@ -159,7 +192,7 @@
       },
       "node4": {
         "dependencies": [
-          "node1"
+          "node1", "node2", "node3"
         ]
       },
       "node5": {
@@ -189,7 +222,7 @@
       },
       "node10": {
         "dependencies": [
-          "node7"
+          "node18"
         ]
       },
       "node11": {
@@ -204,7 +237,7 @@
       },
       "node13": {
         "dependencies": [
-          "node10"
+          "node19"
         ]
       },
       "node14": {
@@ -228,6 +261,16 @@
         "dependencies": [
           "node14",
           "node15"
+        ]
+      },
+      "node18": {
+        "dependencies": [
+          "node7"
+        ]
+      },
+      "node19": {
+        "dependencies": [
+          "node10"
         ]
       }
     }
