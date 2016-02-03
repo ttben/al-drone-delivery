@@ -16,7 +16,7 @@ import java.util.List;
  * Created by Benjamin on 30/01/2016.
  */
 public class App {
-	private final ShippingTrackerObserver shippingTrackerObserver;
+
 	public Map<String, Shipper> shipperMap = new HashMap<>();
 	public List<Action> listActions = new ArrayList<>();
 	public Node root;
@@ -41,10 +41,6 @@ public class App {
 			listActions.add(currentAction);
 		}
 
-		shippingTrackerObserver = new ShippingTrackerObserver();
-		addSpyOnAction(shippingTrackerObserver);
-
-		root.queueAction();
 	}
 
 	private void addSpyOnAction(Observer spy) {
@@ -76,7 +72,12 @@ public class App {
 
 	public static void main(String[] args) throws Exception {
 		App app = new App();
-		app.addDemonstratorSpy();
+
+		app.		addDemonstratorSpy();
+
+		app.		root.queueAction();
+
+
 		while(true)
 			app.play();
 
