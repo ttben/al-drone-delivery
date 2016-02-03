@@ -91,9 +91,13 @@ public class DemonstratorSpy implements Output {
     public void update(Send send, Shipper shipper, ActionEvent event){
         if(event.equals(ActionEvent.STARTED)){
             window.changeShipperState(shipper.getName(), ShipperState.DROPPING);
+            window.shipperDrop(shipper.getName(), send.getElement().getName());
+
+            /*
             for (Object o : send.getParams()) {
                 window.shipperDrop(shipper.getName(), o.toString());
             }
+            */
         }
         else {
             window.changeShipperState(shipper.getName(), ShipperState.IDLE);
