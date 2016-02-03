@@ -37,7 +37,7 @@ public class Main {
 		Node truckGo3Node = new Node(gotoDropPointTruck3);
 
 
-		Action sendDroneA = new SendDrone(truck, droneA);
+		Action sendDroneA = new Send(truck, droneA);
 		Action gotoDroneA = new Goto(droneA, new Dimension(20, 30));
 		Action pickDroneA = new Pick(droneA);
 		Action gotoTruckDroneA =new Goto(droneA, new Dimension(40, 22));
@@ -51,7 +51,7 @@ public class Main {
 		Node droneAGoToTruck = new Node(gotoTruckDroneA);
 		Node droneACollect = new Node(new Collect(truck, droneA));
 
-		Node droneBSendNode = new Node(new SendDrone(truck, droneB));
+		Node droneBSendNode = new Node(new Send(truck, droneB));
 		Node droneBGotoNode = new Node(new Goto(droneB, new Dimension(60, 15)));
 		Node droneBDropNode = new Node(new Drop(droneB));
 		Node droneBGoToTruck = new Node(new Goto(droneB, new Dimension(40, 22)));

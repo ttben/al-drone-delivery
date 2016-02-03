@@ -57,23 +57,23 @@ public class DemoScenario {
 		Node truckGoDropPoint5 = new Node(new Goto(truck, dropPoint5));
 
 		// Truck actions
-		Node truckSendDriverDropPoint1 = new Node(new SendDrone(truck, driver));
-		Node truckSendDroneADropPoint1 = new Node(new SendDrone(truck, droneA));
-		Node truckSendDroneBDropPoint1 = new Node(new SendDrone(truck, droneB));
-		Node truckSendDroneCDropPoint1 = new Node(new SendDrone(truck, droneC));
+		Node truckSendDriverDropPoint1 = new Node(new Send(truck, driver));
+		Node truckSendDroneADropPoint1 = new Node(new Send(truck, droneA));
+		Node truckSendDroneBDropPoint1 = new Node(new Send(truck, droneB));
+		Node truckSendDroneCDropPoint1 = new Node(new Send(truck, droneC));
 		Node truckCollectDriverDropPoint1 = new Node(new Collect(truck, driver));
 		Node truckCollectDroneADropPoint2 = new Node(new Collect(truck, droneA));
 		Node truckCollectDroneBDropPoint2 = new Node(new Collect(truck, droneB));
 		Node truckCollectDroneCDropPoint2 = new Node(new Collect(truck, droneC));
-		Node truckSendDriverDropPoint2 = new Node(new SendDrone(truck, driver));
-		Node truckSendDroneADropPoint2 = new Node(new SendDrone(truck, droneA));
-		Node truckSendDroneBDropPoint2 = new Node(new SendDrone(truck, droneB));
-		Node truckSendDroneCDropPoint2 = new Node(new SendDrone(truck, droneC));
+		Node truckSendDriverDropPoint2 = new Node(new Send(truck, driver));
+		Node truckSendDroneADropPoint2 = new Node(new Send(truck, droneA));
+		Node truckSendDroneBDropPoint2 = new Node(new Send(truck, droneB));
+		Node truckSendDroneCDropPoint2 = new Node(new Send(truck, droneC));
 		Node truckCollectDriverDropPoint2 = new Node(new Collect(truck, driver));
 		Node truckCollectDroneADropPoint3 = new Node(new Collect(truck, droneA));
 		Node truckCollectDroneBDropPoint3 = new Node(new Collect(truck, droneB));
 		Node truckCollectDroneCDropPoint3 = new Node(new Collect(truck, droneC));
-		Node truckSendDriverDropPoint4 = new Node(new SendDrone(truck, driver));
+		Node truckSendDriverDropPoint4 = new Node(new Send(truck, driver));
 		Node truckCollectDriverDropPoint4 = new Node(new Collect(truck, driver));
 
 		// DroneA actions

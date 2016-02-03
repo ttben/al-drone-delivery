@@ -61,7 +61,7 @@ public class ActionFactory {
 		String basicShipperName = (String) actionParams.get("element");
 		BasicShipper basicShipper = (BasicShipper) shipperMap.get(basicShipperName);
 
-		return new SendDrone(compositeShipper, basicShipper);
+		return new Send(compositeShipper, basicShipper);
 	}
 
 	private Action buildCollectAction(Map<String, Shipper> shipperMap, JSONObject actionParams) {

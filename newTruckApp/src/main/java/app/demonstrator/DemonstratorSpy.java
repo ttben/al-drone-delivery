@@ -88,7 +88,7 @@ public class DemonstratorSpy implements Output {
         }
     }
 
-    public void update(SendDrone send, Shipper shipper, ActionEvent event){
+    public void update(Send send, Shipper shipper, ActionEvent event){
         if(event.equals(ActionEvent.STARTED)){
             window.changeShipperState(shipper.getName(), ShipperState.DROPPING);
             for (Object o : send.getParams()) {
