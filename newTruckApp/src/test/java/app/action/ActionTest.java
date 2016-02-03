@@ -1,6 +1,7 @@
 package app.action;
 
 import app.output.Output;
+import app.shipper.BasicShipper;
 import app.shipper.CompositeShipper;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,13 +17,16 @@ public class ActionTest {
 	private CompositeShipper compositeShipperMocked;
 
 	@Mock
+	private BasicShipper basicShipper;
+
+	@Mock
 	private Output outputMock;
 
 	private CompositeShipperAction collectDrone;
 
 	@Before
 	public void setUp() {
-		collectDrone = new Collect(compositeShipperMocked);
+		collectDrone = new Collect(compositeShipperMocked, basicShipper);
 		collectDrone.addObserver(outputMock);
 		when(compositeShipperMocked.getName()).thenReturn("compositeShipperMocked");
 	}
