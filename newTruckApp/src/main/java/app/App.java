@@ -22,6 +22,7 @@ public class App {
 	public Node root;
 
 	private ModelFactory modelFactory = new ModelFactory();
+	private final ShippingTrackerObserver shippingTrackerObserver;
 
 	public App() throws Exception {
 		JSONParser parser = new JSONParser();
@@ -41,6 +42,8 @@ public class App {
 			listActions.add(currentAction);
 		}
 
+		shippingTrackerObserver = new ShippingTrackerObserver();
+		this.addSpyOnAction(shippingTrackerObserver);
 	}
 
 	private void addSpyOnAction(Observer spy) {
