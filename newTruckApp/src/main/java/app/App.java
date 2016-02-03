@@ -7,19 +7,22 @@ import app.shipper.Shipper;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by Benjamin on 30/01/2016.
  */
 public class App {
+	private final ShippingTrackerObserver shippingTrackerObserver;
 	public Map<String, Shipper> shipperMap = new HashMap<>();
 	public List<Action> listActions = new ArrayList<>();
 	public Node root;
 
 	private ModelFactory modelFactory = new ModelFactory();
-	
+
 	public App() throws Exception {
 		JSONParser parser = new JSONParser();
 		String nodeJsonDescription = modelFactory.getFile("template_main.json");
@@ -38,13 +41,22 @@ public class App {
 			listActions.add(currentAction);
 		}
 
-		addDemonstratorSpy();
+		shippingTrackerObserver = new ShippingTrackerObserver();
+		addSpyOnAction(shippingTrackerObserver);
 
 		root.queueAction();
 	}
 
+	private void addSpyOnAction(Observer spy) {
+		for (Action currentAction : listActions) {
+			currentAction.addObserver(spy);
+		}
+	}
+
 	public void addDemonstratorSpy() {
 		DemonstratorSpy demonstratorSpy = new DemonstratorSpy();
+
+		demonstratorSpy.init(Arrays.asList(new Dimension(71,16), new Dimension(86,21)));
 
 		for (Shipper currentShipper : shipperMap.values()) {
 			try {
@@ -54,9 +66,8 @@ public class App {
 			}
 		}
 
-		for (Action currentAction : listActions) {
-			currentAction.addObserver(demonstratorSpy);
-		}
+		addSpyOnAction(demonstratorSpy);
+
 	}
 
 	public void entityEndAction(String entityName) {
@@ -65,7 +76,7 @@ public class App {
 
 	public static void main(String[] args) throws Exception {
 		App app = new App();
-
+		app.addDemonstratorSpy();
 		while(true)
 			app.play();
 
