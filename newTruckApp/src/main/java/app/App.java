@@ -6,6 +6,7 @@ import app.modelFactory.ModelFactory;
 import app.shipper.Shipper;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
@@ -24,14 +25,14 @@ public class App {
 	private ModelFactory modelFactory = new ModelFactory();
 	private final ShippingTrackerObserver shippingTrackerObserver;
 
-	public App() throws Exception {
+	public App(String pathToTourFile, String pathToShippersFile) throws Exception {
 		JSONParser parser = new JSONParser();
-		String nodeJsonDescription = modelFactory.getFile("template_main.json");
+		String nodeJsonDescription = modelFactory.getFile(pathToTourFile);
 		Object objNodeJson = parser.parse(nodeJsonDescription);
 		JSONObject rootJsonObject = (JSONObject) objNodeJson;
 		JSONObject nodes = (JSONObject) rootJsonObject.get("nodes");
 
-		shipperMap = modelFactory.buildShippers("shippers.json");
+		shipperMap = modelFactory.buildShippers(pathToShippersFile);
 		Map<String, Node> tempHashMapOfNodes = modelFactory.buildNodes(shipperMap, nodes);
 
 		JSONObject graph = (JSONObject) rootJsonObject.get("graph");
@@ -44,6 +45,14 @@ public class App {
 
 		shippingTrackerObserver = new ShippingTrackerObserver();
 		this.addSpyOnAction(shippingTrackerObserver);
+	}
+
+	public App() throws Exception {
+		this("template_main.json","shippers.json");
+	}
+
+	public Map<String, Shipper> getShipperMap() {
+		return shipperMap;
 	}
 
 	private void addSpyOnAction(Observer spy) {
