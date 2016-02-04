@@ -1,0 +1,281 @@
+{
+  "nodes": {
+    "node1": {
+      "action": "goto",
+      "params": {
+        "target": "Truck",
+        "location": {
+          "X": 45,
+          "Y": 55
+        }
+      }
+    },
+    "node2": {
+      "action": "send",
+      "params": {
+        "target": "Truck",
+        "element": "DroneA",
+        "packageID":"packageA"
+      }
+    },
+    "node3": {
+      "action": "send",
+      "params": {
+        "target": "Truck",
+        "element": "DroneB",
+        "packageID":"packageB"
+      }
+    },
+    "node4": {
+      "action": "goto",
+      "params": {
+        "target": "Truck",
+        "location": {
+          "X": 65,
+          "Y": 75
+        }
+      }
+    },
+    "node5": {
+      "action": "goto",
+      "params": {
+        "target": "DroneA",
+        "location": {
+          "X": 70,
+          "Y": 15
+        }
+      }
+    },
+    "node6": {
+      "action": "goto",
+      "params": {
+        "target": "DroneB",
+        "location": {
+          "X": 85,
+          "Y": 20
+        }
+      }
+    },
+    "node7": {
+      "action": "send",
+      "params": {
+        "target": "Truck",
+        "element": "Human",
+        "packageID":"packageH"
+      }
+    },
+    "node8": {
+      "action": "drop",
+      "params": {
+        "target": "DroneA"
+      }
+    },
+    "node9": {
+      "action": "pick",
+      "params": {
+        "target": "DroneB"
+      }
+    },
+    "node10": {
+      "action": "drop",
+      "params": {
+        "target": "Human"
+      }
+    },
+    "node11": {
+      "action": "goto",
+      "params": {
+        "target": "DroneA",
+        "location": {
+          "X": 40,
+          "Y": 30
+        }
+      }
+    },
+    "node12": {
+      "action": "goto",
+      "params": {
+        "target": "DroneB",
+        "location": {
+          "X": 40,
+          "Y": 30
+        }
+      }
+    },
+    "node13": {
+      "action": "collect",
+      "params": {
+        "target": "Truck",
+        "element": "Human"
+      }
+    },
+    "node14": {
+      "action": "collect",
+      "params": {
+        "target": "Truck",
+        "element": "DroneA"
+      }
+    },
+    "node15": {
+      "action": "collect",
+      "params": {
+        "target": "Truck",
+        "element": "DroneB"
+      }
+    },
+    "node16": {
+      "action": "goto",
+      "params": {
+        "target": "Truck",
+        "location": {
+          "X": 40,
+          "Y": 30
+        }
+      }
+    },
+    "node17": {
+      "action": "goto",
+      "params": {
+        "target": "Truck",
+        "location": {
+          "X": 12,
+          "Y": 12
+        }
+      }
+    },
+    "node18": {
+      "action": "goto",
+      "params": {
+        "target": "Human",
+        "location": {
+          "X": 80,
+          "Y": 75
+        }
+      }
+    },
+    "node19": {
+      "action": "goto",
+      "params": {
+        "target": "Human",
+        "location": {
+          "X": 65,
+          "Y": 75
+        }
+      }
+    },
+    "node20":{
+      "action":"goto",
+      "params": {
+        "target":"Truck",
+        "location": {
+          "X":5,
+          "Y":5
+        }
+      }
+    }
+  },
+  "graph": {
+    "root": "node20",
+    "content": {
+      "node20": {
+        "dependencies": []
+      },
+      "node1": {
+        "dependencies": ["node20"]
+      },
+      "node2": {
+        "dependencies": [
+          "node1"
+        ]
+      },
+      "node3": {
+        "dependencies": [
+          "node1"
+        ]
+      },
+      "node4": {
+        "dependencies": [
+          "node1", "node2", "node3"
+        ]
+      },
+      "node5": {
+        "dependencies": [
+          "node2"
+        ]
+      },
+      "node6": {
+        "dependencies": [
+          "node3"
+        ]
+      },
+      "node7": {
+        "dependencies": [
+          "node4"
+        ]
+      },
+      "node8": {
+        "dependencies": [
+          "node5"
+        ]
+      },
+      "node9": {
+        "dependencies": [
+          "node6"
+        ]
+      },
+      "node10": {
+        "dependencies": [
+          "node18"
+        ]
+      },
+      "node11": {
+        "dependencies": [
+          "node8"
+        ]
+      },
+      "node12": {
+        "dependencies": [
+          "node9"
+        ]
+      },
+      "node13": {
+        "dependencies": [
+          "node19"
+        ]
+      },
+      "node14": {
+        "dependencies": [
+          "node11",
+          "node16"
+        ]
+      },
+      "node15": {
+        "dependencies": [
+          "node12",
+          "node16"
+        ]
+      },
+      "node16": {
+        "dependencies": [
+          "node13"
+        ]
+      },
+      "node17": {
+        "dependencies": [
+          "node14",
+          "node15"
+        ]
+      },
+      "node18": {
+        "dependencies": [
+          "node7"
+        ]
+      },
+      "node19": {
+        "dependencies": [
+          "node10"
+        ]
+      }
+    }
+  }
+}
