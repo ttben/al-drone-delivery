@@ -16,7 +16,7 @@ public class DemonstratorSpy implements Output {
     DemonstratorWindow window;
 
     public DemonstratorSpy(){
-        window = new DemonstratorWindow(1024, 768, "Demonstrator");
+        window = new DemonstratorWindow(514, 568, "Demonstrator");
     }
 
 
