@@ -22,13 +22,13 @@ public class GraphicHumanShipper extends GraphicEntity {
     protected Color getColor(){
         switch (state){
             case IDLE:
-                return new Color(0,80,140,255);
+                return new Color(178, 91, 78,255);
             case MOVING:
-                return new Color(0,140,140,255);
+                return new Color(195, 46, 46,255);
             case DROPPING:
-                return new Color(0,140,120,255);
+                return new Color(243, 8, 21,255);
             case PICKING:
-                return new Color(0,140,120,255);
+                return new Color(243, 8, 21,255);
         }
         return Color.black;
     }
