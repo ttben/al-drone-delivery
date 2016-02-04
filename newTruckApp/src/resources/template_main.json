@@ -1,0 +1,172 @@
+{
+      "nodes": {
+        "node1": {
+          "action": "ship",
+          "params": [
+            "Truck",
+            "location1"
+          ]
+        },
+        "node2": {
+          "action": "ship",
+          "params": [
+            "Truck",
+            "location2"
+          ]
+        },
+        "node3": {
+          "action": "ship",
+          "params": [
+            "Truck",
+            "location3"
+          ]
+        },
+        "node4": {
+          "action": "send",
+          "params": [
+            "Truck",
+            "DroneA"
+          ]
+    },
+    "node5": {
+      "action": "goto",
+      "params": [
+        "DroneA",
+        "location2"
+      ]
+    },
+    "node6": {
+      "action": "pick",
+      "params": [
+        "DroneA"
+      ]
+    },
+    "node7": {
+      "action": "goto",
+      "params": [
+        "DroneA",
+        "location3"
+      ]
+    },
+    "node8": {
+      "action": "collect",
+      "params": [
+        "Truck",
+        "DroneA"
+      ]
+    },
+    "node9": {
+      "action": "pick",
+      "params": [
+        "DroneB"
+      ]
+    },
+    "node10": {
+      "action": "send",
+      "params": [
+        "Truck",
+        "DroneB"
+      ]
+    },
+    "node11": {
+      "action": "goto",
+      "params": [
+        "DroneB",
+        "location2"
+      ]
+    },
+    "node12": {
+      "action": "drop",
+      "params": [
+        "DroneB"
+      ]
+    },
+    "node13": {
+      "action": "goto",
+      "params": [
+        "DroneB"
+      ]
+    },
+    "node14": {
+      "action": "collect",
+      "params": [
+        "Truck",
+        "DroneB"
+      ]
+    }
+  },
+  "graph": {
+    "root": "node1",
+    "content": {
+      "node1": {
+        "dependencies": []
+      },
+      "node2": {
+        "dependencies": [
+          "node1"
+        ]
+      },
+      "node3": {
+        "dependencies": [
+          "node8",
+          "node14"
+        ]
+      },
+      "node4": {
+        "dependencies": [
+          "node1"
+        ]
+      },
+      "node5": {
+        "dependencies": [
+          "node4"
+        ]
+      },
+      "node6": {
+        "dependencies": [
+          "node5"
+        ]
+      },
+      "node7": {
+        "dependencies": [
+          "node6"
+        ]
+      },
+      "node8": {
+        "dependencies": [
+          "node2",
+          "node7"
+        ]
+      },
+      "node9": {
+        "dependencies": []
+      },
+      "node10": {
+        "dependencies": [
+          "node1"
+        ]
+      },
+      "node11": {
+        "dependencies": [
+          "node10"
+        ]
+      },
+      "node12": {
+        "dependencies": [
+          "node11"
+        ]
+      },
+      "node13": {
+        "dependencies": [
+          "node12"
+        ]
+      },
+      "node14": {
+        "dependencies": [
+          "node2",
+          "node13"
+        ]
+      }
+    }
+  }
+}

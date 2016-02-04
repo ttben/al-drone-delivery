@@ -1,7 +1,8 @@
 package fr.unice.polytech.al.drones.warehouse;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.unice.polytech.al.drones.tour.Delivery;
 import fr.unice.polytech.al.drones.tour.DropPoint;
 import fr.unice.polytech.al.drones.tour.Tour;
@@ -11,6 +12,7 @@ import fr.unice.polytech.si5.al.projet.shipping.Dimensions;
 import fr.unice.polytech.si5.al.projet.shipping.PackageToShip;
 import fr.unice.polytech.si5.al.projet.shipping.PackageToShipList;
 import fr.unice.polytech.si5.al.projet.shipping.Weight;
+import fr.unice.polytech.si5.al.projet.truck.*;
 
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -25,63 +27,25 @@ import java.util.List;
  */
 public class TourServiceImpl implements TourService {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
 
     /**
-     * [{
-     * "location":"location info",
-     * "deliveries":
-     *     [
-     *     {"drone":"droneId"
-     *     "box":"boxId"
-     *     "droneAlt":[
-     *          "drone":"droneId"
-     *      ]
-     *      }
-     *     ]
-     * }]
-     * @return
+     * For the payload, see the template.json file
      */
     public Response getTour() {
+        ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
 
         Tour tour = TourStorage.getLast();
         try {
-            return Response.ok(objectMapper.writeValueAsString(tour.getDropPoints())).build();
+            return Response.ok(objectMapper.writeValueAsString(tour)).build();
         } catch (IOException e) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        /*
-        List<PackageToShip> pkts = new ArrayList<>();
-
-        PackageToShip pts = new PackageToShip(new Address("here"),new Weight(10),new Dimensions(10,10,19));
-        PackageToShip pts2 = new PackageToShip(new Address("here"),new Weight(10),new Dimensions(10,10,19));
-        pkts.add(pts);
-        pkts.add(pts2);
-        PackageToShipList pktsl = new PackageToShipList(pkts);
-
-        try {
-            return Response.ok(objectMapper.writeValueAsString(pktsl)).build();
-        } catch (JsonProcessingException e) {
-            System.out.println(e.getStackTrace());
-            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
-        }
-         */
     }
 
     /**
-     * Payload :
-     * {
-     * "location":"location info",
-     * "deliveries":
-     *     [
-     *     {"drone":"droneId"
-     *     "box":"boxId"
-     *     "droneAlt":[
-     *          "drone":"droneId"
-     *      ]
-     *      }
-     *     ]
-     * }
+     *
+     * For the payload, see the template.json file
      * @param description
      * @return
      */
@@ -89,31 +53,24 @@ public class TourServiceImpl implements TourService {
         // Recup quelque chose ?
         // Construire un delivery a partir de ça
         // L'ajouter
-        List<DropPoint> list;
+        ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+        Tour t;
         try {
-            list = Arrays.asList(objectMapper.readValue(description, DropPoint[].class));
+            t = objectMapper.readValue(description,Tour.class);
         } catch (IOException e) {
-            System.out.println(e.getStackTrace());
+            e.printStackTrace();
+            System.out.println("Exception from newTour :" + e.getStackTrace());
             return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();
         }
 
-        Tour t = new Tour(list);
         TourStorage.add(t);
-        System.out.println("ok " + TourStorage.getLast().toString());
-        /**
-         try {
-         DropPoint dropPoint = objectMapper.readValue(description,DropPoint.class);
-         TourStorage.getLast().addShipping(dropPoint);
-         } catch (IOException e) {
-         e.printStackTrace();
-         return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();
-         }*/
-
+        
         return Response.ok().build();
     }
 
     /**
-     * lol who knows
+     * To scrap
      * @param id
      * @return
      */
@@ -122,7 +79,7 @@ public class TourServiceImpl implements TourService {
     }
 
     /**
-     * lol who knows
+     * To scrap
      * @param id
      * @param deliveryId
      * @return
@@ -132,7 +89,7 @@ public class TourServiceImpl implements TourService {
     }
 
     /**
-     * lol who knows
+     * To scrap
      * @param id
      * @param deliveryId
      * @param packageId
