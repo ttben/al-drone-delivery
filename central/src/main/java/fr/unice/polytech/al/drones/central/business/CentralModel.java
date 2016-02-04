@@ -60,7 +60,8 @@ public class CentralModel {
 		//List<Vector2D> points = PointGenerator.generateVector2D(200);
 
 		// First cluster the points into drop points
-		List<Cluster> clusters = new SimpleClustering().process(points, 50, 50);
+		List<Cluster> clusters = new SimpleClustering().process(points, 200, 2);
+		System.out.println("Got clusters: "+clusters.size());
 
 		// Then sequence the clusters
 		List<Sequence> clustersSequences = new SimplePointSequencingAlgorithm().process(
@@ -70,12 +71,18 @@ public class CentralModel {
 
 		// Now, map the algorithms model to the Drone Delivery business model
 		List<List<DropPoint>> tours = new ArrayList<>();
+		System.out.println("Got "+clustersSequences.size()+" sequences.");
 		// 1 sequence = 1 tour
 		for (Sequence sequence : clustersSequences) {
 			List<DropPoint> tour = new LinkedList<>();
 			tours.add(tour);
 			// 1 waypoint in sequence = 1 drop point in tour
+			boolean startingPoint = true;
 			for (WeightedWaypoint waypoint : sequence) {
+				if (startingPoint) {
+					startingPoint = false;
+					continue;
+				}
 				Cluster cluster = (Cluster) waypoint.getSourceObject();
 				Vector2D clusterAnchor = cluster.computeAnchor();
 
@@ -100,6 +107,7 @@ public class CentralModel {
 			}
 		}
 
+		System.out.println("TOURS " + tours);
 		return tours;
 	}
 
