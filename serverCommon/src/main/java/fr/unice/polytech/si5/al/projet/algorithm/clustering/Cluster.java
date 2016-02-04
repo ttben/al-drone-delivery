@@ -3,8 +3,6 @@ package fr.unice.polytech.si5.al.projet.algorithm.clustering;
 import fr.unice.polytech.si5.al.projet.algorithm.WeightedWaypoint;
 import fr.unice.polytech.si5.al.projet.math.Vector2D;
 import org.json.JSONArray;
-import org.json.JSONObject;
-import sun.plugin.javascript.navig.Link;
 
 import java.util.LinkedList;
 
