@@ -1,10 +1,8 @@
 package app.demonstrator;
 
-import app.Drone;
-import app.Output;
+import app.shipper.*;
+import app.output.Output;
 import app.action.*;
-import app.shipper.CompositeShipper;
-import app.shipper.Shipper;
 
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
@@ -18,22 +16,39 @@ public class DemonstratorSpy implements Output {
     DemonstratorWindow window;
 
     public DemonstratorSpy(){
-        window = new DemonstratorWindow(800, 600, "Demonstrator");
+        window = new DemonstratorWindow(514, 568, "Demonstrator");
     }
 
+
     @Override
-    public void set(Shipper shipper) {
+    public void register(CompositeShipper shipper){
+        window.createTruck(shipper.getName());
+    }
+
+    public void register(Drone shipper) {
+        window.createDrone(shipper.getName());
+    }
+
+    public void register(HumanShipper shipper) {
+        window.createHumanShipper(shipper.getName());
+    }
+
+        @Override
+    public void register(BasicShipper shipper) {
+
         if(shipper instanceof Drone) {
             window.createDrone(shipper.getName());
         }
-        else {
+        else if (shipper instanceof HumanShipper) {
             window.createHumanShipper(shipper.getName());
+        } else {
+            System.out.println("Oups LOL !");
         }
-    }
+     }
 
     @Override
-    public void set(CompositeShipper shipper){
-        window.createTruck(shipper.getName());
+    public void register(Shipper shipper){
+        System.out.println("Oups registering a thing not basic nor composite !");
     }
 
     @Override
@@ -49,17 +64,9 @@ public class DemonstratorSpy implements Output {
         window.refresh();
     }
 
-    public void update(GoToDropPoint goD, Shipper shipper, ActionEvent event){
+    public void update(Goto goD, Shipper shipper, ActionEvent event){
         if(event.equals(ActionEvent.STARTED)){
             window.changeShipperTargetLocation(shipper.getName(), goD.getLocation());
-        } else {
-            window.changeShipperLocation(shipper.toString());
-        }
-    }
-
-    public void update(GoToShippingPosition goS, Shipper shipper, ActionEvent event){
-        if(event.equals(ActionEvent.STARTED)){
-            window.changeShipperTargetLocation(shipper.getName(), goS.getLocation());
         } else {
             window.changeShipperLocation(shipper.toString());
         }
@@ -81,19 +88,23 @@ public class DemonstratorSpy implements Output {
         }
     }
 
-    public void update(SendDrone send, Shipper shipper, ActionEvent event){
+    public void update(Send send, Shipper shipper, ActionEvent event){
         if(event.equals(ActionEvent.STARTED)){
             window.changeShipperState(shipper.getName(), ShipperState.DROPPING);
+            window.shipperDrop(shipper.getName(), send.getElement().getName());
+
+            /*
             for (Object o : send.getParams()) {
                 window.shipperDrop(shipper.getName(), o.toString());
             }
+            */
         }
         else {
             window.changeShipperState(shipper.getName(), ShipperState.IDLE);
         }
     }
 
-    public void update(CollectDrone collect, Shipper shipper, ActionEvent event){
+    public void update(Collect collect, Shipper shipper, ActionEvent event){
         if(event.equals(ActionEvent.STARTED)){
             window.changeShipperState(shipper.getName(), ShipperState.PICKING);
         } else {

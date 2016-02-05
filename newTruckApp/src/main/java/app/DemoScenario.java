@@ -2,9 +2,7 @@ package app;
 
 import app.action.*;
 import app.demonstrator.DemonstratorSpy;
-import app.shipper.BasicShipper;
-import app.shipper.CompositeShipper;
-import app.shipper.Shipper;
+import app.shipper.*;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -23,11 +21,12 @@ public class DemoScenario {
 	DemoScenario() {
 
 		output = new DemonstratorSpy();
-		truck = new CompositeShipper("Truck", output);
-		droneA = new Drone("DroneA", output);
-		droneB = new Drone("DroneB", output);
-		droneC = new Drone("DroneC", output);
-		driver = new HumanShipper("Driver", output);
+
+		truck = new CompositeShipper("Truck");
+		droneA = new Drone("DroneA");
+		droneB = new Drone("DroneB");
+		droneC = new Drone("DroneC");
+		driver = new HumanShipper("Driver");
 
 		// Positions
 		Dimension dropPoint0 = new Dimension(150, 20);
@@ -50,69 +49,69 @@ public class DemoScenario {
         output.init(Arrays.asList(house0, house1, house2, house3, house4, house5, house6, house7, house8, house9));
 
         // Truck Path
-		Node truckGoDropPoint0 = new Node(new GoToDropPoint(truck, dropPoint0));
-		Node truckGoDropPoint1 = new Node(new GoToDropPoint(truck, dropPoint1));
-		Node truckGoDropPoint2 = new Node(new GoToDropPoint(truck, dropPoint2));
-		Node truckGoDropPoint3 = new Node(new GoToDropPoint(truck, dropPoint3));
-		Node truckGoDropPoint4 = new Node(new GoToDropPoint(truck, dropPoint4));
-		Node truckGoDropPoint5 = new Node(new GoToDropPoint(truck, dropPoint5));
+		Node truckGoDropPoint0 = new Node(new Goto(truck, dropPoint0));
+		Node truckGoDropPoint1 = new Node(new Goto(truck, dropPoint1));
+		Node truckGoDropPoint2 = new Node(new Goto(truck, dropPoint2));
+		Node truckGoDropPoint3 = new Node(new Goto(truck, dropPoint3));
+		Node truckGoDropPoint4 = new Node(new Goto(truck, dropPoint4));
+		Node truckGoDropPoint5 = new Node(new Goto(truck, dropPoint5));
 
 		// Truck actions
-		Node truckSendDriverDropPoint1 = new Node(new SendDrone(truck, driver));
-		Node truckSendDroneADropPoint1 = new Node(new SendDrone(truck, droneA));
-		Node truckSendDroneBDropPoint1 = new Node(new SendDrone(truck, droneB));
-		Node truckSendDroneCDropPoint1 = new Node(new SendDrone(truck, droneC));
-		Node truckCollectDriverDropPoint1 = new Node(new CollectDrone(truck, driver));
-		Node truckCollectDroneADropPoint2 = new Node(new CollectDrone(truck, droneA));
-		Node truckCollectDroneBDropPoint2 = new Node(new CollectDrone(truck, droneB));
-		Node truckCollectDroneCDropPoint2 = new Node(new CollectDrone(truck, droneC));
-		Node truckSendDriverDropPoint2 = new Node(new SendDrone(truck, driver));
-		Node truckSendDroneADropPoint2 = new Node(new SendDrone(truck, droneA));
-		Node truckSendDroneBDropPoint2 = new Node(new SendDrone(truck, droneB));
-		Node truckSendDroneCDropPoint2 = new Node(new SendDrone(truck, droneC));
-		Node truckCollectDriverDropPoint2 = new Node(new CollectDrone(truck, driver));
-		Node truckCollectDroneADropPoint3 = new Node(new CollectDrone(truck, droneA));
-		Node truckCollectDroneBDropPoint3 = new Node(new CollectDrone(truck, droneB));
-		Node truckCollectDroneCDropPoint3 = new Node(new CollectDrone(truck, droneC));
-		Node truckSendDriverDropPoint4 = new Node(new SendDrone(truck, driver));
-		Node truckCollectDriverDropPoint4 = new Node(new CollectDrone(truck, driver));
+		Node truckSendDriverDropPoint1 = new Node(new Send(truck, driver));
+		Node truckSendDroneADropPoint1 = new Node(new Send(truck, droneA));
+		Node truckSendDroneBDropPoint1 = new Node(new Send(truck, droneB));
+		Node truckSendDroneCDropPoint1 = new Node(new Send(truck, droneC));
+		Node truckCollectDriverDropPoint1 = new Node(new Collect(truck, driver));
+		Node truckCollectDroneADropPoint2 = new Node(new Collect(truck, droneA));
+		Node truckCollectDroneBDropPoint2 = new Node(new Collect(truck, droneB));
+		Node truckCollectDroneCDropPoint2 = new Node(new Collect(truck, droneC));
+		Node truckSendDriverDropPoint2 = new Node(new Send(truck, driver));
+		Node truckSendDroneADropPoint2 = new Node(new Send(truck, droneA));
+		Node truckSendDroneBDropPoint2 = new Node(new Send(truck, droneB));
+		Node truckSendDroneCDropPoint2 = new Node(new Send(truck, droneC));
+		Node truckCollectDriverDropPoint2 = new Node(new Collect(truck, driver));
+		Node truckCollectDroneADropPoint3 = new Node(new Collect(truck, droneA));
+		Node truckCollectDroneBDropPoint3 = new Node(new Collect(truck, droneB));
+		Node truckCollectDroneCDropPoint3 = new Node(new Collect(truck, droneC));
+		Node truckSendDriverDropPoint4 = new Node(new Send(truck, driver));
+		Node truckCollectDriverDropPoint4 = new Node(new Collect(truck, driver));
 
 		// DroneA actions
-		Node droneAGoHouse0 = new Node(new GoToShippingPosition(droneA, house0));
+		Node droneAGoHouse0 = new Node(new Goto(droneA, house0));
 		Node droneADropHouse0 = new Node(new Drop(droneA));
-		Node droneAGoDropPoint2 = new Node(new GoToShippingPosition(droneA, dropPoint2));
-		Node droneAGoHouse8 = new Node(new GoToShippingPosition(droneA, house8));
+		Node droneAGoDropPoint2 = new Node(new Goto(droneA, dropPoint2));
+		Node droneAGoHouse8 = new Node(new Goto(droneA, house8));
 		Node droneADropHouse8 = new Node(new Drop(droneA));
-		Node droneAGoDropPoint3 = new Node(new GoToShippingPosition(droneA, dropPoint3));
+		Node droneAGoDropPoint3 = new Node(new Goto(droneA, dropPoint3));
 
 		// DroneB actions
-		Node droneBGoHouse2 = new Node(new GoToShippingPosition(droneB, house2));
+		Node droneBGoHouse2 = new Node(new Goto(droneB, house2));
 		Node droneBDropHouse2 = new Node(new Drop(droneB));
-		Node droneBGoDropPoint2 = new Node(new GoToShippingPosition(droneB, dropPoint2));
-		Node droneBGoHouse7 = new Node(new GoToShippingPosition(droneB, house7));
+		Node droneBGoDropPoint2 = new Node(new Goto(droneB, dropPoint2));
+		Node droneBGoHouse7 = new Node(new Goto(droneB, house7));
 		Node droneBDropHouse7 = new Node(new Drop(droneB));
-		Node droneBGoDropPoint3 = new Node(new GoToShippingPosition(droneB, dropPoint3));
+		Node droneBGoDropPoint3 = new Node(new Goto(droneB, dropPoint3));
 
 		// DroneC actions
-		Node droneCGoHouse1 = new Node(new GoToShippingPosition(droneC, house1));
+		Node droneCGoHouse1 = new Node(new Goto(droneC, house1));
 		Node droneCDropHouse1 = new Node(new Drop(droneC));
-		Node droneCGoDropPoint2 = new Node(new GoToShippingPosition(droneC, dropPoint2));
-		Node droneCGoHouse5 = new Node(new GoToShippingPosition(droneC, house5));
+		Node droneCGoDropPoint2 = new Node(new Goto(droneC, dropPoint2));
+		Node droneCGoHouse5 = new Node(new Goto(droneC, house5));
 		Node droneCPickHouse5 = new Node(new Pick(droneC));
-		Node droneCGoHouse6 = new Node(new GoToShippingPosition(droneC, house6));
+		Node droneCGoHouse6 = new Node(new Goto(droneC, house6));
 		Node droneCDropHouse6 = new Node(new Drop(droneC));
-		Node droneCGoDropPoint3 = new Node(new GoToShippingPosition(droneC, dropPoint3));
+		Node droneCGoDropPoint3 = new Node(new Goto(droneC, dropPoint3));
 
 		// Driver actions
-		Node driverGoHouse3 = new Node(new GoToShippingPosition(driver, house3));
+		Node driverGoHouse3 = new Node(new Goto(driver, house3));
 		Node driverDropHouse3 = new Node(new Drop(driver));
-		Node driverGoDropPoint1 = new Node(new GoToShippingPosition(driver, dropPoint1));
-		Node driverGoHouse4 = new Node(new GoToShippingPosition(driver, house4));
+		Node driverGoDropPoint1 = new Node(new Goto(driver, dropPoint1));
+		Node driverGoHouse4 = new Node(new Goto(driver, house4));
 		Node driverDropHouse4 = new Node(new Drop(driver));
-		Node driverGoDropPoint2 = new Node(new GoToShippingPosition(driver, dropPoint2));
-		Node driverGoHouse9 = new Node(new GoToShippingPosition(driver, house9));
+		Node driverGoDropPoint2 = new Node(new Goto(driver, dropPoint2));
+		Node driverGoHouse9 = new Node(new Goto(driver, house9));
 		Node driverDropHouse9 = new Node(new Drop(driver));
-		Node driverGoDropPoint4 = new Node(new GoToShippingPosition(driver, dropPoint4));
+		Node driverGoDropPoint4 = new Node(new Goto(driver, dropPoint4));
 
 		// Truck dependencies
 		truckGoDropPoint1.addDependency(truckGoDropPoint0);

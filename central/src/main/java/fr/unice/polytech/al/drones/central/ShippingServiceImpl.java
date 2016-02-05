@@ -11,7 +11,6 @@ import fr.unice.polytech.si5.al.projet.demo.PointGenerator;
 import fr.unice.polytech.si5.al.projet.math.Vector2D;
 import fr.unice.polytech.si5.al.projet.shipping.PackageToShip;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si5.al.projet.shipping.PackageToShipList;
 import org.json.HTTP;
@@ -37,22 +36,29 @@ public class ShippingServiceImpl implements ShippingService {
             t.printStackTrace();
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
-        HashMap<String, List<PackageToShip>> packagesToWarehouses
-                = new HashMap<String, List<PackageToShip>>();
+        HashMap<String, List<PackageToShip>> packagesToWarehouses = new HashMap<String, List<PackageToShip>>();
 
-        // Choose packages
+        // Attribute a warehouses for each package to ship
         for(PackageToShip pack : pkts.getPackageToShipList()){
-            String ip = CentralModel.chooseWarehouseIP(pack.getAddress());
-            if(!packagesToWarehouses.keySet().contains(ip))
-                packagesToWarehouses.put(ip, new ArrayList<PackageToShip>());
-            packagesToWarehouses.get(ip).add(pack);
+			// Get the warehouse that will take care of the package
+            String warehouseIP = CentralModel.chooseWarehouseIP(pack.getAddress());
+			// Add the package
+			List<PackageToShip> warehousePackages = packagesToWarehouses.getOrDefault(warehouseIP, new ArrayList<>());
+			warehousePackages.add(pack);
+			packagesToWarehouses.put(warehouseIP, warehousePackages);
         }
 
-        List<DropPoint> drops = new LinkedList<>();
-        for(String ip : packagesToWarehouses.keySet()){
-            List<PackageToShip> toSend = packagesToWarehouses.get(ip);
-            drops.add(CentralModel.getDropPoint(toSend));
-            HTTPCall.POST(ip, "/tour", Entity.entity(drops, MediaType.APPLICATION_JSON));
+		// Generate drop points to ship all the packages.
+		//
+		// Foreach warehouse, generate a tours
+        for(String warehouseIP : packagesToWarehouses.keySet()){
+			// Retrieve all the packages that have to be shipped from this warehouse.
+            List<PackageToShip> toSend = packagesToWarehouses.get(warehouseIP);
+			//List<DropPoint> dropPoints = CentralModel.computeDropPoints(toSend);
+			List<List<DropPoint>> tours = CentralModel.computeTours(toSend);
+            for (List<DropPoint> tour : tours) {
+				HTTPCall.POST(warehouseIP, "/tour", Entity.entity(tour, MediaType.APPLICATION_JSON));
+			}
         }
 
         return Response.ok().build();

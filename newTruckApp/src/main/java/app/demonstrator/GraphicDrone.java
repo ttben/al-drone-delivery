@@ -1,9 +1,5 @@
 package app.demonstrator;
 
-import app.Drone;
-import app.demonstrator.GraphicEntity;
-import app.demonstrator.ShipperState;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
@@ -26,13 +22,13 @@ public class GraphicDrone extends GraphicEntity {
     protected Color getColor(){
         switch (state){
             case IDLE:
-                return new Color(80,80,140,255);
+                return new Color(0,110,140,255);
             case MOVING:
-                return new Color(80,140,140,255);
+                return new Color(0,110,140,255);
             case DROPPING:
-                return new Color(110,140,120,255);
+                return new Color(0,0,250,255);
             case PICKING:
-                return new Color(120,140,120,255);
+                return new Color(0,0,250,255);
         }
         return Color.black;
     }

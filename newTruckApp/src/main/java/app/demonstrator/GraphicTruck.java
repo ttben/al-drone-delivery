@@ -53,13 +53,13 @@ public class GraphicTruck extends GraphicEntity{
     protected Color getColor(){
         switch (state){
             case IDLE:
-                return new Color(20,100,80,255);
+                return new Color(151, 163, 53,255);
             case MOVING:
-                return new Color(40,120,100,255);
+                return new Color(200, 181, 72,255);
             case DROPPING:
-                return new Color(80,140,100,255);
+                return new Color(225, 220, 0,255);
             case PICKING:
-                return new Color(90,150,100,255);
+                return new Color(225, 220, 0,255);
         }
         return Color.black;
     }

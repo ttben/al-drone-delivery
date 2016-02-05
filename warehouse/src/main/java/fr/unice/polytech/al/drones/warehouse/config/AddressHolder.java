@@ -18,7 +18,7 @@ public class AddressHolder {
         InputStream input = null;
 
         try {
-            input = new FileInputStream("classes/centralAddress.properties");
+            input = PortReacher.class.getClassLoader().getResourceAsStream("centralAddress.properties");
         }catch (Throwable t){
             System.err.println("Can't find addresses configs.");
         }

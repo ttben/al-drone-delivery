@@ -1,0 +1,37 @@
+{
+  "nodes": {
+    "node1": {
+      "action": "goto",
+      "params": {
+        "target": "Truck",
+        "location": {
+          "X": 50,
+          "Y": 25
+        }
+      }
+    },
+    "node2": {
+      "action": "goto",
+      "params": {
+        "target": "Truck",
+        "location": {
+          "X": 20,
+          "Y": 50
+        }
+      }
+    }
+  },
+  "graph": {
+    "root": "node1",
+    "content": {
+      "node1": {
+        "dependencies": []
+      },
+      "node2": {
+        "dependencies": [
+          "node1"
+        ]
+      }
+    }
+  }
+}

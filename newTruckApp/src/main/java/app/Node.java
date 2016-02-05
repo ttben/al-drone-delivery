@@ -2,7 +2,7 @@ package app;
 
 import app.action.Action;
 import app.action.ActionEvent;
-import app.shipper.Shipper;
+import app.output.Output;
 
 import java.util.*;
 
@@ -27,6 +27,14 @@ public class Node extends Observable implements Observer {
 	public Node(Action action, Output output){
 		this(action);
 		action.addObserver(output);
+	}
+
+	public void addSpy(Observer o) {
+		this.action.addObserver(o);
+	}
+
+	public Action getAction() {
+		return action;
 	}
 
 	public void addDependency(Node parentNode) {

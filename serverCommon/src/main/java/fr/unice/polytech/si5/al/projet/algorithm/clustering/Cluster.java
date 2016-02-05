@@ -3,7 +3,6 @@ package fr.unice.polytech.si5.al.projet.algorithm.clustering;
 import fr.unice.polytech.si5.al.projet.algorithm.WeightedWaypoint;
 import fr.unice.polytech.si5.al.projet.math.Vector2D;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.LinkedList;
 
@@ -11,6 +10,11 @@ import java.util.LinkedList;
  *
  */
 public class Cluster extends LinkedList<Vector2D> implements WeightedWaypoint {
+
+	@Override
+	public Object getSourceObject() {
+		return new LinkedList<>(this);
+	}
 
 	@Override
 	public Vector2D computeAnchor() {

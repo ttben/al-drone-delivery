@@ -17,7 +17,7 @@ public class PortReacher {
         InputStream input = null;
         int res = 0;
         try {
-            input = new FileInputStream("classes/server.properties");
+            input = PortReacher.class.getClassLoader().getResourceAsStream("server.properties");
         }catch (Throwable t){
             System.err.println("Can't find server configs.");
         }

@@ -1,38 +1,46 @@
 package fr.unice.polytech.al.drones.tour;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by user on 06/11/2015.
  */
 public class Tour {
-    public Tour(DropPoint dropPoint) {
-        dropPoints.add(dropPoint);
+
+    public ArrayList<NodeParent> getNodes() {
+        return nodes;
     }
 
-    public Tour(List<DropPoint> list) {
-        dropPoints = list;
+    public void setNodes(ArrayList<NodeParent> nodes) {
+        this.nodes = nodes;
     }
 
-    public List<DropPoint> getDropPoints() {
-        return dropPoints;
+    public Graph getGraph() {
+        return graph;
     }
 
-    public void setDropPoints(List<DropPoint> dropPoints) {
-        this.dropPoints = dropPoints;
+    public void setGraph(Graph graph) {
+        this.graph = graph;
     }
 
-    private List<DropPoint> dropPoints = new LinkedList<DropPoint>();
+    private ArrayList<NodeParent> nodes;
+    private Graph graph;
 
-    public void addShipping(DropPoint sp){
-        dropPoints.add(sp);
+    public Tour(ArrayList<NodeParent> node, Graph graph){
+        this.nodes = node;
+        this.graph = graph;
     }
 
+    public Tour(){
+
+    }
     @Override
     public String toString() {
-        return "Tour{" +
-                "dropPoints=" + dropPoints +
-                '}';
+        String res = "";
+        for (NodeParent n : nodes){
+            res += n.toString();
+        }
+        return res + "," + graph.toString();
     }
 }

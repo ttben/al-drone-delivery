@@ -5,7 +5,7 @@ import app.shipper.BasicShipper;
 
 public abstract class BasicShipperAction extends Action {
 
-	private BasicShipper target;
+	protected BasicShipper target;
 
 	public BasicShipperAction(BasicShipper target, Object[] ...params) {
 		super(params);

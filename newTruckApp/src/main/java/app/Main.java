@@ -4,10 +4,10 @@ import app.action.*;
 import app.demonstrator.DemonstratorSpy;
 import app.shipper.BasicShipper;
 import app.shipper.CompositeShipper;
+import app.shipper.Drone;
+import app.shipper.HumanShipper;
 
 import java.awt.*;
-import java.io.Console;
-import java.util.Scanner;
 
 public class Main {
 
@@ -15,27 +15,47 @@ public class Main {
 
 		DemonstratorSpy output = new DemonstratorSpy();
 
-		CompositeShipper truck = new CompositeShipper("Truck", output);
 		//	Building shippers
-		BasicShipper droneA = new Drone("DroneA", output);
-		BasicShipper droneB = new HumanShipper("DroneB", output);
+		CompositeShipper truck = new CompositeShipper("Truck");
+		BasicShipper droneA = new Drone("DroneA");
+		BasicShipper droneB = new HumanShipper("DroneB");
+
+		output.register(truck);
+		output.register(droneA);
+		output.register(droneB);
+
 
 		//	Build nodes that schedules action's execution
-		Node truckGo1Node = new Node(new GoToDropPoint(truck, new Dimension(80, 20)));
-		Node truckGo2Node = new Node(new GoToDropPoint(truck, new Dimension(40, 22)));
-		Node truckGo3Node = new Node(new GoToDropPoint(truck ,new Dimension(20, 80)));
+		Action gotoDropPointTruck1 = new Goto(truck, new Dimension(80, 20));
+		Action gotoDropPointTruck2 = new Goto(truck, new Dimension(40, 22));
+		Action gotoDropPointTruck3 = new Goto(truck ,new Dimension(20, 80));
+		gotoDropPointTruck1.addObserver(output);
+		gotoDropPointTruck2.addObserver(output);
+		gotoDropPointTruck3.addObserver(output);
+		Node truckGo1Node = new Node(gotoDropPointTruck1);
+		Node truckGo2Node = new Node(gotoDropPointTruck2);
+		Node truckGo3Node = new Node(gotoDropPointTruck3);
 
-		Node droneASendNode = new Node(new SendDrone(truck, droneA));
-		Node droneAGoToShippingPositionNode = new Node(new GoToShippingPosition(droneA, new Dimension(20, 30)));
-		Node droneAPickNode = new Node(new Pick(droneA));
-		Node droneAGoToTruck = new Node(new GoToShippingPosition(droneA, new Dimension(40, 22)));
-		Node droneACollect = new Node(new CollectDrone(truck, droneA));
 
-		Node droneBSendNode = new Node(new SendDrone(truck, droneB));
-		Node droneBGoToShippingPositionNode = new Node(new GoToShippingPosition(droneB, new Dimension(60, 15)));
+		Action sendDroneA = new Send(truck, droneA);
+		Action gotoDroneA = new Goto(droneA, new Dimension(20, 30));
+		Action pickDroneA = new Pick(droneA);
+		Action gotoTruckDroneA =new Goto(droneA, new Dimension(40, 22));
+		sendDroneA.addObserver(output);
+		gotoDroneA.addObserver(output);
+		pickDroneA.addObserver(output);
+		gotoTruckDroneA.addObserver(output);
+		Node droneASendNode = new Node(sendDroneA);
+		Node droneAGotoNode = new Node(gotoDroneA);
+		Node droneAPickNode = new Node(pickDroneA);
+		Node droneAGoToTruck = new Node(gotoTruckDroneA);
+		Node droneACollect = new Node(new Collect(truck, droneA));
+
+		Node droneBSendNode = new Node(new Send(truck, droneB));
+		Node droneBGotoNode = new Node(new Goto(droneB, new Dimension(60, 15)));
 		Node droneBDropNode = new Node(new Drop(droneB));
-		Node droneBGoToTruck = new Node(new GoToShippingPosition(droneB, new Dimension(40, 22)));
-		Node droneBCollect = new Node(new CollectDrone(truck, droneB));
+		Node droneBGoToTruck = new Node(new Goto(droneB, new Dimension(40, 22)));
+		Node droneBCollect = new Node(new Collect(truck, droneB));
 
 		// Build action dependency graph
 		//
@@ -43,11 +63,11 @@ public class Main {
 		droneBSendNode.addDependency(truckGo1Node);
 		truckGo2Node.addDependency(truckGo1Node);
 
-		droneAGoToShippingPositionNode.addDependency(droneASendNode);
-		droneBGoToShippingPositionNode.addDependency(droneBSendNode);
+		droneAGotoNode.addDependency(droneASendNode);
+		droneBGotoNode.addDependency(droneBSendNode);
 
-		droneAPickNode.addDependency(droneAGoToShippingPositionNode);
-		droneBDropNode.addDependency(droneBGoToShippingPositionNode);
+		droneAPickNode.addDependency(droneAGotoNode);
+		droneBDropNode.addDependency(droneBGotoNode);
 
 		droneAGoToTruck.addDependency(droneAPickNode);
 		droneBGoToTruck.addDependency(droneBDropNode);
@@ -62,7 +82,7 @@ public class Main {
 		truckGo3Node.addDependency(droneBCollect);
 
 		/*Node lastActionForDroneA = new Node(currentNodeForEachShipper, droneAPick, null);
-		Node firstActionForDroneA = new Node(currentNodeForEachShipper, droneAGoToShippingPosition, lastActionForDroneA);
+		Node firstActionForDroneA = new Node(currentNodeForEachShipper, droneAGoto, lastActionForDroneA);
 		*/
 
 		Node root = truckGo1Node;

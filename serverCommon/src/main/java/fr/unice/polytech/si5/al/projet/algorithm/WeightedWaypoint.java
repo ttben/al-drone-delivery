@@ -7,6 +7,8 @@ import fr.unice.polytech.si5.al.projet.math.Vector2D;
  */
 public interface WeightedWaypoint {
 
+	Object getSourceObject();
+
 	Vector2D computeAnchor();
 	int computeCost();
 

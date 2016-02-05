@@ -1,16 +1,14 @@
 package app.action;
 
-import app.Output;
+import app.output.Output;
+import app.shipper.BasicShipper;
 import app.shipper.CompositeShipper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import static org.mockito.Mockito.*;
-
-import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ActionTest {
@@ -19,13 +17,16 @@ public class ActionTest {
 	private CompositeShipper compositeShipperMocked;
 
 	@Mock
+	private BasicShipper basicShipper;
+
+	@Mock
 	private Output outputMock;
 
 	private CompositeShipperAction collectDrone;
 
 	@Before
 	public void setUp() {
-		collectDrone = new CollectDrone(compositeShipperMocked);
+		collectDrone = new Collect(compositeShipperMocked, basicShipper);
 		collectDrone.addObserver(outputMock);
 		when(compositeShipperMocked.getName()).thenReturn("compositeShipperMocked");
 	}
